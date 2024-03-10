@@ -1,0 +1,19 @@
+{
+  "name": "haui-food-server",
+  "version": "1.0.0",
+  "description": "Backend hauifood.com",
+  "main": "./src/server.js",
+  "scripts": {
+    "pro": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/haui-food/haui-food-server.git"
+  },
+  "author": "hauifood.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "type": "module"
+}
