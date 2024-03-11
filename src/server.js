@@ -1,13 +1,12 @@
-import express from 'express';
+const express = require('express');
+const { env } = require('./config');
 
 const app = express();
-
-const port = 3000;
 
 app.get('/', (req, res) => {
   res.send('Server HaUI Food is running 🎉');
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(env.port, () => {
+  console.log(`Server running on port ${env.port}`);
 });
