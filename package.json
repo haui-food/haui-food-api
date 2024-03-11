@@ -4,7 +4,10 @@
   "description": "Backend hauifood.com",
   "main": "./src/server.js",
   "scripts": {
-    "pro": "node ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "pro": "node ./src/server.js",
+    "format": "prettier --write 'src/**/*.{js,json}'"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,9 @@
   "dependencies": {
     "express": "^4.18.3"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
+  }
 }
