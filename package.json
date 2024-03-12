@@ -1,5 +1,5 @@
 {
-  "name": "haui-food-server",
+  "name": "haui-food-api",
   "version": "1.0.0",
   "description": "Backend hauifood.com",
   "main": "./src/server.js",
@@ -11,13 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/haui-food/haui-food-server.git"
+    "url": "github.com/haui-food/haui-food-api.git"
   },
   "author": "hauifood.com",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.18.3"
+    "express": "^4.18.3",
+    "mongoose": "^8.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0",
