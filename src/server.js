@@ -1,8 +1,13 @@
 const express = require('express');
-const { env } = require('./config');
 const mongoose = require('mongoose');
+const { env, logger, morgan } = require('./config');
 
 const app = express();
+
+if (env.nodeEnv !== 'test') {
+  app.use(morgan.successHandler);
+  app.use(morgan.errorHandler);
+}
 
 app.get('/', (req, res) => {
   res.send('Server HaUI Food is running 🎉');
@@ -10,10 +15,10 @@ app.get('/', (req, res) => {
 
 mongoose
   .connect(env.mongoURI)
-  .then(() => console.log('MongoDB Connected...'))
+  .then(() => logger.info('MongoDB Connected...'))
   .then(() =>
     app.listen(env.port, () => {
-      console.log(`Server running on port ${env.port}`);
+      logger.info(`Server running on port ${env.port}`);
     }),
   )
-  .catch((err) => console.log(err));
+  .catch((err) => logger.error(err));
