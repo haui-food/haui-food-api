@@ -17,6 +17,8 @@
     "roleInvalid": "Chức vụ này không chính xác",
     "lockedSuccess": "Khoá người dùng thành công",
     "unlockedSuccess": "Mở khoá người dùng thành công",
-    "userLocked": "Tài khoản đã bị khoá"
+    "userLocked": "Tài khoản đã bị khoá",
+    "fullnameLength": "Họ tên từ 3 đến 50 ký tự",
+    "phoneLength": "Số điện thoại từ 8 đến 13 ký tự"
   }
 }
