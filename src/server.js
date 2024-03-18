@@ -2,11 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { env, logger, morgan, i18nService } = require('./config');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
-const ApiError = require('./utils/ApiError');
-const httpStatus = require('http-status');
-const { systemMessage } = require('./messages');
 const cookieParser = require('cookie-parser');
 const apiRoute = require('./routes/api');
+const baseRouter = require('./routes/base.route');
 
 const app = express();
 
@@ -23,20 +21,9 @@ if (env.nodeEnv !== 'test') {
   app.use(morgan.errorHandler);
 }
 
-app.get('/', (req, res) => {
-  res.send('Server HaUI Food is running 🎉');
-});
-
-app.get('/locales/:lang', (req, res) => {
-  res.cookie('lang', req.params.lang);
-  res.redirect('/');
-});
-
 app.use('/api/v1', apiRoute);
 
-app.all('*', (req, res, next) => {
-  next(new ApiError(httpStatus.NOT_FOUND, systemMessage().RESOURCE_NOT_FOUND));
-});
+app.use('/', baseRouter);
 
 app.use(errorConverter);
 app.use(errorHandler);
