@@ -41,7 +41,7 @@ const getCategoriesByKeyword = async (requestQuery) => {
     totalResult: totalSearch,
     totalPage: Math.ceil(totalSearch / +limit),
     currentPage: +page,
-    currentResult: users.length,
+    currentResult: categories.length,
   };
 
   return { categories, ...detailResult };
