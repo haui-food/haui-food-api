@@ -3,11 +3,6 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { categoryMessage } = require('../messages');
 
-const getCategoryByName = async (email) => {
-  const category = await Category.findOne({ name });
-  return category;
-};
-
 const getCategoryById = async (id) => {
   const category = await Category.findById(id);
   if (!category) {
