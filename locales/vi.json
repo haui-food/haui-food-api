@@ -4,6 +4,19 @@
   },
   "user": {
     "notFound": "Không tìm thấy người dùng",
-    "existsEmail": "Địa chỉ email đã tồn tại"
+    "existsEmail": "Email đã tồn tại",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách người dùng thành công",
+    "createSuccess": "Tạo mới người dùng thành công",
+    "updateSuccess": "Cập nhật người dùng thành công",
+    "deleteSuccess": "Xóa người dùng thành công",
+    "incorrectId": "không đúng định dạng Id của MongoDB",
+    "passwordLength": "Mật khẩu lớn hơn 8 ký tự",
+    "passwordInvalid": "Mật khẩu phải chứa 1 ký tự và 1 số",
+    "emailInvalid": "Email không đúng định dạng",
+    "roleInvalid": "Chức vụ này không chính xác",
+    "lockedSuccess": "Khoá người dùng thành công",
+    "unlockedSuccess": "Mở khoá người dùng thành công",
+    "userLocked": "Tài khoản đã bị khoá"
   }
 }

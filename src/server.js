@@ -6,9 +6,12 @@ const ApiError = require('./utils/ApiError');
 const httpStatus = require('http-status');
 const { systemMessage } = require('./messages');
 const cookieParser = require('cookie-parser');
+const apiRoute = require('./routes/api');
 
 const app = express();
 
+app.set('trust proxy', 1);
+app.use(express.json());
 app.use(cookieParser());
 
 app.use((req, res, next) => {
@@ -28,6 +31,8 @@ app.get('/locales/:lang', (req, res) => {
   res.cookie('lang', req.params.lang);
   res.redirect('/');
 });
+
+app.use('/api/v1', apiRoute);
 
 app.all('*', (req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, systemMessage().RESOURCE_NOT_FOUND));

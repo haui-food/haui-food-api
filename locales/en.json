@@ -4,6 +4,19 @@
   },
   "user": {
     "notFound": "User not found",
-    "existsEmail": "Email already exists"
+    "existsEmail": "Email already exists",
+    "findSuccess": "User found successfully",
+    "findListSuccess": "Find user list successfully",
+    "createSuccess": "User created successfully",
+    "updateSuccess": "User updated successfully",
+    "deleteSuccess": "User deleted successfully",
+    "incorrectId": "Incorrect MongoDB Id format",
+    "passwordLength": "Password must be longer than 8 characters",
+    "passwordInvalid": "Password must contain at least 1 letter and 1 number",
+    "emailInvalid": "Email is not in the correct format",
+    "roleInvalid": "This role is not valid",
+    "lockedSuccess": "User locked successfully",
+    "unlockedSuccess": "User unlocked successfully",
+    "userLocked": "Account locked"
   }
 }
