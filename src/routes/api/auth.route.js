@@ -8,4 +8,6 @@ authRouter.route('/login').post(validate(authValidation.login), authController.l
 
 authRouter.route('/register').post(validate(authValidation.register), authController.register);
 
+authRouter.route('/refresh-token').post(validate(authValidation.refreshToken), authController.refreshToken);
+
 module.exports = authRouter;

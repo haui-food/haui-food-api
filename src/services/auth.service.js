@@ -18,6 +18,7 @@ const login = async (email, password) => {
   user.lastActive = Date.now();
   await user.save();
   user.password = undefined;
+  console.table(refreshToken);
   return { user, accessToken, refreshToken };
 };
 
@@ -33,6 +34,27 @@ const register = async (fullname, email, password) => {
   return { user, accessToken, refreshToken };
 };
 
+const refreshToken = async (refreshToken) => {
+  let payload;
+  try {
+    payload = jwt.verify(refreshToken, env.jwt.secretRefresh);
+  } catch (err) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
+  if (!payload || payload.type !== 'refresh') {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
+  const user = await userService.getUserById(payload.id);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
+  if (user.isLocked) {
+    throw new ApiError(httpStatus.BAD_REQUEST, userMessage().USER_LOCKED);
+  }
+  const accessToken = generateToken('access', { id: user.id, email: user.email, role: user.role });
+  return { accessToken };
+};
+
 const generateToken = (type, payload) => {
   const secret = type === 'access' ? env.jwt.secretAccess : env.jwt.secretRefresh;
   const expiresIn = type === 'access' ? env.jwt.expiresAccessToken : env.jwt.expiresRefreshToken;
@@ -45,4 +67,5 @@ const generateToken = (type, payload) => {
 module.exports = {
   login,
   register,
+  refreshToken,
 };
