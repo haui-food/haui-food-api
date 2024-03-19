@@ -20,5 +20,8 @@
     "userLocked": "Tài khoản đã bị khoá",
     "fullnameLength": "Họ tên từ 3 đến 50 ký tự",
     "phoneLength": "Số điện thoại từ 8 đến 13 ký tự"
+  },
+  "auth": {
+    "invalidLogin": "Tài khoản hoặc mật khẩu không chính xác"
   }
 }

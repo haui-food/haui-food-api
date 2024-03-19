@@ -20,5 +20,8 @@
     "userLocked": "Account locked",
     "fullnameLength": "Full name must be between 3 and 50 characters",
     "phoneLength": "Phone number must be between 5 and 12 characters"
+  },
+  "auth": {
+    "invalidLogin": "Invalid username or password"
   }
 }
