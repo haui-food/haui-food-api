@@ -22,6 +22,7 @@
     "phoneLength": "Phone number must be between 5 and 12 characters"
   },
   "auth": {
-    "invalidLogin": "Invalid username or password"
+    "invalidLogin": "Invalid username or password",
+    "loginSuccess": "Login successfully"
   }
 }
