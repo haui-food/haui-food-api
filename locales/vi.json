@@ -20,5 +20,14 @@
     "userLocked": "Tài khoản đã bị khoá",
     "fullnameLength": "Họ tên từ 3 đến 50 ký tự",
     "phoneLength": "Số điện thoại từ 8 đến 13 ký tự"
+  },
+  "category": {
+    "notFound": "Không tìm thấy danh mục",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách danh mục thành công",
+    "createSuccess": "Tạo mới danh mục thành công",
+    "updateSuccess": "Cập nhật danh mục thành công",
+    "deleteSuccess": "Xóa danh mục thành công",
+    "incorrectId": "không đúng định dạng Id của MongoDB"
   }
 }

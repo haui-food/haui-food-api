@@ -20,5 +20,14 @@
     "userLocked": "Account locked",
     "fullnameLength": "Full name must be between 3 and 50 characters",
     "phoneLength": "Phone number must be between 5 and 12 characters"
+  },
+  "category": {
+    "notFound": "Category not found",
+    "existsEmail": "Category already exists",
+    "findSuccess": "Category found successfully",
+    "findListSuccess": "Category list found successfully",
+    "createSuccess": "New category created successfully",
+    "updateSuccess": "Category updated successfully",
+    "deleteSuccess": "Category deleted successfully"
   }
 }

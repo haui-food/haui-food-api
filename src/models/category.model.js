@@ -1,3 +1,4 @@
+const mongose = require('mongoose');
 const categorySchema = mongose.Schema(
   {
     name: {
