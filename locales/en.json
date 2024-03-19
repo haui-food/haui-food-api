@@ -23,6 +23,7 @@
   },
   "auth": {
     "invalidLogin": "Invalid username or password",
-    "loginSuccess": "Login successfully"
+    "loginSuccess": "Login successfully",
+    "registerSuccess": "Register successfully"
   }
 }
