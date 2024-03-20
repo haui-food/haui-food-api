@@ -5,6 +5,7 @@ const { errorConverter, errorHandler } = require('./middlewares/error.middleware
 const cookieParser = require('cookie-parser');
 const apiRoute = require('./routes/api');
 const baseRouter = require('./routes/base.route');
+const { userService } = require('./services');
 
 const app = express();
 
@@ -22,7 +23,6 @@ if (env.nodeEnv !== 'test') {
 }
 
 app.use('/api/v1', apiRoute);
-
 app.use('/', baseRouter);
 
 app.use(errorConverter);
@@ -31,6 +31,10 @@ app.use(errorHandler);
 mongoose
   .connect(env.mongoURI)
   .then(() => logger.info('MongoDB Connected...'))
+  .then(() => {
+    userService.createAdmin();
+    logger.info('Admin created...');
+  })
   .then(() =>
     app.listen(env.port, () => {
       logger.info(`Server running on port ${env.port}`);

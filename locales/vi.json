@@ -29,5 +29,12 @@
     "updateSuccess": "Cập nhật danh mục thành công",
     "deleteSuccess": "Xóa danh mục thành công",
     "incorrectId": "không đúng định dạng Id của MongoDB"
+  },
+  "auth": {
+    "invalidLogin": "Tài khoản hoặc mật khẩu không chính xác",
+    "loginSuccess": "Đăng nhập thành công",
+    "registerSuccess": "Đăng ký thanh công",
+    "refreshTokenSuccess": "Refresh token thành công",
+    "invalidToken": "Token không chính xác"
   }
 }
