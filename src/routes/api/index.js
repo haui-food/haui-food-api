@@ -10,8 +10,12 @@ const listRoutesApi = [
   {
     path: '/categories',
     route: require('./category.route'),
-    path: '/auth',
-    route: require('./auth.route'),
+    // path: '/auth',
+    // route: require('./auth.route'),
+  },
+  {
+    path: '/products',
+    route: require('./product.route'),
   },
 ];
 

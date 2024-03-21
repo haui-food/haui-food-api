@@ -37,7 +37,7 @@ const deleteProduct = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().DELETE_SUCCESS, result));
 });
 const deleteProductByuserId = catchAsync(async (req, res) => {
-  const result = await productService.deleteProductsByUserId(req.params.productId);
+  const result = await productService.deleteProductsByUserId(req.params.userId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().DELETE_SUCCESS, result));
 });
 const deleteProductBycategoryId = catchAsync(async (req, res) => {
