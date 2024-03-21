@@ -36,5 +36,14 @@
     "registerSuccess": "Register successfully",
     "refreshTokenSuccess": "Refresh token successfully",
     "invalidToken": "Invalid token"
+  },
+  "product": {
+    "notFound": "Product not found",
+    "findSuccess": "Search successful",
+    "findListSuccess": "Product list found successfully",
+    "createSuccess": "Product created successfully",
+    "updateSuccess": "Product updated successfully",
+    "deleteSuccess": "Product deleted successfully",
+    "incorrectId": "Id is not in the correct MongoDB format"
   }
 }
