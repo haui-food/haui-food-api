@@ -36,5 +36,14 @@
     "registerSuccess": "Đăng ký thanh công",
     "refreshTokenSuccess": "Refresh token thành công",
     "invalidToken": "Token không chính xác"
+  },
+  "product": {
+    "notFound": "Không tìm thấy sản phẩm",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách sản phẩm thành công",
+    "createSuccess": "Tạo mới sản phẩm thành công",
+    "updateSuccess": "Cập nhật sản phẩm thành công",
+    "deleteSuccess": "Xóa sản phẩm thành công",
+    "incorrectId": "không đúng định dạng Id của MongoDB"
   }
 }
