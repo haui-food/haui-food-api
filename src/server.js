@@ -30,7 +30,7 @@ app.use(errorHandler);
 
 mongoose
   .connect(env.mongoURI)
-  .then(() => logger.info('MongoDB Connected...'))
+  .then(() => logger.info('MongoDB connected...'))
   .then(() => {
     userService.createAdmin();
     logger.info('Admin created...');
