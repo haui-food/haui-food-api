@@ -36,7 +36,8 @@
     "registerSuccess": "Đăng ký thanh công",
     "refreshTokenSuccess": "Refresh token thành công",
     "invalidToken": "Token không chính xác",
-    "unauthorized": "Bạn cần đăng nhập"
+    "unauthorized": "Bạn cần đăng nhập",
+    "forbidden": "Bạn không có quyền truy cập"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

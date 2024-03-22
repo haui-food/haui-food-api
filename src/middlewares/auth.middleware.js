@@ -25,6 +25,13 @@ const auth = catchAsync(async (req, res, next) => {
   next();
 });
 
+const authorize = (rolesAllow) => (req, res, next) => {
+  if (!rolesAllow.includes(req.user.role)) {
+    return next(new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN));
+  }
+  next();
+};
+
 const extractToken = (req) => {
   let token;
   if (req.headers.authorization?.startsWith('Bearer')) {
@@ -35,4 +42,5 @@ const extractToken = (req) => {
 
 module.exports = {
   auth,
+  authorize,
 };
