@@ -13,7 +13,6 @@ const productSchema = mongoose.Schema(
     },
     price: {
       type: Number,
-      trim: true,
       required: true,
     },
     image: {
@@ -34,4 +33,5 @@ const productSchema = mongoose.Schema(
     timestamps: true,
   },
 );
+
 module.exports = mongoose.model('Product', productSchema);

@@ -49,16 +49,19 @@ const deleteProuduct = {
     productId: Joi.string().custom(objectId),
   }),
 };
+
 const deleteProuductByuserId = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
   }),
 };
+
 const deleteProuductBycategoryId = {
   params: Joi.object().keys({
     categoryId: Joi.string().custom(objectId),
   }),
 };
+
 module.exports = {
   createProduct,
   getProducts,

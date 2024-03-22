@@ -7,6 +7,7 @@ const createProduct = async (productBody) => {
   const product = await Product.create(productBody);
   return product;
 };
+
 const getProductById = async (id) => {
   const product = await Product.findById(id);
   if (!product) {
@@ -14,6 +15,7 @@ const getProductById = async (id) => {
   }
   return product;
 };
+
 const getProductsByuserId = async (userId) => {
   const products = await Product.find({ userId: userId });
   if (!products) {
@@ -21,6 +23,7 @@ const getProductsByuserId = async (userId) => {
   }
   return products;
 };
+
 const getProductsBycategoryId = async (categoryId) => {
   const products = await Product.find({ categoryId: categoryId });
   if (!products) {
@@ -28,6 +31,7 @@ const getProductsBycategoryId = async (categoryId) => {
   }
   return products;
 };
+
 const getProductsByKeyword = async (requestQuery) => {
   const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc' } = requestQuery;
 
@@ -67,18 +71,21 @@ const updateProductById = async (productId, updateBody) => {
 };
 
 const deleteProductById = async (productId) => {
-  const result = await getProductById(productId);
-  await result.deleteOne();
-  return result;
+  const product = await getProductById(productId);
+  await product.deleteOne();
+  return product;
 };
+
 const deleteProductsByUserId = async (userId) => {
-  const result = await Product.deleteMany({ userId: userId });
-  return result;
+  const product = await Product.deleteMany({ userId });
+  return product;
 };
+
 const deleteProductsByCategoryId = async (categoryId) => {
-  const result = await Product.deleteMany({ categoryId: categoryId });
-  return result;
+  const product = await Product.deleteMany({ categoryId });
+  return product;
 };
+
 module.exports = {
   getProductById,
   getProductsByuserId,
