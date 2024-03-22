@@ -35,7 +35,8 @@
     "loginSuccess": "Login successfully",
     "registerSuccess": "Register successfully",
     "refreshTokenSuccess": "Refresh token successfully",
-    "invalidToken": "Invalid token"
+    "invalidToken": "Invalid token",
+    "unauthorized": "Unauthorized"
   },
   "product": {
     "notFound": "Product not found",
