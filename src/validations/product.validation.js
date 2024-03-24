@@ -19,6 +19,11 @@ const getProducts = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
+    userId: Joi.string().optional().custom(objectId),
+    categoryId: Joi.string().optional().custom(objectId),
+    name: Joi.string().allow(null, ''),
+    price: Joi.string().allow(null, ''),
+    description: Joi.string().allow(null, ''),
   }),
 };
 

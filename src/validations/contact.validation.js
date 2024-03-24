@@ -17,6 +17,10 @@ const getContacts = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
+    fullname: Joi.string().allow(null, ''),
+    email: Joi.string().allow(null, ''),
+    phone: Joi.string().allow(null, ''),
+    message: Joi.string().allow(null, ''),
   }),
 };
 

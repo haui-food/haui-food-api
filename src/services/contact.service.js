@@ -2,6 +2,7 @@ const { Contact } = require('../models');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { contactMessage } = require('../messages');
+const ApiFeature = require('../utils/ApiFeature');
 
 const getContactByEmail = async (email) => {
   const contact = await Contact.findOne({ email });
@@ -21,43 +22,10 @@ const createContact = async (contactBody) => {
   return contact;
 };
 
-const getContactsByKeyword = async (requestQuery) => {
-  const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc' } = requestQuery;
-
-  const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
-  let sort = sortBy.split(',').map((sortItem) => {
-    const [field, option = 'desc'] = sortItem.split(':');
-    return [field, option === 'desc' ? -1 : 1];
-  });
-
-  const contacts = await Contact.find({
-    $or: [
-      { fullname: { $regex: new RegExp(keyword, 'i') } },
-      { email: { $regex: new RegExp(keyword, 'i') } },
-      { phone: { $regex: new RegExp(keyword, 'i') } },
-    ],
-  })
-    .limit(limit)
-    .skip(skip)
-    .sort(sort);
-
-  const totalSearch = await Contact.countDocuments({
-    $or: [
-      { fullname: { $regex: new RegExp(keyword, 'i') } },
-      { email: { $regex: new RegExp(keyword, 'i') } },
-      { phone: { $regex: new RegExp(keyword, 'i') } },
-    ],
-  });
-
-  const detailResult = {
-    limit: +limit,
-    totalResult: totalSearch,
-    totalPage: Math.ceil(totalSearch / +limit),
-    currentPage: +page,
-    currentResult: contacts.length,
-  };
-
-  return { contacts, ...detailResult };
+const getContactsByKeyword = async (query) => {
+  const apiFeature = new ApiFeature(Contact);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['fullname', 'email', 'phone', 'message']);
+  return { contacts: results, ...detailResult };
 };
 
 const deleteContactById = async (contactId) => {

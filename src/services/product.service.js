@@ -2,6 +2,7 @@ const { Product } = require('../models');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { productMessage } = require('../messages');
+const ApiFeature = require('../utils/ApiFeature');
 
 const createProduct = async (productBody) => {
   const product = await Product.create(productBody);
@@ -32,35 +33,10 @@ const getProductsBycategoryId = async (categoryId) => {
   return products;
 };
 
-const getProductsByKeyword = async (requestQuery) => {
-  const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc' } = requestQuery;
-
-  const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
-  let sort = sortBy.split(',').map((sortItem) => {
-    const [field, option = 'desc'] = sortItem.split(':');
-    return [field, option === 'desc' ? -1 : 1];
-  });
-
-  const products = await Product.find({
-    $or: [{ name: { $regex: new RegExp(keyword, 'i') } }, { description: { $regex: new RegExp(keyword, 'i') } }],
-  })
-    .limit(limit)
-    .skip(skip)
-    .sort(sort);
-
-  const totalSearch = await Product.countDocuments({
-    $or: [{ name: { $regex: new RegExp(keyword, 'i') } }, { description: { $regex: new RegExp(keyword, 'i') } }],
-  });
-
-  const detailResult = {
-    limit: +limit,
-    totalResult: totalSearch,
-    totalPage: Math.ceil(totalSearch / +limit),
-    currentPage: +page,
-    currentResult: products.length,
-  };
-
-  return { products, ...detailResult };
+const getProductsByKeyword = async (query) => {
+  const apiFeature = new ApiFeature(Product);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'price', 'description']);
+  return { products: results, ...detailResult };
 };
 
 const updateProductById = async (productId, updateBody) => {

@@ -16,6 +16,8 @@ const getCategories = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
+    name: Joi.string().allow(null, ''),
+    description: Joi.string().allow(null, ''),
   }),
 };
 

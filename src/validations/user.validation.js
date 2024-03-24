@@ -24,6 +24,13 @@ const getUsers = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
+    role: Joi.string().custom(role),
+    isLocked: Joi.boolean().valid(true, false),
+    isVerify: Joi.boolean().valid(true, false),
+    gender: Joi.string().allow('male', 'female', ''),
+    fullname: Joi.string().allow(null, ''),
+    email: Joi.string().allow(null, ''),
+    phone: Joi.string().allow(null, ''),
   }),
 };
 
