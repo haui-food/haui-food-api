@@ -45,6 +45,16 @@ const phone = (value, helpers) => {
   return value;
 };
 
+const message = (value, helpers) => {
+  if (value === '' || !value) {
+    return helpers.message(contactMessage().MESSAGE_REQUIRED);
+  }
+  if (value.length < 5 || value.length > 500) {
+    return helpers.message(contactMessage().MESSAGE_LENGTH);
+  }
+  return value;
+};
+
 module.exports = {
   objectId,
   password,
@@ -52,4 +62,5 @@ module.exports = {
   role,
   fullname,
   phone,
+  message,
 };

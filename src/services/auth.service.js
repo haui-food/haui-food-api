@@ -18,7 +18,6 @@ const login = async (email, password) => {
   user.lastActive = Date.now();
   await user.save();
   user.password = undefined;
-  console.table(refreshToken);
   return { user, accessToken, refreshToken };
 };
 

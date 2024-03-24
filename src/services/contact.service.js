@@ -2,7 +2,6 @@ const { Contact } = require('../models');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { contactMessage } = require('../messages');
-const { env } = require('../config');
 
 const getContactByEmail = async (email) => {
   const contact = await Contact.findOne({ email });

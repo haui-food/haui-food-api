@@ -51,9 +51,11 @@
   "contact": {
     "sendSuccess": "Gửi liên hệ thành công",
     "sendFail": "Gửi liên hệ thât bại, vui lòng thực hiện lại",
-    "notFound": "Không tìm thấy lien hệ",
+    "notFound": "Không tìm thấy liên hệ",
     "deleteSuccess": "Xoá liên hệ thành công",
     "findListSuccess": "Tìm danh sách liên hệ thành công",
-    "findSuccess": "Tìm liên hệ thành công"
+    "findSuccess": "Tìm liên hệ thành công",
+    "messageLength": "Nội dung từ 5 ký tự đến 500 ký tự",
+    "messageRequired": "Vui lòng nhập nội dung liên hệ"
   }
 }

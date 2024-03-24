@@ -54,6 +54,8 @@
     "notFound": "Contact not found",
     "deleteSuccess": "Contact deleted successfully",
     "findListSuccess": "Successfully found contact list",
-    "findSuccess": "Contact found successfully"
+    "findSuccess": "Contact found successfully",
+    "messageLength": "Message must be longer than 5 and less than 500 characters",
+    "messageRequired": "Please enter a message"
   }
 }

@@ -1,13 +1,19 @@
 const express = require('express');
 const { contactController } = require('../../controllers');
+const { contactValidation } = require('../../validations');
+const validate = require('../../middlewares/validate.middleware');
 const { auth, authorize } = require('../../middlewares/auth.middleware');
 
 const contactRouter = express.Router();
-contactRouter.use(auth);
-contactRouter.use(authorize('admin'));
 
-contactRouter.route('/').get(contactController.getContacts).post(contactController.createContact);
+contactRouter
+  .route('/')
+  .get(auth, authorize('admin'), validate(contactValidation.getContacts), contactController.getContacts)
+  .post(validate(contactValidation.createContact), contactController.createContact);
 
-contactRouter.route('/:contactId').get(contactController.getContact).delete(contactController.deleteContact);
+contactRouter
+  .route('/:contactId')
+  .get(auth, authorize('admin'), validate(contactValidation.getContact), contactController.getContact)
+  .delete(auth, authorize('admin'), validate(contactValidation.deleteContact), contactController.deleteContact);
 
 module.exports = contactRouter;

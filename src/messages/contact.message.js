@@ -8,6 +8,8 @@ const contactMessage = () => {
     DELETE_SUCCESS: i18nService.translate('contact', 'deleteSuccess'),
     FIND_SUCCESS: i18nService.translate('contact', 'findSuccess'),
     FIND_LIST_SUCCESS: i18nService.translate('contact', 'findListSuccess'),
+    MESSAGE_REQUIRED: i18nService.translate('contact', 'messageRequired'),
+    MESSAGE_LENGTH: i18nService.translate('contact', 'messageLength'),
   };
 };
 
