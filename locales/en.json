@@ -47,5 +47,13 @@
     "updateSuccess": "Product updated successfully",
     "deleteSuccess": "Product deleted successfully",
     "incorrectId": "Id is not in the correct MongoDB format"
+  },
+  "contact": {
+    "sendSuccess": "Contact sent successfully",
+    "sendFail": "Failed to send contact, please try again",
+    "notFound": "Contact not found",
+    "deleteSuccess": "Contact deleted successfully",
+    "findListSuccess": "Successfully found contact list",
+    "findSuccess": "Contact found successfully"
   }
 }
