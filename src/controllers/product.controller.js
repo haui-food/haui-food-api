@@ -15,16 +15,16 @@ const getProducts = catchAsync(async (req, res) => {
 });
 
 const getProductById = catchAsync(async (req, res) => {
-  const product = await productService.getProductById(req.params.productId || req.product._id);
+  const product = await productService.getProductById(req.params.productId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_SUCCESS, product));
 });
 
 const getProductsByuserId = catchAsync(async (req, res) => {
-  const products = await productService.getProductsByuserId(req.params.userId || req.product.userId);
+  const products = await productService.getProductsByuserId(req.params.userId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
 const getProductsBycategoryId = catchAsync(async (req, res) => {
-  const products = await productService.getProductsBycategoryId(req.params.categoryId || req.product.categoryId);
+  const products = await productService.getProductsBycategoryId(req.params.categoryId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
 const updateProduct = catchAsync(async (req, res) => {

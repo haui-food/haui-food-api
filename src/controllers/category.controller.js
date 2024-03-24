@@ -15,7 +15,7 @@ const getCategories = catchAsync(async (req, res) => {
 });
 
 const getCategoriesById = catchAsync(async (req, res) => {
-  const category = await categoryService.getCategoryById(req.params.categoryId || req.category._id);
+  const category = await categoryService.getCategoryById(req.params.categoryId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().FIND_SUCCESS, category));
 });
 
