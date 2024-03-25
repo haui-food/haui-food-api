@@ -23,6 +23,10 @@ const listRoutesApi = [
     path: '/contacts',
     route: require('./contact.route'),
   },
+  {
+    path: '/messages',
+    route: require('./message.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {
