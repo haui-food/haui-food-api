@@ -57,5 +57,13 @@
     "findSuccess": "Tìm liên hệ thành công",
     "messageLength": "Nội dung từ 5 ký tự đến 500 ký tự",
     "messageRequired": "Vui lòng nhập nội dung liên hệ"
+  },
+  "message": {
+    "notFound": "Không tìm thấy tin nhắn",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách tin nhắn thành công",
+    "createSuccess": "Tạo mới tin nhắn thành công",
+    "deleteSuccess": "Xóa tín nhắn thành công",
+    "incorrectId": "không đúng định dạng Id của MongoDB"
   }
 }

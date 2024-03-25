@@ -4,3 +4,4 @@ module.exports.authService = require('./auth.service');
 module.exports.contactService = require('./contact.service');
 module.exports.productService = require('./product.service');
 module.exports.categoryService = require('./category.service');
+module.exports.messageService = require('./message.service');
