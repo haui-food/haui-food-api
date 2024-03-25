@@ -5,13 +5,15 @@ const { userValidation } = require('../../validations');
 const { auth, authorize } = require('../../middlewares/auth.middleware');
 
 const userRouter = express.Router();
-userRouter.use(auth);
-userRouter.use(authorize('admin'));
+// userRouter.use(auth);
+// userRouter.use(authorize('admin'));
 
 userRouter
   .route('/')
   .get(validate(userValidation.getUsers), userController.getUsers)
   .post(validate(userValidation.createUser), userController.createUser);
+
+userRouter.route('/exports').get(validate(userValidation.getUsers), userController.exportExcel);
 
 userRouter
   .route('/:userId')

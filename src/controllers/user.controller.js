@@ -36,6 +36,15 @@ const lockUser = catchAsync(async (req, res) => {
     .json(response(httpStatus.OK, user.isLocked ? userMessage().LOCKED_SUCCESS : userMessage().UNLOCKED_SUCCESS, user));
 });
 
+const exportExcel = catchAsync(async (req, res) => {
+  const wb = await userService.exportExcel(req.query);
+  wb.writeToBuffer().then((buffer) => {
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=' + `users-hauifood.com-${Date.now()}.xlsx`);
+    res.send(buffer);
+  });
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -43,4 +52,5 @@ module.exports = {
   updateUser,
   deleteUser,
   lockUser,
+  exportExcel,
 };
