@@ -6,7 +6,6 @@ const categoryMessage = () => {
     FIND_SUCCESS: i18nService.translate('message', 'findSuccess'),
     FIND_LIST_SUCCESS: i18nService.translate('message', 'findListSuccess'),
     CREATE_SUCCESS: i18nService.translate('message', 'createSuccess'),
-    UPDATE_SUCCESS: i18nService.translate('message', 'updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('message', 'deleteSuccess'),
   };
 };

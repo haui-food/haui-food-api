@@ -57,5 +57,13 @@
     "findSuccess": "Contact found successfully",
     "messageLength": "Message must be longer than 5 and less than 500 characters",
     "messageRequired": "Please enter a message"
+  },
+  "message": {
+    "notFound": "Message not found",
+    "findSuccess": "Search successful",
+    "findListSuccess": "Found message list successfully",
+    "createSuccess": "Message created successfully",
+    "deleteSuccess": "Message deleted successfully",
+    "incorrectId": "Incorrect MongoDB Id format"
   }
 }

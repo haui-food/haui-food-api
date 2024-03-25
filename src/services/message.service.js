@@ -36,11 +36,15 @@ const deleteMessageById = async (messageId) => {
   await message.deleteOne();
   return message;
 };
-
+const deleteMessageBysenderId = async (senderId) => {
+  const message = await Message.deleteMany({ senderId: senderId });
+  return message;
+};
 module.exports = {
   createMessage,
   getMessageById,
   getMessageBysenderId,
   getMessagesByKeyword,
   deleteMessageById,
+  deleteMessageBysenderId,
 };
