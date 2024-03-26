@@ -13,7 +13,7 @@ const getCartDetailById = async (id) => {
 };
 
 const createCartDetail = async (cartDetailBody) => {
-  const cartDetail = await cartDetail.create(cartDetailBody);
+  const cartDetail = await CartDetail.create(cartDetailBody);
   return cartDetail;
 };
 
@@ -31,7 +31,7 @@ const updateCartDetailById = async (cartDetailId, updateBody) => {
 };
 
 const deleteCartDetailById = async (cartDetailId) => {
-  const cartDetail = await getcartDetailById(cartDetailId);
+  const cartDetail = await getCartDetailById(cartDetailId);
   await cartDetail.deleteOne();
   return cartDetail;
 };
