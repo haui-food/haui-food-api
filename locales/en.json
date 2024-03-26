@@ -65,5 +65,14 @@
     "createSuccess": "Message created successfully",
     "deleteSuccess": "Message deleted successfully",
     "incorrectId": "Incorrect MongoDB Id format"
+  },
+  "CartDetail": {
+    "notFound": "Cart detail not found",
+    "existsEmail": "Cart detail already exists",
+    "findSuccess": "Cart detail found successfully",
+    "findListSuccess": "Cart detail list found successfully",
+    "createSuccess": "Cart detail created successfully",
+    "updateSuccess": "Cart detail updated successfully",
+    "deleteSuccess": "Cart detail deleted successfully"
   }
 }

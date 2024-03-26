@@ -65,5 +65,14 @@
     "createSuccess": "Tạo mới tin nhắn thành công",
     "deleteSuccess": "Xóa tín nhắn thành công",
     "incorrectId": "không đúng định dạng Id của MongoDB"
+  },
+  "CartDetail": {
+    "notFound": "Không tìm thấy sản phẩm chi tiết",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách sản phẩm chi tiết thành công",
+    "createSuccess": "Tạo mới sản phẩm chi tiết thành công",
+    "updateSuccess": "Cập nhật sản phẩm chi tiết thành công",
+    "deleteSuccess": "Xóa sản phẩm chi tiết thành công",
+    "incorrectId": "không đúng định dạng Id của MongoDB"
   }
 }
