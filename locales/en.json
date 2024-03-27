@@ -72,5 +72,14 @@
     "createSuccess": "Cart detail created successfully",
     "updateSuccess": "Cart detail updated successfully",
     "deleteSuccess": "Cart detail deleted successfully"
+  },
+  "cart": {
+    "notFound": "Cart not found",
+    "existsEmail": "Cart already exists",
+    "findSuccess": "Cart found successfully",
+    "findListSuccess": "Cart list found successfully",
+    "createSuccess": "Cart created successfully",
+    "updateSuccess": "Cart updated successfully",
+    "deleteSuccess": "Cart deleted successfully"
   }
 }

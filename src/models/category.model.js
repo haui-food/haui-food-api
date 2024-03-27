@@ -1,5 +1,5 @@
-const mongose = require('mongoose');
-const categorySchema = mongose.Schema(
+const mongoose = require('mongoose');
+const categorySchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -18,4 +18,4 @@ const categorySchema = mongose.Schema(
     timestamps: true,
   },
 );
-module.exports = mongose.model('Category', categorySchema);
+module.exports = mongoose.model('Category', categorySchema);

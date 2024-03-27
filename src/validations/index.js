@@ -5,3 +5,4 @@ module.exports.contactValidation = require('./contact.validation');
 module.exports.categoryValidation = require('./category.validation');
 module.exports.messageValidation = require('./message.validation');
 module.exports.cartDetailValidation = require('./cartDetail.validation');
+module.exports.cartValidation = require('./cart.validation');

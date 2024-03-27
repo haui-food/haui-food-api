@@ -13,7 +13,7 @@ categoryRouter
 
 categoryRouter
   .route('/:categoryId')
-  .get(validate(categoryValidation.getCategory), categoryController.getCategoriesById)
+  .get(validate(categoryValidation.getCategory), categoryController.getCategoryById)
   .put(auth, authorize('admin'), validate(categoryValidation.updateCategory), categoryController.updateCategory)
   .delete(auth, authorize('admin'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 

@@ -14,7 +14,7 @@ const getCategories = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().FIND_LIST_SUCCESS, categories));
 });
 
-const getCategoriesById = catchAsync(async (req, res) => {
+const getCategoryById = catchAsync(async (req, res) => {
   const category = await categoryService.getCategoryById(req.params.categoryId);
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().FIND_SUCCESS, category));
 });
@@ -32,7 +32,7 @@ const deleteCategory = catchAsync(async (req, res) => {
 module.exports = {
   createCategory,
   getCategories,
-  getCategoriesById,
+  getCategoryById,
   updateCategory,
   deleteCategory,
 };
