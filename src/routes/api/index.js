@@ -28,8 +28,8 @@ const listRoutesApi = [
     route: require('./message.route'),
   },
   {
-    path: '/cartDetails',
-    route: require('./CartDetail.route'),
+    path: '/cart-details',
+    route: require('./cartDetail.route'),
   },
 ];
 

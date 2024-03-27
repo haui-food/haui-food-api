@@ -45,8 +45,7 @@
     "findListSuccess": "Product list found successfully",
     "createSuccess": "Product created successfully",
     "updateSuccess": "Product updated successfully",
-    "deleteSuccess": "Product deleted successfully",
-    "incorrectId": "Id is not in the correct MongoDB format"
+    "deleteSuccess": "Product deleted successfully"
   },
   "contact": {
     "sendSuccess": "Contact sent successfully",
@@ -63,10 +62,9 @@
     "findSuccess": "Search successful",
     "findListSuccess": "Found message list successfully",
     "createSuccess": "Message created successfully",
-    "deleteSuccess": "Message deleted successfully",
-    "incorrectId": "Incorrect MongoDB Id format"
+    "deleteSuccess": "Message deleted successfully"
   },
-  "CartDetail": {
+  "cartDetail": {
     "notFound": "Cart detail not found",
     "existsEmail": "Cart detail already exists",
     "findSuccess": "Cart detail found successfully",

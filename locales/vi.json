@@ -27,8 +27,7 @@
     "findListSuccess": "Tìm danh sách danh mục thành công",
     "createSuccess": "Tạo mới danh mục thành công",
     "updateSuccess": "Cập nhật danh mục thành công",
-    "deleteSuccess": "Xóa danh mục thành công",
-    "incorrectId": "không đúng định dạng Id của MongoDB"
+    "deleteSuccess": "Xóa danh mục thành công"
   },
   "auth": {
     "invalidLogin": "Tài khoản hoặc mật khẩu không chính xác",
@@ -45,8 +44,7 @@
     "findListSuccess": "Tìm danh sách sản phẩm thành công",
     "createSuccess": "Tạo mới sản phẩm thành công",
     "updateSuccess": "Cập nhật sản phẩm thành công",
-    "deleteSuccess": "Xóa sản phẩm thành công",
-    "incorrectId": "không đúng định dạng Id của MongoDB"
+    "deleteSuccess": "Xóa sản phẩm thành công"
   },
   "contact": {
     "sendSuccess": "Gửi liên hệ thành công",
@@ -63,16 +61,14 @@
     "findSuccess": "Tìm thành công",
     "findListSuccess": "Tìm danh sách tin nhắn thành công",
     "createSuccess": "Tạo mới tin nhắn thành công",
-    "deleteSuccess": "Xóa tín nhắn thành công",
-    "incorrectId": "không đúng định dạng Id của MongoDB"
+    "deleteSuccess": "Xóa tín nhắn thành công"
   },
-  "CartDetail": {
+  "cartDetail": {
     "notFound": "Không tìm thấy sản phẩm chi tiết",
     "findSuccess": "Tìm thành công",
     "findListSuccess": "Tìm danh sách sản phẩm chi tiết thành công",
     "createSuccess": "Tạo mới sản phẩm chi tiết thành công",
     "updateSuccess": "Cập nhật sản phẩm chi tiết thành công",
-    "deleteSuccess": "Xóa sản phẩm chi tiết thành công",
-    "incorrectId": "không đúng định dạng Id của MongoDB"
+    "deleteSuccess": "Xóa sản phẩm chi tiết thành công"
   }
 }

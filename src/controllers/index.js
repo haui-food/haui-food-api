@@ -5,4 +5,4 @@ module.exports.productController = require('./product.controller');
 module.exports.contactController = require('./contact.controller');
 module.exports.categoryController = require('./category.controller');
 module.exports.messageController = require('./message.controller');
-module.exports.cartDetailController = require('./CartDetail.controller');
+module.exports.cartDetailController = require('./cartDetail.controller');
