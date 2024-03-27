@@ -18,14 +18,8 @@ const createCart = async (cartBody) => {
 };
 
 const getCartsByKeyword = async (query) => {
-  const apiFeature = new ApiFeature(Cart);
-  const { results, ...detailResult } = await apiFeature.getResults(query, [
-    'cartDetail',
-    'userId',
-    'isOrder',
-    'totalMoney',
-  ]);
-  return { Carts: results, ...detailResult };
+  const results = await Cart.find();
+  return { Carts: results };
 };
 
 const updateCartById = async (cartId, updateBody) => {

@@ -24,6 +24,7 @@ const getProducts = {
     name: Joi.string().allow(null, ''),
     price: Joi.string().allow(null, ''),
     description: Joi.string().allow(null, ''),
+    image: Joi.string().allow(null, ''),
   }),
 };
 
