@@ -1,8 +1,9 @@
-const { Category } = require('../models');
 const httpStatus = require('http-status');
+
+const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
-const { categoryMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
+const { categoryMessage } = require('../messages');
 
 const getCategoryById = async (id) => {
   const category = await Category.findById(id);
@@ -19,7 +20,7 @@ const createCategory = async (categoryBody) => {
 
 const getCategoriesByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Category);
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'image', 'description']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
   return { categories: results, ...detailResult };
 };
 

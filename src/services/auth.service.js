@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
-const { env } = require('../config');
 const httpStatus = require('http-status');
+
+const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
-const { userMessage, authMessage } = require('../messages');
 const userService = require('./user.service');
+const { userMessage, authMessage } = require('../messages');
 
 const login = async (email, password) => {
   const user = await userService.getUserByEmail(email);

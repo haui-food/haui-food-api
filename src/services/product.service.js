@@ -1,5 +1,6 @@
-const { Product } = require('../models');
 const httpStatus = require('http-status');
+
+const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { productMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');

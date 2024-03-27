@@ -1,12 +1,12 @@
 const express = require('express');
-const validate = require('../../middlewares/validate.middleware');
 const { userController } = require('../../controllers');
 const { userValidation } = require('../../validations');
+const validate = require('../../middlewares/validate.middleware');
 const { auth, authorize } = require('../../middlewares/auth.middleware');
 
 const userRouter = express.Router();
-// userRouter.use(auth);
-// userRouter.use(authorize('admin'));
+userRouter.use(auth);
+userRouter.use(authorize('admin'));
 
 userRouter
   .route('/')

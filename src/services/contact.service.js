@@ -1,5 +1,6 @@
-const { Contact } = require('../models');
 const httpStatus = require('http-status');
+
+const { Contact } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { contactMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');

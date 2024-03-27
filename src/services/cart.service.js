@@ -1,8 +1,8 @@
-const { Cart } = require('../models');
 const httpStatus = require('http-status');
+
+const { Cart } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { cartMessage } = require('../messages');
-const ApiFeature = require('../utils/ApiFeature');
 
 const getCartById = async (id) => {
   const cart = await Cart.findById(id);

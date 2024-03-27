@@ -1,10 +1,11 @@
-const httpStatus = require('http-status');
 const jwt = require('jsonwebtoken');
+const httpStatus = require('http-status');
+
+const { env } = require('../config');
+const { User } = require('../models');
+const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userMessage, authMessage } = require('../messages');
-const ApiError = require('../utils/ApiError');
-const { User } = require('../models');
-const { env } = require('../config');
 
 const auth = catchAsync(async (req, res, next) => {
   const token = extractToken(req);

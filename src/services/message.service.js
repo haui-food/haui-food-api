@@ -1,5 +1,6 @@
-const { Message } = require('../models');
 const httpStatus = require('http-status');
+
+const { Message } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { messageMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');

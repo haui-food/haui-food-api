@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+
+const apiRoute = require('./routes/api');
+const { userService } = require('./services');
+const baseRouter = require('./routes/base.route');
 const { env, logger, morgan, i18nService } = require('./config');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
-const cookieParser = require('cookie-parser');
-const apiRoute = require('./routes/api');
-const baseRouter = require('./routes/base.route');
-const { userService } = require('./services');
 
 const app = express();
 
