@@ -27,6 +27,10 @@ const listRoutesApi = [
     path: '/messages',
     route: require('./message.route'),
   },
+  {
+    path: '/cart-details',
+    route: require('./cartDetail.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {

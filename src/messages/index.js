@@ -5,3 +5,4 @@ module.exports.productMessage = require('./product.message');
 module.exports.contactMessage = require('./contact.message');
 module.exports.categoryMessage = require('./category.message');
 module.exports.messageMessage = require('./message.message');
+module.exports.cartDetailMessage = require('./cartDetail.message');
