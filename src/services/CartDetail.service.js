@@ -17,11 +17,6 @@ const createCartDetail = async (cartDetailBody) => {
   return cartDetail;
 };
 
-// const getCartDetailsByKeyword = async (query) => {
-//   const apiFeature = new ApiFeature(CartDetail);
-//   const { results, ...detailResult } = await apiFeature.getResults(query, ['productId', 'quantity']);
-//   return { CartDetails: results, ...detailResult };
-// };
 const getCartDetailsByKeyword = async (query) => {
   const apiFeature = new ApiFeature(CartDetail);
   const { results, ...detailResult } = await apiFeature.getResults(query, ['productId', 'quantity']);
