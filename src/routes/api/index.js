@@ -29,7 +29,7 @@ const listRoutesApi = [
   },
   {
     path: '/cart-details',
-    route: require('./cartDetail.route'),
+    route: require('./cart-detail.route'),
   },
   {
     path: '/carts',
