@@ -27,7 +27,7 @@ const getMessageBysenderId = async (senderId) => {
 
 const getMessagesByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Message);
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'message']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['senderId', 'receiverId', 'message']);
   return { messages: results, ...detailResult };
 };
 

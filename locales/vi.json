@@ -78,5 +78,13 @@
     "createSuccess": "Tạo mới giỏ hàng thành công",
     "updateSuccess": "Cập nhật giỏ hàng thành công",
     "deleteSuccess": "Xóa giỏ hàng thành công"
+  },
+  "order": {
+    "notFound": "Không tìm thấy đơn đặt hàng",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách đơn đặt hàng thành công",
+    "createSuccess": "Tạo mới đơn đặt hàng thành công",
+    "updateSuccess": "Cập nhật đơn đặt hàng thành công",
+    "deleteSuccess": "Xóa đơn đặt hàng thành công"
   }
 }
