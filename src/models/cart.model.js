@@ -18,6 +18,10 @@ const cartSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    totalMoney: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

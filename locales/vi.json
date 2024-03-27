@@ -64,11 +64,19 @@
     "deleteSuccess": "Xóa tín nhắn thành công"
   },
   "cartDetail": {
-    "notFound": "Không tìm thấy sản phẩm chi tiết",
+    "notFound": "Không tìm thấy giỏ hàng chi tiết",
     "findSuccess": "Tìm thành công",
-    "findListSuccess": "Tìm danh sách sản phẩm chi tiết thành công",
-    "createSuccess": "Tạo mới sản phẩm chi tiết thành công",
-    "updateSuccess": "Cập nhật sản phẩm chi tiết thành công",
-    "deleteSuccess": "Xóa sản phẩm chi tiết thành công"
+    "findListSuccess": "Tìm danh sách giỏ hàng chi tiết thành công",
+    "createSuccess": "Tạo mới giỏ hàng chi tiết thành công",
+    "updateSuccess": "Cập nhật giỏ hàng chi tiết thành công",
+    "deleteSuccess": "Xóa giỏ hàng chi tiết thành công"
+  },
+  "cart": {
+    "notFound": "Không tìm thấy giỏ hàng",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách giỏ hàng thành công",
+    "createSuccess": "Tạo mới giỏ hàng thành công",
+    "updateSuccess": "Cập nhật giỏ hàng thành công",
+    "deleteSuccess": "Xóa giỏ hàng thành công"
   }
 }
