@@ -31,6 +31,7 @@ const deleteUser = catchAsync(async (req, res) => {
 
 const lockUser = catchAsync(async (req, res) => {
   const user = await userService.lockUserById(req.params.userId);
+  user.password = undefined;
   res
     .status(httpStatus.OK)
     .json(response(httpStatus.OK, user.isLocked ? userMessage().LOCKED_SUCCESS : userMessage().UNLOCKED_SUCCESS, user));
