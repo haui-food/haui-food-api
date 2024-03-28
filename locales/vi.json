@@ -37,7 +37,8 @@
     "refreshTokenSuccess": "Refresh token thành công",
     "invalidToken": "Token không chính xác",
     "unauthorized": "Bạn cần đăng nhập",
-    "forbidden": "Bạn không có quyền truy cập"
+    "forbidden": "Bạn không có quyền truy cập",
+    "tokenExpired": "Token đã hết hạn vui lòng login lại"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

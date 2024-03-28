@@ -38,7 +38,8 @@
     "refreshTokenSuccess": "Refresh token successfully",
     "invalidToken": "Invalid token",
     "unauthorized": "Unauthorized",
-    "forbidden": "Forbidden"
+    "forbidden": "Forbidden",
+    "tokenExpired": "Token expired, please login again"
   },
   "product": {
     "notFound": "Product not found",

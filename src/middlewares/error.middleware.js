@@ -3,6 +3,7 @@ const httpStatus = require('http-status');
 
 const { env, logger } = require('../config');
 const ApiError = require('../utils/ApiError');
+const authMessage = require('../messages/auth.message');
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
@@ -11,6 +12,9 @@ const errorConverter = (err, req, res, next) => {
       error.statusCode || error instanceof mongoose.Error ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
     const message = error.message || httpStatus[statusCode];
     error = new ApiError(statusCode, message, false, err.stack);
+  }
+  if (error.message === 'jwt expired') {
+    error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().TOKEN_EXPIRED);
   }
   next(error);
 };
