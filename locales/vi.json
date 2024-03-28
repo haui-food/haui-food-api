@@ -27,7 +27,8 @@
     "findListSuccess": "Tìm danh sách danh mục thành công",
     "createSuccess": "Tạo mới danh mục thành công",
     "updateSuccess": "Cập nhật danh mục thành công",
-    "deleteSuccess": "Xóa danh mục thành công"
+    "deleteSuccess": "Xóa danh mục thành công",
+    "alreadyExists": "Danh mục sản phẩm đã tồn tại"
   },
   "auth": {
     "invalidLogin": "Tài khoản hoặc mật khẩu không chính xác",

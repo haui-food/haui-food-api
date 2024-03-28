@@ -28,7 +28,8 @@
     "findListSuccess": "Category list found successfully",
     "createSuccess": "New category created successfully",
     "updateSuccess": "Category updated successfully",
-    "deleteSuccess": "Category deleted successfully"
+    "deleteSuccess": "Category deleted successfully",
+    "alreadyExists": "Category already exists"
   },
   "auth": {
     "invalidLogin": "Invalid username or password",

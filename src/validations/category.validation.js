@@ -5,7 +5,6 @@ const createCateogry = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     image: Joi.string().allow(null, ''),
-    description: Joi.string().allow(null, ''),
   }),
 };
 
@@ -18,7 +17,7 @@ const getCategories = {
     lang: Joi.string(),
     name: Joi.string().allow(null, ''),
     image: Joi.string().allow(null, ''),
-    description: Joi.string().allow(null, ''),
+    slug: Joi.string().allow(null, ''),
   }),
 };
 
@@ -36,7 +35,6 @@ const updateCategory = {
     .keys({
       name: Joi.string().required(),
       image: Joi.string().allow(null, ''),
-      description: Joi.string().allow(null, ''),
     })
     .min(1),
 };

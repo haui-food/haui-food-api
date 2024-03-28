@@ -1,3 +1,4 @@
+const slug = require('slug');
 const httpStatus = require('http-status');
 
 const { Category } = require('../models');
@@ -14,8 +15,13 @@ const getCategoryById = async (id) => {
 };
 
 const createCategory = async (categoryBody) => {
-  const category = await Category.create(categoryBody);
-  return category;
+  const { name } = categoryBody;
+  const category = await Category.findOne({ name });
+  if (category) {
+    throw new ApiError(httpStatus.BAD_REQUEST, categoryMessage().ALREADY_EXISTS);
+  }
+  const newCategory = await Category.create(categoryBody);
+  return newCategory;
 };
 
 const getCategoriesByKeyword = async (query) => {

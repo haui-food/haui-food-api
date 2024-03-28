@@ -1,4 +1,6 @@
+const slug = require('slug');
 const mongoose = require('mongoose');
+
 const categorySchema = mongoose.Schema(
   {
     name: {
@@ -10,7 +12,7 @@ const categorySchema = mongoose.Schema(
       type: String,
       default: '',
     },
-    description: {
+    slug: {
       type: String,
     },
   },
@@ -18,4 +20,13 @@ const categorySchema = mongoose.Schema(
     timestamps: true,
   },
 );
+
+categorySchema.pre('save', function (next) {
+  const category = this;
+  if (category.isModified('name')) {
+    category.slug = slug(category.name);
+  }
+  next();
+});
+
 module.exports = mongoose.model('Category', categorySchema);
