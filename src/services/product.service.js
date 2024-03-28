@@ -2,8 +2,8 @@ const httpStatus = require('http-status');
 
 const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
-const { productMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
+const { productMessage, authMessage } = require('../messages');
 
 const createProduct = async (productBody) => {
   const product = await Product.create(productBody);
@@ -18,59 +18,43 @@ const getProductById = async (id) => {
   return product;
 };
 
-const getProductsByuserId = async (userId) => {
-  const products = await Product.find({ userId: userId });
-  if (!products) {
-    throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
-  }
-  return products;
-};
-
-const getProductsBycategoryId = async (categoryId) => {
-  const products = await Product.find({ categoryId: categoryId });
-  if (!products) {
-    throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
-  }
-  return products;
-};
-
 const getProductsByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Product);
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'price', 'description']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
   return { products: results, ...detailResult };
 };
 
-const updateProductById = async (productId, updateBody) => {
+const getMyProducts = async (query) => {
+  const apiFeature = new ApiFeature(Product);
+  query.shopId = query.user.id;
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
+  return { products: results, ...detailResult };
+};
+
+const updateProductById = async (productId, updateBody, shopId) => {
   const product = await getProductById(productId);
+  if (updateBody.shopId !== shopId) {
+    throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
+  }
   Object.assign(product, updateBody);
   await product.save();
   return product;
 };
 
-const deleteProductById = async (productId) => {
+const deleteProductById = async (productId, shopId) => {
   const product = await getProductById(productId);
+  if (product.shopId !== shopId) {
+    throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
+  }
   await product.deleteOne();
-  return product;
-};
-
-const deleteProductsByUserId = async (userId) => {
-  const product = await Product.deleteMany({ userId });
-  return product;
-};
-
-const deleteProductsByCategoryId = async (categoryId) => {
-  const product = await Product.deleteMany({ categoryId });
   return product;
 };
 
 module.exports = {
   getProductById,
-  getProductsByuserId,
-  getProductsBycategoryId,
   createProduct,
+  getMyProducts,
   getProductsByKeyword,
   updateProductById,
   deleteProductById,
-  deleteProductsByUserId,
-  deleteProductsByCategoryId,
 };
