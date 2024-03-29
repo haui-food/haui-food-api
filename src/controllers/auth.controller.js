@@ -26,7 +26,12 @@ const refreshToken = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().REFRESH_TOKEN_SUCCESS, { accessToken }));
 });
 
+const getMe = catchAsync(async (req, res) => {
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().GET_ME_SUCCESS, req.user));
+});
+
 module.exports = {
+  getMe,
   login,
   register,
   refreshToken,

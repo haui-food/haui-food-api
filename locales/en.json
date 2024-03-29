@@ -39,7 +39,8 @@
     "invalidToken": "Invalid token",
     "unauthorized": "Unauthorized",
     "forbidden": "Forbidden",
-    "tokenExpired": "Token expired, please login again"
+    "tokenExpired": "Token expired, please login again",
+    "getMeSuccess": "Get me successfully"
   },
   "product": {
     "notFound": "Product not found",

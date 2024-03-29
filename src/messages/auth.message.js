@@ -10,6 +10,7 @@ const authMessage = () => {
     UNAUTHORIZED: i18nService.translate('auth', 'unauthorized'),
     FORBIDDEN: i18nService.translate('auth', 'forbidden'),
     TOKEN_EXPIRED: i18nService.translate('auth', 'tokenExpired'),
+    GET_ME_SUCCESS: i18nService.translate('auth', 'getMeSuccess'),
   };
 };
 
