@@ -22,6 +22,13 @@ const refreshToken = {
   }),
 };
 
+const changePassword = {
+  body: Joi.object().keys({
+    oldPassword: Joi.string().required(password),
+    newPassword: Joi.string().required(password),
+  }),
+};
+
 const updateMe = {
   body: Joi.object()
     .keys({
@@ -37,4 +44,5 @@ module.exports = {
   register,
   updateMe,
   refreshToken,
+  changePassword,
 };

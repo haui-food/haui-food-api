@@ -35,10 +35,17 @@ const updateMe = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().UPDATE_ME_SUCCESS, user));
 });
 
+const changePassword = catchAsync(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const user = await authService.changePassword(req.user.id, oldPassword, newPassword);
+  return res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().CHANGE_PASSWORD_SUCCESS, user));
+});
+
 module.exports = {
   getMe,
   login,
   register,
   refreshToken,
   updateMe,
+  changePassword,
 };

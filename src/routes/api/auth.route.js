@@ -18,4 +18,6 @@ authRouter.route('/register').post(validate(authValidation.register), authContro
 
 authRouter.route('/refresh-token').post(validate(authValidation.refreshToken), authController.refreshToken);
 
+authRouter.route('/change-password').post(auth, validate(authValidation.changePassword), authController.changePassword);
+
 module.exports = authRouter;

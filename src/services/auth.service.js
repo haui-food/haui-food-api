@@ -64,8 +64,19 @@ const generateToken = (type, payload) => {
   return token;
 };
 
+const changePassword = async (userId, oldPassword, newPassword) => {
+  const user = await userService.getUserById(userId);
+  if (!(await user.isPasswordMatch(oldPassword))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_PASSWORD);
+  }
+  user.password = newPassword;
+  await user.save();
+  return user;
+};
+
 module.exports = {
   login,
   register,
   refreshToken,
+  changePassword,
 };
