@@ -7,7 +7,10 @@ const validate = require('../../middlewares/validate.middleware');
 
 const authRouter = express.Router();
 
-authRouter.route('/me').get(auth, authController.getMe);
+authRouter
+  .route('/me')
+  .get(auth, authController.getMe)
+  .put(auth, validate(authValidation.updateMe), authController.updateMe);
 
 authRouter.route('/login').post(validate(authValidation.login), authController.login);
 

@@ -11,6 +11,7 @@ const authMessage = () => {
     FORBIDDEN: i18nService.translate('auth', 'forbidden'),
     TOKEN_EXPIRED: i18nService.translate('auth', 'tokenExpired'),
     GET_ME_SUCCESS: i18nService.translate('auth', 'getMeSuccess'),
+    UPDATE_ME_SUCCESS: i18nService.translate('auth', 'updateMeSuccess'),
   };
 };
 

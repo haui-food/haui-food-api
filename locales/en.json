@@ -40,7 +40,10 @@
     "unauthorized": "Unauthorized",
     "forbidden": "Forbidden",
     "tokenExpired": "Token expired, please login again",
-    "getMeSuccess": "Get me successfully"
+    "getMeSuccess": "Get me successfully",
+    "invalidPassword": "Invalid password",
+    "changePasswordSuccess": "Change password successfully",
+    "updateMeSuccess": "Update me successfully"
   },
   "product": {
     "notFound": "Product not found",

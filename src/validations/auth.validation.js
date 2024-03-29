@@ -22,8 +22,19 @@ const refreshToken = {
   }),
 };
 
+const updateMe = {
+  body: Joi.object()
+    .keys({
+      fullname: Joi.string().optional().custom(fullname),
+      dateOfBirth: Joi.date().allow(null, '').less('now'),
+      gender: Joi.string().allow('male', 'female', ''),
+    })
+    .min(1),
+};
+
 module.exports = {
   login,
   register,
+  updateMe,
   refreshToken,
 };

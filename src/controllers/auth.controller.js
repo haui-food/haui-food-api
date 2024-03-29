@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const response = require('../utils/response');
 const catchAsync = require('../utils/catchAsync');
-const { authService } = require('../services');
+const { authService, userService } = require('../services');
 const { authMessage } = require('../messages');
 
 const login = catchAsync(async (req, res) => {
@@ -30,9 +30,15 @@ const getMe = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().GET_ME_SUCCESS, req.user));
 });
 
+const updateMe = catchAsync(async (req, res) => {
+  const user = await userService.updateUserById(req.user.id, req.body);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().UPDATE_ME_SUCCESS, user));
+});
+
 module.exports = {
   getMe,
   login,
   register,
   refreshToken,
+  updateMe,
 };
