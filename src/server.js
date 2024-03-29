@@ -1,7 +1,9 @@
-const helmet = require('helmet');
+const cors = require('cors');
 const xss = require('xss-clean');
+const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
+const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -13,6 +15,8 @@ const { errorConverter, errorHandler } = require('./middlewares/error.middleware
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 app.use(helmet());
 
 app.use(express.json());
@@ -21,7 +25,7 @@ app.use(cookieParser());
 app.use(xss());
 app.use(mongoSanitize());
 
-app.set('trust proxy', 1);
+app.use(compression());
 
 app.use(cors());
 app.options('*', cors());
