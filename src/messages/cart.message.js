@@ -8,6 +8,7 @@ const categoryMessage = () => {
     CREATE_SUCCESS: i18nService.translate('cart', 'createSuccess'),
     UPDATE_SUCCESS: i18nService.translate('cart', 'updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('cart', 'deleteSuccess'),
+    ALREADY_EXISTS: i18nService.translate('cart', 'alreadyExists'),
   };
 };
 

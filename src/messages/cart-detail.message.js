@@ -8,6 +8,7 @@ const cartDetailMessage = () => {
     CREATE_SUCCESS: i18nService.translate('cartDetail', 'createSuccess'),
     UPDATE_SUCCESS: i18nService.translate('cartDetail', 'updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('cartDetail', 'deleteSuccess'),
+    ALREADY_EXISTS: i18nService.translate('cartDetail', 'alreadyExists'),
   };
 };
 

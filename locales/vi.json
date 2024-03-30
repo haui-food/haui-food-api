@@ -50,7 +50,8 @@
     "findListSuccess": "Tìm danh sách sản phẩm thành công",
     "createSuccess": "Tạo mới sản phẩm thành công",
     "updateSuccess": "Cập nhật sản phẩm thành công",
-    "deleteSuccess": "Xóa sản phẩm thành công"
+    "deleteSuccess": "Xóa sản phẩm thành công",
+    "alreadyExists": "Sản phẩm đã tồn tại"
   },
   "contact": {
     "sendSuccess": "Gửi liên hệ thành công",
@@ -67,7 +68,8 @@
     "findSuccess": "Tìm thành công",
     "findListSuccess": "Tìm danh sách tin nhắn thành công",
     "createSuccess": "Tạo mới tin nhắn thành công",
-    "deleteSuccess": "Xóa tín nhắn thành công"
+    "deleteSuccess": "Xóa tín nhắn thành công",
+    "alreadyExists": "Tin nhắn đã tồn tại"
   },
   "cartDetail": {
     "notFound": "Không tìm thấy giỏ hàng chi tiết",
@@ -75,7 +77,8 @@
     "findListSuccess": "Tìm danh sách giỏ hàng chi tiết thành công",
     "createSuccess": "Tạo mới giỏ hàng chi tiết thành công",
     "updateSuccess": "Cập nhật giỏ hàng chi tiết thành công",
-    "deleteSuccess": "Xóa giỏ hàng chi tiết thành công"
+    "deleteSuccess": "Xóa giỏ hàng chi tiết thành công",
+    "alreadyExists": "Giỏ hàng chi tiết đã tồn tại"
   },
   "cart": {
     "notFound": "Không tìm thấy giỏ hàng",
@@ -83,7 +86,8 @@
     "findListSuccess": "Tìm danh sách giỏ hàng thành công",
     "createSuccess": "Tạo mới giỏ hàng thành công",
     "updateSuccess": "Cập nhật giỏ hàng thành công",
-    "deleteSuccess": "Xóa giỏ hàng thành công"
+    "deleteSuccess": "Xóa giỏ hàng thành công",
+    "alreadyExists": "Giỏ hàng đã tồn tại"
   },
   "order": {
     "notFound": "Không tìm thấy đơn đặt hàng",
@@ -91,6 +95,16 @@
     "findListSuccess": "Tìm danh sách đơn đặt hàng thành công",
     "createSuccess": "Tạo mới đơn đặt hàng thành công",
     "updateSuccess": "Cập nhật đơn đặt hàng thành công",
-    "deleteSuccess": "Xóa đơn đặt hàng thành công"
+    "deleteSuccess": "Xóa đơn đặt hàng thành công",
+    "alreadyExists": "Đơn đặt hàng đã tồn tại"
+  },
+  "conversation": {
+    "notFound": "Không tìm thấy cuộc hội thoại",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách cuộc hội thoại hàng thành công",
+    "createSuccess": "Tạo mới cuộc hội thoại thành công",
+    "updateSuccess": "Cập nhật cuộc hội thoại thành công",
+    "deleteSuccess": "Xóa cuộc hội thoại thành công",
+    "alreadyExists": "Cuộc hội thoại đã tồn tại"
   }
 }
