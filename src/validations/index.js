@@ -7,3 +7,4 @@ module.exports.contactValidation = require('./contact.validation');
 module.exports.messageValidation = require('./message.validation');
 module.exports.categoryValidation = require('./category.validation');
 module.exports.cartDetailValidation = require('./cart-detail.validation');
+module.exports.conversationValidation = require('./conversation.validation');

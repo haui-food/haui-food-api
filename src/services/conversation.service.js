@@ -24,9 +24,8 @@ const createConversation = async (conversationBody) => {
 };
 
 const getConversationsByKeyword = async (query) => {
-  const apiFeature = new ApiFeature(Conversation);
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['participants', 'message']);
-  return { conversations: results, ...detailResult };
+  const conversations = await Conversation.find(query);
+  return conversations;
 };
 
 const updateConversationById = async (conversationId, updateBody) => {
