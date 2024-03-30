@@ -7,6 +7,7 @@ const categoryMessage = () => {
     FIND_LIST_SUCCESS: i18nService.translate('message', 'findListSuccess'),
     CREATE_SUCCESS: i18nService.translate('message', 'createSuccess'),
     DELETE_SUCCESS: i18nService.translate('message', 'deleteSuccess'),
+    ALREADY_EXISTS: i18nService.translate('message', 'alreadyExists'),
   };
 };
 

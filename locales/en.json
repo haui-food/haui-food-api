@@ -23,7 +23,6 @@
   },
   "category": {
     "notFound": "Category not found",
-    "existsEmail": "Category already exists",
     "findSuccess": "Category found successfully",
     "findListSuccess": "Category list found successfully",
     "createSuccess": "New category created successfully",
@@ -51,7 +50,8 @@
     "findListSuccess": "Product list found successfully",
     "createSuccess": "Product created successfully",
     "updateSuccess": "Product updated successfully",
-    "deleteSuccess": "Product deleted successfully"
+    "deleteSuccess": "Product deleted successfully",
+    "alreadyExists": "Category already exists"
   },
   "contact": {
     "sendSuccess": "Contact sent successfully",
@@ -72,7 +72,7 @@
   },
   "cartDetail": {
     "notFound": "Cart detail not found",
-    "existsEmail": "Cart detail already exists",
+    "alreadyExists": "Cart detail already exists",
     "findSuccess": "Cart detail found successfully",
     "findListSuccess": "Cart detail list found successfully",
     "createSuccess": "Cart detail created successfully",
@@ -81,7 +81,7 @@
   },
   "cart": {
     "notFound": "Cart not found",
-    "existsEmail": "Cart already exists",
+    "alreadyExists": "Cart already exists",
     "findSuccess": "Cart found successfully",
     "findListSuccess": "Cart list found successfully",
     "createSuccess": "Cart created successfully",
@@ -90,11 +90,20 @@
   },
   "order": {
     "notFound": "Order not found",
-    "existsEmail": "Order already exists",
+    "alreadyExists": "Order already exists",
     "findSuccess": "Order found successfully",
     "findListSuccess": "Order list found successfully",
     "createSuccess": "Order created successfully",
     "updateSuccess": "Order updated successfully",
     "deleteSuccess": "Order deleted successfully"
+  },
+  "conversation": {
+    "notFound": "Conversation not found",
+    "alreadyExists": "Conversation already exists",
+    "findSuccess": "Conversation found successfully",
+    "findListSuccess": "Conversation list found successfully",
+    "createSuccess": "Conversation created successfully",
+    "updateSuccess": "Conversation updated successfully",
+    "deleteSuccess": "Conversation deleted successfully"
   }
 }
