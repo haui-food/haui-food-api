@@ -9,3 +9,4 @@ module.exports.contactMessage = require('./contact.message');
 module.exports.categoryMessage = require('./category.message');
 module.exports.cartDetailMessage = require('./cart-detail.message');
 module.exports.conversationMessage = require('./conversation.message');
+module.exports.reviewMessage = require('./review.message');

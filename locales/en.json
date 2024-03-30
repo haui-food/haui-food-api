@@ -105,5 +105,14 @@
     "createSuccess": "Conversation created successfully",
     "updateSuccess": "Conversation updated successfully",
     "deleteSuccess": "Conversation deleted successfully"
+  },
+  "review": {
+    "notFound": "Review not found",
+    "alreadyExists": "Review already exists",
+    "findSuccess": "Review found successfully",
+    "findListSuccess": "Review list found successfully",
+    "createSuccess": "Review created successfully",
+    "updateSuccess": "Review updated successfully",
+    "deleteSuccess": "Review deleted successfully"
   }
 }

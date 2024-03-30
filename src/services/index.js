@@ -9,3 +9,4 @@ module.exports.messageService = require('./message.service');
 module.exports.categoryService = require('./category.service');
 module.exports.cartDetailService = require('./cart-detail.service');
 module.exports.conversationService = require('./conversation.service');
+module.exports.reviewService = require('./review.service');
