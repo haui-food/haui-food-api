@@ -3,6 +3,7 @@ const ApiError = require('../utils/ApiError');
 const { systemMessage } = require('../messages');
 
 const getHome = (req, res) => {
+  console.log(req.url, req.originalUrl);
   res.send('Server HaUI Food is running 🎉');
 };
 
