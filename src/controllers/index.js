@@ -9,3 +9,4 @@ module.exports.contactController = require('./contact.controller');
 module.exports.categoryController = require('./category.controller');
 module.exports.cartDetailController = require('./cart-detail.controller');
 module.exports.conversationController = require('./conversation.controller');
+module.exports.reviewController = require('./review.controller');

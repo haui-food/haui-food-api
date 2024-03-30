@@ -106,5 +106,14 @@
     "updateSuccess": "Cập nhật cuộc hội thoại thành công",
     "deleteSuccess": "Xóa cuộc hội thoại thành công",
     "alreadyExists": "Cuộc hội thoại đã tồn tại"
+  },
+  "review": {
+    "notFound": "Không tìm thấy đánh giá",
+    "findSuccess": "Tìm thành công",
+    "findListSuccess": "Tìm danh sách đánh giá hàng thành công",
+    "createSuccess": "Tạo mới đánh giá thành công",
+    "updateSuccess": "Cập nhật đánh giá thành công",
+    "deleteSuccess": "Xóa đánh giá thành công",
+    "alreadyExists": "Đánh giá đã tồn tại"
   }
 }

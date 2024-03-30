@@ -43,6 +43,10 @@ const listRoutesApi = [
     path: '/conversations',
     route: require('./conversation.route'),
   },
+  {
+    path: '/reviews',
+    route: require('./review.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {
