@@ -5,6 +5,7 @@ const { env } = require('../config');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
+const { REQUEST_USER_KEY } = require('../constants');
 const { userMessage, authMessage } = require('../messages');
 
 const auth = catchAsync(async (req, res, next) => {
@@ -22,12 +23,12 @@ const auth = catchAsync(async (req, res, next) => {
   if (user.isLocked) {
     throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
   }
-  req.user = user;
+  req[REQUEST_USER_KEY] = user;
   next();
 });
 
 const authorize = (rolesAllow) => (req, res, next) => {
-  if (!rolesAllow.includes(req.user.role)) {
+  if (!rolesAllow.includes(req[REQUEST_USER_KEY].role)) {
     return next(new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN));
   }
   next();

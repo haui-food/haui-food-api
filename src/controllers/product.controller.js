@@ -4,9 +4,10 @@ const response = require('../utils/response');
 const catchAsync = require('../utils/catchAsync');
 const { productService } = require('../services');
 const { productMessage } = require('../messages');
+const { REQUEST_USER_KEY } = require('../constants');
 
 const createProduct = catchAsync(async (req, res) => {
-  req.body.shopId = req.user.id;
+  req.body.shopId = req[REQUEST_USER_KEY].id;
   const product = await productService.createProduct(req.body);
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, productMessage().CREATE_SUCCESS, product));
 });
@@ -22,17 +23,17 @@ const getProductById = catchAsync(async (req, res) => {
 });
 
 const getMyProducts = catchAsync(async (req, res) => {
-  const products = await productService.getMyProducts(req.user.id);
+  const products = await productService.getMyProducts(req[REQUEST_USER_KEY].id);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
 
 const updateProduct = catchAsync(async (req, res) => {
-  const product = await productService.updateProductById(req.params.productId, req.body, req.user.id);
+  const product = await productService.updateProductById(req.params.productId, req.body, req[REQUEST_USER_KEY].id);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().UPDATE_SUCCESS, product));
 });
 
 const deleteProduct = catchAsync(async (req, res) => {
-  const result = await productService.deleteProductById(req.params.productId, req.user.id);
+  const result = await productService.deleteProductById(req.params.productId, req[REQUEST_USER_KEY].id);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().DELETE_SUCCESS, result));
 });
 

@@ -1,8 +1,10 @@
 const httpStatus = require('http-status');
+
 const response = require('../utils/response');
-const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
 const { userMessage } = require('../messages');
+const catchAsync = require('../utils/catchAsync');
+const { REQUEST_USER_KEY } = require('../constants');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -15,7 +17,7 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const getUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId || req.user.id);
+  const user = await userService.getUserById(req.params.userId || req[REQUEST_USER_KEY].id);
   res.status(httpStatus.OK).json(response(httpStatus.OK, userMessage().FIND_SUCCESS, user));
 });
 
