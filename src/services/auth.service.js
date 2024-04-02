@@ -46,10 +46,10 @@ const refreshToken = async (refreshToken) => {
   }
   const user = await userService.getUserById(payload.id);
   if (!user) {
-    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
   }
   if (user.isLocked) {
-    throw new ApiError(httpStatus.BAD_REQUEST, userMessage().USER_LOCKED);
+    throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
   }
   const accessToken = generateToken('access', { id: user.id, email: user.email, role: user.role });
   return { accessToken };
