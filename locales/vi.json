@@ -1,6 +1,7 @@
 {
   "system": {
-    "resourceNotFound": "Không tìm thấy tài nguyên"
+    "resourceNotFound": "Không tìm thấy tài nguyên",
+    "emailFrom": "Hệ thống đặt đồ ăn HaUI Food"
   },
   "user": {
     "notFound": "Không tìm thấy người dùng",

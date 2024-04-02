@@ -1,6 +1,7 @@
 {
   "system": {
-    "resourceNotFound": "Resource not found"
+    "resourceNotFound": "Resource not found",
+    "emailFrom": "HaUI Food food ordering system"
   },
   "user": {
     "notFound": "User not found",
