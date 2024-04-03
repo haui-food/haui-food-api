@@ -20,7 +20,7 @@ const getProductById = async (id) => {
 
 const getProductsByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Product);
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description', 'slug']);
   return { products: results, ...detailResult };
 };
 

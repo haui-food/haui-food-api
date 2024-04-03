@@ -26,7 +26,7 @@ const createCategory = async (categoryBody) => {
 
 const getCategoriesByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Category);
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'slug']);
   return { categories: results, ...detailResult };
 };
 

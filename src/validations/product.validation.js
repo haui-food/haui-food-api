@@ -24,6 +24,8 @@ const getProducts = {
     price: Joi.string().allow(null, ''),
     description: Joi.string().allow(null, ''),
     image: Joi.string().allow(null, ''),
+    slug: Joi.string().allow(null, ''),
+    populate: Joi.string().allow(null, ''),
   }),
 };
 
