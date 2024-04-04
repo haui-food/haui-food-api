@@ -14,6 +14,7 @@ const createUser = {
     address: Joi.string().allow(null, ''),
     avatar: Joi.string().allow(null, ''),
     gender: Joi.string().allow('male', 'female', ''),
+    avatar: Joi.string(),
   }),
 };
 
@@ -57,6 +58,7 @@ const updateUser = {
       address: Joi.string().allow(null, ''),
       avatar: Joi.string().allow(null, ''),
       gender: Joi.string().allow('male', 'female', ''),
+      avatar: Joi.string(),
     })
     .min(1),
 };

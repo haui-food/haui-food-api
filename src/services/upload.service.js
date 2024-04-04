@@ -24,7 +24,7 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const uploadService = multer({
+const uploadImage = multer({
   storage,
   fileFilter: function (req, file, cb) {
     const allowedMimeTypes = env.image.typeAllow;
@@ -37,4 +37,4 @@ const uploadService = multer({
   limits: { fileSize: env.image.maxFileSize },
 });
 
-module.exports = { uploadService };
+module.exports = { uploadImage };

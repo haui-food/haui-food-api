@@ -7,6 +7,7 @@ const catchAsync = require('../utils/catchAsync');
 const { REQUEST_USER_KEY } = require('../constants');
 
 const createUser = catchAsync(async (req, res) => {
+  if (req.file) req.body['avatar'] = req.file.path;
   const user = await userService.createUser(req.body);
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, userMessage().CREATE_SUCCESS, user));
 });
@@ -22,6 +23,7 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
+  if (req.file) req.body['avatar'] = req.file.path;
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.status(httpStatus.OK).json(response(httpStatus.OK, userMessage().UPDATE_SUCCESS, user));
 });
