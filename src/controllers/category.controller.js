@@ -29,10 +29,20 @@ const deleteCategory = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().DELETE_SUCCESS, category));
 });
 
+const exportExcel = catchAsync(async (req, res) => {
+  const wb = await categoryService.exportExcel(req.query);
+  wb.writeToBuffer().then((buffer) => {
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=' + `categories-hauifood.com-${Date.now()}.xlsx`);
+    res.send(buffer);
+  });
+});
+
 module.exports = {
   createCategory,
   getCategories,
   getCategoryById,
   updateCategory,
   deleteCategory,
+  exportExcel,
 };
