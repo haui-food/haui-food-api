@@ -35,6 +35,7 @@ const updateMe = {
       fullname: Joi.string().optional().custom(fullname),
       dateOfBirth: Joi.date().allow(null, '').less('now'),
       gender: Joi.string().allow('male', 'female', ''),
+      avatar: Joi.string(),
     })
     .min(1),
 };

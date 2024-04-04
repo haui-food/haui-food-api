@@ -33,6 +33,7 @@ const getMe = catchAsync(async (req, res) => {
 });
 
 const updateMe = catchAsync(async (req, res) => {
+  if (req.file) req.body['avatar'] = req.file.path;
   const user = await userService.updateUserById(req[REQUEST_USER_KEY].id, req.body);
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().UPDATE_ME_SUCCESS, user));
 });

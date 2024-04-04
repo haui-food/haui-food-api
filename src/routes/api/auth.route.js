@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { uploadService } = require('../../services');
 const { authController } = require('../../controllers');
 const { authValidation } = require('../../validations');
 const { auth } = require('../../middlewares/auth.middleware');
@@ -11,7 +12,7 @@ const authRouter = express.Router();
 authRouter
   .route('/me')
   .get(auth, authController.getMe)
-  .put(auth, validate(authValidation.updateMe), authController.updateMe);
+  .put(auth, uploadService.uploadImage.single('avatar'), validate(authValidation.updateMe), authController.updateMe);
 
 authRouter.use(rateLimitAuth);
 
