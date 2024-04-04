@@ -2,7 +2,9 @@
   "system": {
     "resourceNotFound": "Không tìm thấy tài nguyên",
     "emailFrom": "Hệ thống đặt đồ ăn HaUI Food",
-    "manyRequests": "Gửi quá nhiều yêu cầu, vui lòng thử lại sau một thời gian"
+    "manyRequests": "Gửi quá nhiều yêu cầu, vui lòng thử lại sau một thời gian",
+    "imageInvalid": "Định dạng hình ảnh không hỗ trợ",
+    "imageMaxSize": "Hình ảnh có dung lượng quá lớn, vui lòng chọn lại"
   },
   "user": {
     "notFound": "Không tìm thấy người dùng",
