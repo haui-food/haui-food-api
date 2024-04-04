@@ -12,7 +12,7 @@ productRouter
   .get(validate(productValidation.getProducts), productController.getProducts)
   .post(auth, authorize('shop'), validate(productValidation.createProduct), productController.createProduct);
 
-productRouter.route('/export').get(validate(productValidation.getProducts), productController.exportExcel);
+productRouter.route('/exports').get(validate(productValidation.getProducts), productController.exportExcel);
 
 productRouter
   .route('/me')

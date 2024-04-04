@@ -102,8 +102,8 @@ const exportExcel = async (query) => {
     ws.cell(index + 2, 4).string(product.description);
     ws.cell(index + 2, 5).number(product.price);
     ws.cell(index + 2, 6).string(product.image);
-    ws.cell(index + 2, 7).string(product.shopId);
-    ws.cell(index + 2, 8).number(product.categoryId);
+    ws.cell(index + 2, 7).string(product.shopId.toString());
+    ws.cell(index + 2, 8).string(product.categoryId.toString());
     ws.cell(index + 2, 9).string(moment(product.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
     ws.cell(index + 2, 10).string(moment(product.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
   });
