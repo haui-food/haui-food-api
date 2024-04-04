@@ -19,7 +19,9 @@ categoryRouter
     categoryController.createCategory,
   );
 
-categoryRouter.route('/exports').get(validate(categoryValidation.getCategories), categoryController.exportExcel);
+categoryRouter
+  .route('/exports')
+  .get(auth, authorize('admin'), validate(categoryValidation.getCategories), categoryController.exportExcel);
 
 categoryRouter
   .route('/:categoryId')
