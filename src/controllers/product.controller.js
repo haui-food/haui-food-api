@@ -8,6 +8,7 @@ const { REQUEST_USER_KEY } = require('../constants');
 
 const createProduct = catchAsync(async (req, res) => {
   req.body.shopId = req[REQUEST_USER_KEY].id;
+  if (req.file) req.body['image'] = req.file.path;
   const product = await productService.createProduct(req.body);
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, productMessage().CREATE_SUCCESS, product));
 });
@@ -28,6 +29,7 @@ const getMyProducts = catchAsync(async (req, res) => {
 });
 
 const updateProduct = catchAsync(async (req, res) => {
+  if (req.file) req.body['image'] = req.file.path;
   const product = await productService.updateProductById(req.params.productId, req.body, req[REQUEST_USER_KEY].id);
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().UPDATE_SUCCESS, product));
 });

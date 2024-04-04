@@ -4,7 +4,7 @@ const { objectId } = require('./custom.validation');
 const createProduct = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    image: Joi.string().allow(null, ''),
+    image: Joi.string(),
     description: Joi.string().allow(null, ''),
     price: Joi.number().required(),
     categoryId: Joi.string().custom(objectId),
@@ -23,7 +23,6 @@ const getProducts = {
     name: Joi.string().allow(null, ''),
     price: Joi.string().allow(null, ''),
     description: Joi.string().allow(null, ''),
-    image: Joi.string().allow(null, ''),
     slug: Joi.string().allow(null, ''),
     populate: Joi.string().allow(null, ''),
   }),
@@ -39,15 +38,13 @@ const updateProduct = {
   params: Joi.object().keys({
     productId: Joi.string().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      name: Joi.string().required(),
-      image: Joi.string().allow(null, ''),
-      description: Joi.string().allow(null, ''),
-      price: Joi.number().required(),
-      categoryId: Joi.string().custom(objectId),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    name: Joi.string(),
+    image: Joi.string(),
+    description: Joi.string().allow(null, ''),
+    price: Joi.number(),
+    categoryId: Joi.string().custom(objectId),
+  }),
 };
 
 const deleteProuduct = {

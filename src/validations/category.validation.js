@@ -30,12 +30,10 @@ const updateCategory = {
   params: Joi.object().keys({
     categoryId: Joi.string().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      name: Joi.string().required(),
-      image: Joi.string(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    name: Joi.string(),
+    image: Joi.string(),
+  }),
 };
 
 const deleteCategory = {

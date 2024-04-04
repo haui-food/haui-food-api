@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { uploadService } = require('../../services');
 const { productController } = require('../../controllers');
 const { productValidation } = require('../../validations');
 const validate = require('../../middlewares/validate.middleware');
@@ -10,7 +11,13 @@ const productRouter = express.Router();
 productRouter
   .route('/')
   .get(validate(productValidation.getProducts), productController.getProducts)
-  .post(auth, authorize('shop'), validate(productValidation.createProduct), productController.createProduct);
+  .post(
+    auth,
+    authorize('shop'),
+    uploadService.uploadImage.single('image'),
+    validate(productValidation.createProduct),
+    productController.createProduct,
+  );
 
 productRouter
   .route('/me')
@@ -19,7 +26,13 @@ productRouter
 productRouter
   .route('/:productId')
   .get(validate(productValidation.getProduct), productController.getProductById)
-  .put(auth, authorize('shop'), validate(productValidation.updateProduct), productController.updateProduct)
+  .put(
+    auth,
+    // authorize('shop'),
+    uploadService.uploadImage.single('image'),
+    validate(productValidation.updateProduct),
+    productController.updateProduct,
+  )
   .delete(auth, authorize('shop'), validate(productValidation.deleteProuduct), productController.deleteProduct);
 
 module.exports = productRouter;
