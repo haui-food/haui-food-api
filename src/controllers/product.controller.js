@@ -39,6 +39,15 @@ const deleteProduct = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().DELETE_SUCCESS, result));
 });
 
+const exportExcel = catchAsync(async (req, res) => {
+  const wb = await productService.exportExcel(req.query);
+  wb.writeToBuffer().then((buffer) => {
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=' + `products-hauifood.com-${Date.now()}.xlsx`);
+    res.send(buffer);
+  });
+});
+
 module.exports = {
   createProduct,
   getProducts,
@@ -46,4 +55,5 @@ module.exports = {
   getMyProducts,
   updateProduct,
   deleteProduct,
+  exportExcel,
 };

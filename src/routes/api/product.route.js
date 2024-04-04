@@ -19,6 +19,8 @@ productRouter
     productController.createProduct,
   );
 
+productRouter.route('/exports').get(validate(productValidation.getProducts), productController.exportExcel);
+
 productRouter
   .route('/me')
   .get(auth, authorize('shop'), validate(productValidation.getProducts), productController.getMyProducts);
