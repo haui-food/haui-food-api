@@ -5,6 +5,7 @@ const { categoryService } = require('../services');
 const { categoryMessage } = require('../messages');
 
 const createCategory = catchAsync(async (req, res) => {
+  if (req.file) req.body['image'] = req.file.path;
   const category = await categoryService.createCategory(req.body);
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, categoryMessage().CREATE_SUCCESS, category));
 });
@@ -20,6 +21,7 @@ const getCategoryById = catchAsync(async (req, res) => {
 });
 
 const updateCategory = catchAsync(async (req, res) => {
+  if (req.file) req.body['image'] = req.file.path;
   const category = await categoryService.updateCategoryById(req.params.categoryId, req.body);
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().UPDATE_SUCCESS, category));
 });

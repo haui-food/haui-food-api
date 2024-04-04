@@ -4,7 +4,7 @@ const { objectId } = require('./custom.validation');
 const createCateogry = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    image: Joi.string().allow(null, ''),
+    image: Joi.string(),
   }),
 };
 
@@ -16,7 +16,6 @@ const getCategories = {
     page: Joi.number().integer(),
     lang: Joi.string(),
     name: Joi.string().allow(null, ''),
-    image: Joi.string().allow(null, ''),
     slug: Joi.string().allow(null, ''),
   }),
 };
@@ -34,7 +33,7 @@ const updateCategory = {
   body: Joi.object()
     .keys({
       name: Joi.string().required(),
-      image: Joi.string().allow(null, ''),
+      image: Joi.string(),
     })
     .min(1),
 };
