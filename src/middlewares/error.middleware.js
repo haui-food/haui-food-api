@@ -3,7 +3,7 @@ const httpStatus = require('http-status');
 
 const { env, logger } = require('../config');
 const ApiError = require('../utils/ApiError');
-const authMessage = require('../messages/auth.message');
+const { systemMessage, authMessage } = require('../messages');
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
@@ -13,8 +13,13 @@ const errorConverter = (err, req, res, next) => {
     const message = error.message || httpStatus[statusCode];
     error = new ApiError(statusCode, message, false, err.stack);
   }
+
   if (error.message === 'jwt expired') {
     error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().TOKEN_EXPIRED);
+  }
+
+  if (error.message === 'File too large') {
+    error = new ApiError(httpStatus.BAD_REQUEST, systemMessage().IMAGE_MAX_SIZE);
   }
   next(error);
 };
