@@ -11,12 +11,14 @@ const apiRoute = require('./routes/api');
 const { userService } = require('./services');
 const baseRouter = require('./routes/base.route');
 const { env, logger, morgan, i18nService } = require('./config');
+const { rateLimitApp } = require('./middlewares/rate-limit.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
 
 const app = express();
 
 app.set('trust proxy', 1);
 
+app.use(rateLimitApp);
 app.use(helmet());
 
 app.use(express.json());

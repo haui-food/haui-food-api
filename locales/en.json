@@ -1,7 +1,8 @@
 {
   "system": {
     "resourceNotFound": "Resource not found",
-    "emailFrom": "HaUI Food food ordering system"
+    "emailFrom": "HaUI Food food ordering system",
+    "manyRequests": "Too many requests, please try again later"
   },
   "user": {
     "notFound": "User not found",

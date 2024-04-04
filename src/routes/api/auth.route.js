@@ -4,6 +4,7 @@ const { authController } = require('../../controllers');
 const { authValidation } = require('../../validations');
 const { auth } = require('../../middlewares/auth.middleware');
 const validate = require('../../middlewares/validate.middleware');
+const { rateLimitAuth } = require('../../middlewares/rate-limit.middleware');
 
 const authRouter = express.Router();
 
@@ -11,6 +12,8 @@ authRouter
   .route('/me')
   .get(auth, authController.getMe)
   .put(auth, validate(authValidation.updateMe), authController.updateMe);
+
+authRouter.use(rateLimitAuth);
 
 authRouter.route('/login').post(validate(authValidation.login), authController.login);
 
