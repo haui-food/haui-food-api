@@ -1,4 +1,3 @@
-const slug = require('slug');
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
