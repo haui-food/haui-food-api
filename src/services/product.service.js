@@ -1,10 +1,12 @@
-const httpStatus = require('http-status');
 const moment = require('moment');
 const excel4node = require('excel4node');
+const httpStatus = require('http-status');
 
 const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
 const ApiFeature = require('../utils/ApiFeature');
+const cacheService = require('../services/cache.service');
+const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
 
 const createProduct = async (productBody) => {
@@ -21,8 +23,14 @@ const getProductById = async (id) => {
 };
 
 const getProductsByKeyword = async (query) => {
+  const key = objectToString(query);
+  const productsCache = cacheService.get(key);
+  if (productsCache) return productsCache;
+
   const apiFeature = new ApiFeature(Product);
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description', 'slug']);
+  cacheService.set(key, { products: results, ...detailResult });
+
   return { products: results, ...detailResult };
 };
 
