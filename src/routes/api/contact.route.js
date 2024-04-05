@@ -12,6 +12,10 @@ contactRouter
   .post(validate(contactValidation.createContact), contactController.createContact);
 
 contactRouter
+  .route('/exports')
+  .get(auth, authorize('admin'), validate(contactValidation.getContacts), contactController.exportExcel);
+
+contactRouter
   .route('/:contactId')
   .get(auth, authorize('admin'), validate(contactValidation.getContact), contactController.getContact)
   .delete(auth, authorize('admin'), validate(contactValidation.deleteContact), contactController.deleteContact);

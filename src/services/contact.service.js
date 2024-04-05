@@ -1,3 +1,5 @@
+const moment = require('moment');
+const excel4node = require('excel4node');
 const httpStatus = require('http-status');
 
 const { Contact } = require('../models');
@@ -35,10 +37,61 @@ const deleteContactById = async (contactId) => {
   return contact;
 };
 
+const exportExcel = async (query) => {
+  const apiFeature = new ApiFeature(Contact);
+  query.page = 1;
+  query.limit = 1000;
+  const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone', 'message']);
+  const wb = new excel4node.Workbook();
+
+  const ws = wb.addWorksheet('Contacts');
+
+  const headerStyle = wb.createStyle({
+    font: {
+      color: '#FFFFFF',
+      bold: true,
+    },
+    fill: {
+      type: 'pattern',
+      patternType: 'solid',
+      fgColor: '#1ABD76',
+    },
+  });
+
+  ws.column(1).setWidth(28);
+  ws.column(2).setWidth(23);
+  ws.column(3).setWidth(33);
+  ws.column(4).setWidth(33);
+  ws.column(5).setWidth(33);
+  ws.column(6).setWidth(25);
+  ws.column(7).setWidth(25);
+
+  ws.cell(1, 1).string('ID').style(headerStyle);
+  ws.cell(1, 2).string('FullName').style(headerStyle);
+  ws.cell(1, 3).string('Email').style(headerStyle);
+  ws.cell(1, 4).string('Phone').style(headerStyle);
+  ws.cell(1, 5).string('Message').style(headerStyle);
+  ws.cell(1, 6).string('Last acctive').style(headerStyle);
+  ws.cell(1, 7).string('Created At').style(headerStyle);
+
+  results.forEach((contact, index) => {
+    ws.cell(index + 2, 1).string(contact._id.toString());
+    ws.cell(index + 2, 2).string(contact.fullname);
+    ws.cell(index + 2, 3).string(contact.email);
+    ws.cell(index + 2, 4).string(contact.phone);
+    ws.cell(index + 2, 5).string(contact.message);
+    ws.cell(index + 2, 6).string(moment(contact.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
+    ws.cell(index + 2, 7).string(moment(contact.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
+  });
+
+  return wb;
+};
+
 module.exports = {
   getContactByEmail,
   createContact,
   getContactById,
   getContactsByKeyword,
   deleteContactById,
+  exportExcel,
 };
