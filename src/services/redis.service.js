@@ -1,53 +1,53 @@
-// const { redis } = require('../config');
+const NodeCache = require('node-cache');
 
-// const convertExToSecond = (ex) => {
-//   const type = ex.substring(ex.length - 1);
-//   const exNum = parseInt(ex.split(type)[0]);
+class CacheService {
+  constructor() {
+    this.cache = new NodeCache();
+  }
 
-//   switch (type) {
-//     case 's':
-//       return exNum;
-//     case 'm':
-//       return exNum * 60;
-//     case 'h':
-//       return exNum * 3600;
-//     default:
-//       throw new Error('Type ex not exist');
-//   }
-// };
+  set(key, value, ttl = 60) {
+    this.cache.set(key, value, ttl);
+  }
 
-// const setex = async (category, key, ex, value) => {
-//   return await redis.setEx(`${category}:${key}`, convertExToSecond(ex), JSON.stringify(value));
-// };
+  mset(data) {
+    this.cache.mset(data);
+  }
 
-// const get = async (category, key) => {
-//   return await redis.get(`${category}:${key}`);
-// };
+  del(key) {
+    this.cache.del(key);
+  }
 
-// const del = async (key) => {
-//   return await redis.del(key);
-// };
+  mdel(keys) {
+    this.cache.del(keys);
+  }
 
-// const hSet = async (key, field, value) => {
-//   await redis.hSet(key, JSON.stringify(field), JSON.stringify(value));
-//   await redis.expire(key, 10800);
-//   return true;
-// };
+  get(key) {
+    return this.cache.get(key);
+  }
 
-// const getValueByKey = async (key, cursor = 0) => {
-//   return await redis.hScan(key, cursor);
-// };
+  has(key) {
+    return this.cache.has(key);
+  }
 
-// const hGet = async (key, field) => {
-//   let result = await redis.hGet(key, JSON.stringify(field));
-//   return JSON.parse(result);
-// };
+  // take = get + del
+  take(key) {
+    return this.cache.take(key);
+  }
 
-// module.exports = {
-//   get,
-//   setex,
-//   del,
-//   hSet,
-//   hGet,
-//   getValueByKey,
-// };
+  keys() {
+    return this.cache.keys();
+  }
+
+  getAndSetTTL(key, ttl = 60) {
+    const value = this.get(key);
+    if (value) {
+      this.cache.ttl(key, ttl);
+      return value;
+    }
+    return null;
+  }
+}
+
+const cacheService = new CacheService();
+
+module.exports = cacheService;
