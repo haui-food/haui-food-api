@@ -6,6 +6,8 @@ const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
 const ApiFeature = require('../utils/ApiFeature');
 const { categoryMessage } = require('../messages');
+const cacheService = require('../services/cache.service');
+const objectToString = require('../utils/objectToString');
 
 const getCategoryById = async (id) => {
   const category = await Category.findById(id);
@@ -26,8 +28,14 @@ const createCategory = async (categoryBody) => {
 };
 
 const getCategoriesByKeyword = async (query) => {
+  const key = objectToString(query);
+  const categoriesCache = cacheService.get(key);
+  if (categoriesCache) return categoriesCache;
+
   const apiFeature = new ApiFeature(Category);
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'slug']);
+  cacheService.set(key, { categories: results, ...detailResult });
+
   return { categories: results, ...detailResult };
 };
 
