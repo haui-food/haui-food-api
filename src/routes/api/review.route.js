@@ -12,6 +12,10 @@ reviewRouter
   .post(auth, authorize('admin'), validate(reviewValidation.createReview), reviewController.createReview);
 
 reviewRouter
+  .route('/exports')
+  .get(auth, authorize('admin'), validate(reviewValidation.getReviews), reviewController.exportExcel);
+
+reviewRouter
   .route('/:reviewId')
   .get(validate(reviewValidation.getReview), reviewController.getReviewById)
   .put(auth, authorize('admin'), validate(reviewValidation.updateReview), reviewController.updateReview)
