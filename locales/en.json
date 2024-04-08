@@ -4,7 +4,9 @@
     "emailFrom": "HaUI Food food ordering system",
     "manyRequests": "Too many requests, please try again later",
     "imageInvalid": "Image format not supported",
-    "imageMaxSize": "Image size too large, please choose another one"
+    "imageMaxSize": "Image size too large, please choose another one",
+    "fileInvalid": "File format not supported",
+    "fileMaxSize": "File size too large, please choose another one"
   },
   "user": {
     "notFound": "User not found",
@@ -32,7 +34,8 @@
     "createSuccess": "New category created successfully",
     "updateSuccess": "Category updated successfully",
     "deleteSuccess": "Category deleted successfully",
-    "alreadyExists": "Category already exists"
+    "alreadyExists": "Category already exists",
+    "importSuccess": "Category imported successfully"
   },
   "auth": {
     "invalidLogin": "Invalid username or password",

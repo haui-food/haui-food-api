@@ -1,3 +1,5 @@
+const multer = require('multer');
+const upload = multer();
 const express = require('express');
 
 const { uploadService } = require('../../services');
@@ -22,6 +24,14 @@ categoryRouter
 categoryRouter
   .route('/exports')
   .get(auth, authorize('admin'), validate(categoryValidation.getCategories), categoryController.exportExcel);
+
+categoryRouter.post(
+  '/imports',
+  auth,
+  authorize('admin'),
+  upload.single('file'),
+  categoryController.importCategoriesFromExcelFile,
+);
 
 categoryRouter
   .route('/:categoryId')

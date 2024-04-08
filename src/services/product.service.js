@@ -94,12 +94,12 @@ const exportExcel = async (query) => {
 
   ws.cell(1, 1).string('ID').style(headerStyle);
   ws.cell(1, 2).string('Name').style(headerStyle);
-  ws.cell(1, 3).string('slug').style(headerStyle);
+  ws.cell(1, 3).string('Slug').style(headerStyle);
   ws.cell(1, 4).string('Description').style(headerStyle);
-  ws.cell(1, 5).string('price').style(headerStyle);
-  ws.cell(1, 6).string('image').style(headerStyle);
-  ws.cell(1, 7).string('shopId').style(headerStyle);
-  ws.cell(1, 8).string('categoryId').style(headerStyle);
+  ws.cell(1, 5).string('Price').style(headerStyle);
+  ws.cell(1, 6).string('Image').style(headerStyle);
+  ws.cell(1, 7).string('ShopId').style(headerStyle);
+  ws.cell(1, 8).string('CategoryId').style(headerStyle);
   ws.cell(1, 9).string('Last acctive').style(headerStyle);
   ws.cell(1, 10).string('Created At').style(headerStyle);
 

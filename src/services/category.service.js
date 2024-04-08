@@ -1,6 +1,7 @@
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
+const excelToJson = require('convert-excel-to-json');
 
 const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
@@ -81,7 +82,7 @@ const exportExcel = async (query) => {
 
   ws.cell(1, 1).string('ID').style(headerStyle);
   ws.cell(1, 2).string('Name').style(headerStyle);
-  ws.cell(1, 3).string('image').style(headerStyle);
+  ws.cell(1, 3).string('Image').style(headerStyle);
   ws.cell(1, 4).string('Last acctive').style(headerStyle);
   ws.cell(1, 5).string('Created At').style(headerStyle);
   results.forEach((category, index) => {
@@ -95,6 +96,26 @@ const exportExcel = async (query) => {
   return wb;
 };
 
+const importCategoriesFromExcelFile = async (file) => {
+  const fileBuffer = file.buffer;
+
+  let categories = [];
+  const result = excelToJson({ source: fileBuffer });
+
+  const rows = result[Object.keys(result)[0]];
+
+  rows.shift();
+
+  for (let row of rows) {
+    categories.push({
+      name: row['B'],
+      image: row['C'],
+    });
+  }
+  await Category.insertMany(categories);
+  return categories;
+};
+
 module.exports = {
   getCategoryById,
   createCategory,
@@ -102,4 +123,5 @@ module.exports = {
   updateCategoryById,
   deleteCategoryById,
   exportExcel,
+  importCategoriesFromExcelFile,
 };
