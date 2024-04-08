@@ -19,6 +19,7 @@
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.3",
     "compression": "^1.7.4",
+    "convert-excel-to-json": "^1.7.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -42,7 +43,6 @@
     "slug": "^9.0.0",
     "stream": "^0.0.2",
     "winston": "^3.12.0",
-    "xlsx-populate": "^1.21.0",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {

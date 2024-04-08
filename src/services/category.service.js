@@ -1,7 +1,7 @@
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
-const xlsxPopulate = require('xlsx-populate');
+const excelToJson = require('convert-excel-to-json');
 
 const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
@@ -100,16 +100,16 @@ const importCategoriesFromExcelFile = async (file) => {
   const fileBuffer = file.buffer;
 
   let categories = [];
-  const workbook = await xlsxPopulate.fromDataAsync(fileBuffer);
-  const sheet = workbook.sheet(0);
-  const rows = sheet.usedRange().value();
+  const result = excelToJson({ source: fileBuffer });
+
+  const rows = result[Object.keys(result)[0]];
 
   rows.shift();
 
   for (let row of rows) {
     categories.push({
-      name: row[1],
-      image: row[2],
+      name: row['B'],
+      image: row['C'],
     });
   }
   await Category.insertMany(categories);

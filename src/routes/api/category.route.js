@@ -27,8 +27,8 @@ categoryRouter
 
 categoryRouter.post(
   '/imports',
-  // auth,
-  // authorize('admin'),
+  auth,
+  authorize('admin'),
   upload.single('file'),
   categoryController.importCategoriesFromExcelFile,
 );
