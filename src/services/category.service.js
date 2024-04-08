@@ -115,6 +115,7 @@ const importCategoriesFromExcelFile = async (file) => {
   await Category.insertMany(categories);
   return categories;
 };
+
 module.exports = {
   getCategoryById,
   createCategory,
