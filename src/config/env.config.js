@@ -42,6 +42,11 @@ const env = {
     typeAllow: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
     maxFileSize: (process.env.MAX_FILE_SIZE_IMAGE_MB || 3) * 1024 * 1024,
   },
+  file: {
+    folderName: 'haui-food-file',
+    typeAllow: ['.xlsx'],
+    maxFileSize: (process.env.MAX_FILE_SIZE_FILE_MB || 5) * 1024 * 1024,
+  },
 };
 
 module.exports = env;

@@ -1,6 +1,9 @@
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
+const axios = require('axios');
+const XLSX = require('xlsx');
+const util = require('util');
 
 const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
@@ -95,6 +98,25 @@ const exportExcel = async (query) => {
   return wb;
 };
 
+const importCategoriesFromExcelFile = async (fileUrl) => {
+  let categories = [];
+  const response = await axios.get(fileUrl, { responseType: 'arraybuffer' });
+  const workbook = XLSX.read(response.data, { type: 'buffer' });
+  const sheetNameList = workbook.SheetNames;
+  const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNameList[0]]);
+
+  for (let row of rows) {
+    const category = new Category({
+      name: row['Name'],
+      image: row['Image'],
+      slug: row['Slug'],
+    });
+    await category.save();
+    categories.push(category);
+  }
+
+  return categories;
+};
 module.exports = {
   getCategoryById,
   createCategory,
@@ -102,4 +124,5 @@ module.exports = {
   updateCategoryById,
   deleteCategoryById,
   exportExcel,
+  importCategoriesFromExcelFile,
 };

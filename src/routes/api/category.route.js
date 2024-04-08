@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { uploadService } = require('../../services');
+const { uploadService, uploadFileService } = require('../../services');
 const { categoryController } = require('../../controllers');
 const { categoryValidation } = require('../../validations');
 const validate = require('../../middlewares/validate.middleware');
@@ -18,10 +18,19 @@ categoryRouter
     validate(categoryValidation.createCateogry),
     categoryController.createCategory,
   );
+//
 
 categoryRouter
   .route('/exports')
   .get(auth, authorize('admin'), validate(categoryValidation.getCategories), categoryController.exportExcel);
+
+categoryRouter.post(
+  '/imports',
+  auth,
+  authorize('admin'),
+  uploadFileService.uploadFile.single('file'),
+  categoryController.importCategoriesFromExcelFile,
+);
 
 categoryRouter
   .route('/:categoryId')
