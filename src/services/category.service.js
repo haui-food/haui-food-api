@@ -1,9 +1,7 @@
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
-const axios = require('axios');
-const XLSX = require('xlsx');
-const util = require('util');
+const xlsxPopulate = require('xlsx-populate');
 
 const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
@@ -84,7 +82,7 @@ const exportExcel = async (query) => {
 
   ws.cell(1, 1).string('ID').style(headerStyle);
   ws.cell(1, 2).string('Name').style(headerStyle);
-  ws.cell(1, 3).string('image').style(headerStyle);
+  ws.cell(1, 3).string('Image').style(headerStyle);
   ws.cell(1, 4).string('Last acctive').style(headerStyle);
   ws.cell(1, 5).string('Created At').style(headerStyle);
   results.forEach((category, index) => {
@@ -98,23 +96,23 @@ const exportExcel = async (query) => {
   return wb;
 };
 
-const importCategoriesFromExcelFile = async (fileUrl) => {
+const importCategoriesFromExcelFile = async (file) => {
+  const fileBuffer = file.buffer;
+
   let categories = [];
-  const response = await axios.get(fileUrl, { responseType: 'arraybuffer' });
-  const workbook = XLSX.read(response.data, { type: 'buffer' });
-  const sheetNameList = workbook.SheetNames;
-  const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNameList[0]]);
+  const workbook = await xlsxPopulate.fromDataAsync(fileBuffer);
+  const sheet = workbook.sheet(0);
+  const rows = sheet.usedRange().value();
+
+  rows.shift();
 
   for (let row of rows) {
-    const category = new Category({
-      name: row['Name'],
-      image: row['Image'],
-      slug: row['Slug'],
+    categories.push({
+      name: row[1],
+      image: row[2],
     });
-    await category.save();
-    categories.push(category);
   }
-
+  await Category.insertMany(categories);
   return categories;
 };
 module.exports = {

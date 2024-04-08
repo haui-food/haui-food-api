@@ -41,7 +41,7 @@ const exportExcel = catchAsync(async (req, res) => {
 });
 
 const importCategoriesFromExcelFile = catchAsync(async (req, res) => {
-  const categories = await categoryService.importCategoriesFromExcelFile(req.file.path);
+  const categories = await categoryService.importCategoriesFromExcelFile(req.file);
   res.status(httpStatus.OK).json(response(httpStatus.OK, categoryMessage().IMPORT_SUCCESS, categories));
 });
 
