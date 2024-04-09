@@ -1,21 +1,8 @@
-const nodemailer = require('nodemailer');
-
-const { env, logger } = require('../config');
-
-const transport = nodemailer.createTransport(env.email.smtp);
-transport
-  .verify()
-  .then(() => logger.info('Connected to email server'))
-  .catch(() => logger.error('Connect to email server failed'));
+const { QUEUE_TYPES } = require('../constants');
+const rabbitService = require('./rabbitmq.service');
 
 const sendEmail = async (options) => {
-  const message = {
-    from: `no-reply <${env.email.from}>`,
-    to: options.email,
-    subject: options.subject,
-    html: options.html,
-  };
-  await transport.sendMail(message);
+  await rabbitService.sendQueue(QUEUE_TYPES.EMAIL_QUEUE, options);
 };
 
 module.exports = {

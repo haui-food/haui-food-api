@@ -12,6 +12,10 @@ const PATH_API_DEFAULT = '/api/v1';
 
 const TIME_CACHE_DEFAULT = 60;
 
+const QUEUE_TYPES = {
+  EMAIL_QUEUE: 'email_queue',
+};
+
 module.exports = {
   LANGUAGE_DEFAULT,
   LOCALES,
@@ -20,4 +24,5 @@ module.exports = {
   REQUEST_USER_KEY,
   PATH_API_DEFAULT,
   TIME_CACHE_DEFAULT,
+  QUEUE_TYPES,
 };
