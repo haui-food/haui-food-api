@@ -4,6 +4,7 @@ const env = {
   port: process.env.PORT || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
   mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/haui-food-api',
+  rabbitmqURI: process.env.RABBITMQ_URI,
   admin: {
     email: process.env.ADMIN_EMAIL || 'admin@haui-food.com',
     password: process.env.ADMIN_PASSWORD || 'admin@12345',
