@@ -4,7 +4,7 @@ class ApiFeature {
   }
 
   async getResults(query, fieldsRegex, fieldsExclude = ['password', '__v']) {
-    const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc', lang, ...queryObj } = query;
+    const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc', ...queryObj } = query;
 
     const object = Object.fromEntries(
       Object.entries(queryObj).map(([key, value]) => {

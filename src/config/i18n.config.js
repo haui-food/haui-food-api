@@ -24,6 +24,9 @@ class I18nService {
         : this.isValidLanguage(req.headers[HEADER_NAME])
           ? req.headers[HEADER_NAME]
           : LANGUAGE_DEFAULT;
+
+    if (req.query.lang) delete req.query.lang;
+
     i18n.setLocale(lang);
   }
 
