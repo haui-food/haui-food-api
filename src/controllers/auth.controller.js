@@ -8,7 +8,12 @@ const { authService, userService } = require('../services');
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
-  const { user, accessToken, refreshToken } = await authService.login(email, password);
+  const { user, accessToken, refreshToken, twoFaToken } = await authService.login(email, password);
+  if (user.is2FA) {
+    return res
+      .status(httpStatus.ACCEPTED)
+      .json(response(httpStatus.ACCEPTED, authMessage().PLEASE_BYPASS_2FA, { twoFaToken }));
+  }
   res
     .status(httpStatus.OK)
     .json(response(httpStatus.OK, authMessage().LOGIN_SUCCESS, { user, accessToken, refreshToken }));

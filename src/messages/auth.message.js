@@ -18,6 +18,7 @@ const authMessage = () => {
     OFF_2FA_SUCCESS: i18nService.translate('auth', 'off2FASuccess'),
     INVALID_2FA_CODE: i18nService.translate('auth', 'invalid2FACode'),
     LENGTH_CODE_VERIFY: i18nService.translate('auth', 'lengthCodeVerify'),
+    PLEASE_BYPASS_2FA: i18nService.translate('auth', 'pleaseBypass2FA'),
   };
 };
 
