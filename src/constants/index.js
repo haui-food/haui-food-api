@@ -16,6 +16,8 @@ const QUEUE_TYPES = {
   EMAIL_QUEUE: 'email_queue',
 };
 
+const CODE_VERIFY_2FA_SUCCESS = 2;
+
 module.exports = {
   LANGUAGE_DEFAULT,
   LOCALES,
@@ -25,4 +27,5 @@ module.exports = {
   PATH_API_DEFAULT,
   TIME_CACHE_DEFAULT,
   QUEUE_TYPES,
+  CODE_VERIFY_2FA_SUCCESS,
 };

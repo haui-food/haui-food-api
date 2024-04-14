@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const twoFactor = require('node-2fa');
+
+const { CODE_VERIFY_2FA_SUCCESS } = require('../constants');
 
 const userSchema = mongoose.Schema(
   {
@@ -51,6 +54,18 @@ const userSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    is2FA: {
+      type: Boolean,
+      default: false,
+    },
+    secret: {
+      type: String,
+    },
+    type2FA: {
+      type: String,
+      enum: ['authenticator', 'email'],
+      default: 'authenticator',
+    },
   },
   {
     timestamps: true,
@@ -67,12 +82,23 @@ userSchema.pre('save', async function (next) {
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }
+  if (!user.secret) {
+    const { secret } = twoFactor.generateSecret();
+    user.secret = secret;
+  }
   next();
 });
 
 userSchema.methods.isPasswordMatch = async function (password) {
   const user = this;
   return await bcrypt.compare(password, user.password);
+};
+
+userSchema.methods.is2FAMatch = async function (code) {
+  const user = this;
+  const result = twoFactor.verifyToken(user.secret, code);
+  if (!result) return false;
+  return result.delta === CODE_VERIFY_2FA_SUCCESS;
 };
 
 module.exports = mongoose.model('User', userSchema);
