@@ -24,4 +24,8 @@ authRouter.route('/refresh-tokens').post(validate(authValidation.refreshToken), 
 
 authRouter.route('/change-password').post(auth, validate(authValidation.changePassword), authController.changePassword);
 
+authRouter
+  .route('/toggle-2fa')
+  .post(auth, validate(authValidation.toggle2FA), authController.toggleTwoFactorAuthentication);
+
 module.exports = authRouter;

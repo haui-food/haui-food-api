@@ -74,9 +74,20 @@ const changePassword = async (userId, oldPassword, newPassword) => {
   return user;
 };
 
+const toggleTwoFactorAuthentication = async (userId, code = '') => {
+  const user = await userService.getUserById(userId);
+  if (!user.is2FA && !(await user.is2FAMatch(code))) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
+  }
+  user.is2FA = !user.is2FA;
+  await user.save();
+  return user;
+};
+
 module.exports = {
   login,
   register,
   refreshToken,
   changePassword,
+  toggleTwoFactorAuthentication,
 };

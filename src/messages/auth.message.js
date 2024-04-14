@@ -14,6 +14,10 @@ const authMessage = () => {
     INVALID_PASSWORD: i18nService.translate('auth', 'invalidPassword'),
     CHANGE_PASSWORD_SUCCESS: i18nService.translate('auth', 'changePasswordSuccess'),
     UPDATE_ME_SUCCESS: i18nService.translate('auth', 'updateMeSuccess'),
+    ON_2FA_SUCCESS: i18nService.translate('auth', 'on2FASuccess'),
+    OFF_2FA_SUCCESS: i18nService.translate('auth', 'off2FASuccess'),
+    INVALID_2FA_CODE: i18nService.translate('auth', 'invalid2FACode'),
+    LENGTH_CODE_VERIFY: i18nService.translate('auth', 'lengthCodeVerify'),
   };
 };
 

@@ -49,7 +49,11 @@
     "getMeSuccess": "Thông tin cá nhân của bạn",
     "invalidPassword": "Mật khẩu không chính xác",
     "changePasswordSuccess": "Đổi mật khẩu thành công",
-    "updateMeSuccess": "Cập nhật thông tin cá nhân thành công"
+    "updateMeSuccess": "Cập nhật thông tin cá nhân thành công",
+    "on2FASuccess": "Bật xác minh 2 lớp thành công",
+    "off2FASuccess": "Tắt xác minh 2 lớp thành công",
+    "invalid2FACode": "Mã xác minh không chính xác",
+    "lengthCodeVerify": "Mã xác thực cần có 6 ký tự"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

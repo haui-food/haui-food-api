@@ -61,11 +61,6 @@ const userSchema = mongoose.Schema(
     secret: {
       type: String,
     },
-    type2FA: {
-      type: String,
-      enum: ['authenticator', 'email'],
-      default: 'authenticator',
-    },
   },
   {
     timestamps: true,

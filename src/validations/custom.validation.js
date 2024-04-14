@@ -1,4 +1,4 @@
-const { userMessage, contactMessage } = require('../messages');
+const { userMessage, contactMessage, authMessage } = require('../messages');
 
 const objectId = (value, helpers) => {
   if (!value.match(/^[0-9a-fA-F]{24}$/)) {
@@ -55,6 +55,13 @@ const message = (value, helpers) => {
   return value;
 };
 
+const codeVerify = (value, helpers) => {
+  if (value.length !== 6 || !/^\d{6}$/.test(value)) {
+    return helpers.message(authMessage().LENGTH_CODE_VERIFY);
+  }
+  return value;
+};
+
 module.exports = {
   objectId,
   password,
@@ -63,4 +70,5 @@ module.exports = {
   fullname,
   phone,
   message,
+  codeVerify,
 };

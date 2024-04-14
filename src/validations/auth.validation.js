@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { password, email, fullname } = require('./custom.validation');
+const { password, email, fullname, codeVerify } = require('./custom.validation');
 
 const login = {
   body: Joi.object().keys({
@@ -40,10 +40,17 @@ const updateMe = {
     .min(1),
 };
 
+const toggle2FA = {
+  body: Joi.object().keys({
+    code: Joi.string().optional().custom(codeVerify),
+  }),
+};
+
 module.exports = {
   login,
   register,
   updateMe,
   refreshToken,
   changePassword,
+  toggle2FA,
 };
