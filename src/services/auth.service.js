@@ -4,6 +4,7 @@ const httpStatus = require('http-status');
 const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
+const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
 
 const login = async (email, password) => {
@@ -13,6 +14,10 @@ const login = async (email, password) => {
   }
   if (user.isLocked) {
     throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
+  }
+  if (user.is2FA) {
+    const twoFaToken = generateToken('twoFA', { id: user.id });
+    return { twoFaToken, user };
   }
   const accessToken = generateToken('access', { id: user.id, email, role: user.role });
   const refreshToken = generateToken('refresh', { id: user.id });
@@ -56,8 +61,7 @@ const refreshToken = async (refreshToken) => {
 };
 
 const generateToken = (type, payload) => {
-  const secret = type === 'access' ? env.jwt.secretAccess : env.jwt.secretRefresh;
-  const expiresIn = type === 'access' ? env.jwt.expiresAccessToken : env.jwt.expiresRefreshToken;
+  const { secret, expiresIn } = tokenMappings[type];
   const token = jwt.sign({ ...payload, type }, secret, {
     expiresIn,
   });

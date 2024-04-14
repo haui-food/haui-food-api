@@ -53,7 +53,8 @@
     "on2FASuccess": "Bật xác minh 2 lớp thành công",
     "off2FASuccess": "Tắt xác minh 2 lớp thành công",
     "invalid2FACode": "Mã xác minh không chính xác",
-    "lengthCodeVerify": "Mã xác thực cần có 6 ký tự"
+    "lengthCodeVerify": "Mã xác thực cần có 6 ký tự",
+    "pleaseBypass2FA": "Vui lòng xác thực 2 lớp"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

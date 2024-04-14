@@ -52,7 +52,8 @@
     "updateMeSuccess": "Update me successfully",
     "on2FASuccess": "Enabled 2-factor authentication successfully",
     "off2FASuccess": "Disabled 2-factor authentication successfully",
-    "invalid2FACode": "Invalid 2-factor authentication code"
+    "invalid2FACode": "Invalid 2-factor authentication code",
+    "pleaseBypass2FA": "Please bypass 2-factor authentication"
   },
   "product": {
     "notFound": "Product not found",

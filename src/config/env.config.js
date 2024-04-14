@@ -15,6 +15,8 @@ const env = {
     expiresAccessToken: process.env.JWT_EXPIRES_ACCESS_MINUTES + 'm' || '10m',
     secretRefresh: process.env.JWT_SECRET_REFRESH || 'secret-refresh',
     expiresRefreshToken: process.env.JWT_EXPIRES_REFRESH_MINUTES + 'm' || '1000m',
+    secret2FA: process.env.JWT_SECRET_2FA || 'secret-2fa',
+    expires2FAToken: process.env.JWT_EXPIRES_2FA_MINUTES + 'm' || '3m',
   },
   rateLimit: {
     timeApp: process.env.RATE_LIMIT_TIME_APP || 5,
