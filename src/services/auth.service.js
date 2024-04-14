@@ -13,7 +13,7 @@ const login = async (email, password) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_LOGIN);
   }
   if (user.isLocked) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
+    throw new ApiError(httpStatus.LOCKED, userMessage().USER_LOCKED);
   }
   if (user.is2FA) {
     const twoFaToken = generateToken('twoFA', { id: user.id });
