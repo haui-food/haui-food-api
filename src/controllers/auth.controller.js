@@ -64,6 +64,11 @@ const loginWith2FA = catchAsync(async (req, res) => {
     .json(response(httpStatus.OK, authMessage().LOGIN_SUCCESS, { user, accessToken, refreshToken }));
 });
 
+const generate2FASecret = catchAsync(async (req, res) => {
+  const secret = authService.generate2FASecret();
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().GENERATE_2FA_SUCCESS, { secret }));
+});
+
 module.exports = {
   getMe,
   login,
@@ -73,4 +78,5 @@ module.exports = {
   changePassword,
   toggleTwoFactorAuthentication,
   loginWith2FA,
+  generate2FASecret,
 };

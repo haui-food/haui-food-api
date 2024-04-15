@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const twoFactor = require('node-2fa');
 const httpStatus = require('http-status');
 
 const { env } = require('../config');
@@ -102,11 +103,17 @@ const loginWith2FA = async (token2FA, code) => {
   return { user, accessToken, refreshToken };
 };
 
+const generate2FASecret = () => {
+  const { secret } = twoFactor.generateSecret();
+  return secret;
+};
+
 module.exports = {
   login,
   register,
   refreshToken,
-  changePassword,
-  toggleTwoFactorAuthentication,
   loginWith2FA,
+  changePassword,
+  generate2FASecret,
+  toggleTwoFactorAuthentication,
 };
