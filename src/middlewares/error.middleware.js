@@ -15,7 +15,7 @@ const errorConverter = (err, req, res, next) => {
   }
 
   if (error.message === 'jwt expired') {
-    error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().TOKEN_EXPIRED);
+    error = new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
   }
 
   if (error.message === 'File too large') {

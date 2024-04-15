@@ -46,6 +46,13 @@ const toggle2FA = {
   }),
 };
 
+const loginWith2FA = {
+  body: Joi.object().keys({
+    code: Joi.string().custom(codeVerify),
+    token2FA: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   login,
   register,
@@ -53,4 +60,5 @@ module.exports = {
   refreshToken,
   changePassword,
   toggle2FA,
+  loginWith2FA,
 };

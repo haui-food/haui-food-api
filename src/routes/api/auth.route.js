@@ -28,4 +28,6 @@ authRouter
   .route('/toggle-2fa')
   .post(auth, validate(authValidation.toggle2FA), authController.toggleTwoFactorAuthentication);
 
+authRouter.route('/login-with-2fa').post(validate(authValidation.loginWith2FA), authController.loginWith2FA);
+
 module.exports = authRouter;

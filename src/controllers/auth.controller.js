@@ -56,6 +56,14 @@ const toggleTwoFactorAuthentication = catchAsync(async (req, res) => {
     .json(response(httpStatus.OK, user.is2FA ? authMessage().ON_2FA_SUCCESS : authMessage().OFF_2FA_SUCCESS, user));
 });
 
+const loginWith2FA = catchAsync(async (req, res) => {
+  const { token2FA, code } = req.body;
+  const { user, accessToken, refreshToken } = await authService.loginWith2FA(token2FA, code);
+  res
+    .status(httpStatus.OK)
+    .json(response(httpStatus.OK, authMessage().LOGIN_SUCCESS, { user, accessToken, refreshToken }));
+});
+
 module.exports = {
   getMe,
   login,
@@ -64,4 +72,5 @@ module.exports = {
   updateMe,
   changePassword,
   toggleTwoFactorAuthentication,
+  loginWith2FA,
 };

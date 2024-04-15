@@ -53,7 +53,8 @@
     "on2FASuccess": "Enabled 2-factor authentication successfully",
     "off2FASuccess": "Disabled 2-factor authentication successfully",
     "invalid2FACode": "Invalid 2-factor authentication code",
-    "pleaseBypass2FA": "Please bypass 2-factor authentication"
+    "pleaseBypass2FA": "Please bypass 2-factor authentication",
+    "lengthCodeVerify": "Code must be 6 digits"
   },
   "product": {
     "notFound": "Product not found",

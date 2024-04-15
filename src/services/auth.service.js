@@ -92,7 +92,7 @@ const loginWith2FA = async (token2FA, code) => {
   const payload = jwt.verify(token2FA, env.jwt.secret2FA);
   const user = await userService.getUserById(payload.id);
   if (!user || !(await user.is2FAMatch(code))) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_2FA_CODE);
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
   }
   const accessToken = generateToken('access', { id: user.id, email: user.email, role: user.role });
   const refreshToken = generateToken('refresh', { id: user.id });
