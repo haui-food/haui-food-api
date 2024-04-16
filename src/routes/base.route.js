@@ -7,6 +7,8 @@ baseRouter.get('/', baseController.getHome);
 
 baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
+baseRouter.get('/qr-code', baseController.renderQR);
+
 baseRouter.all('*', baseController.handlerNotFound);
 
 module.exports = baseRouter;
