@@ -18,6 +18,20 @@ const QUEUE_TYPES = {
 
 const CODE_VERIFY_2FA_SUCCESS = 2;
 
+const LOGO_QRCODE_NAME = 'logo-qrcode.jpg';
+
+const LOGO_SIZE = 320;
+
+const HOST_NAME = 'hauifood.com';
+
+const LOGO_MARGIN = 4;
+
+const LOGO_IMAGE_MARGIN = 7;
+
+const LOGO_DOTS_COLOR = '#101010';
+
+const LOGO_BACKGROUND_COLOR = '#e9ebee';
+
 module.exports = {
   LANGUAGE_DEFAULT,
   LOCALES,
@@ -28,4 +42,11 @@ module.exports = {
   TIME_CACHE_DEFAULT,
   QUEUE_TYPES,
   CODE_VERIFY_2FA_SUCCESS,
+  LOGO_QRCODE_NAME,
+  LOGO_SIZE,
+  HOST_NAME,
+  LOGO_MARGIN,
+  LOGO_IMAGE_MARGIN,
+  LOGO_DOTS_COLOR,
+  LOGO_BACKGROUND_COLOR,
 };
