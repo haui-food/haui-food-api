@@ -69,6 +69,12 @@ const generate2FASecret = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().GENERATE_2FA_SUCCESS, { secret }));
 });
 
+const change2FASecret = catchAsync(async (req, res) => {
+  const { secret, code } = req.body;
+  const user = await authService.change2FASecret(req[REQUEST_USER_KEY].id, secret, code);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().CHANGE_2FA_SUCCESS, user));
+});
+
 module.exports = {
   getMe,
   login,
@@ -79,4 +85,5 @@ module.exports = {
   toggleTwoFactorAuthentication,
   loginWith2FA,
   generate2FASecret,
+  change2FASecret,
 };

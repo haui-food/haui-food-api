@@ -7,6 +7,7 @@ const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
+const { CODE_VERIFY_2FA_SUCCESS } = require('../constants');
 
 const login = async (email, password) => {
   const user = await userService.getUserByEmail(email);
@@ -108,12 +109,28 @@ const generate2FASecret = () => {
   return secret;
 };
 
+const verify2FA = (secret, code) => {
+  const result = twoFactor.verifyToken(secret, code);
+  if (!result) return false;
+  return result.delta === CODE_VERIFY_2FA_SUCCESS;
+};
+
+const change2FASecret = async (userId, secret, code) => {
+  const result = verify2FA(secret, code);
+  if (!result) throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
+  const user = await userService.getUserById(userId);
+  user.secret = secret;
+  await user.save();
+  return user;
+};
+
 module.exports = {
   login,
   register,
   refreshToken,
   loginWith2FA,
   changePassword,
+  change2FASecret,
   generate2FASecret,
   toggleTwoFactorAuthentication,
 };

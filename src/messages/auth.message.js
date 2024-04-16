@@ -20,6 +20,7 @@ const authMessage = () => {
     LENGTH_CODE_VERIFY: i18nService.translate('auth', 'lengthCodeVerify'),
     PLEASE_BYPASS_2FA: i18nService.translate('auth', 'pleaseBypass2FA'),
     GENERATE_2FA_SUCCESS: i18nService.translate('auth', 'generate2FASuccess'),
+    CHANGE_2FA_SUCCESS: i18nService.translate('auth', 'change2FASuccess'),
   };
 };
 

@@ -32,4 +32,6 @@ authRouter.route('/login-with-2fa').post(validate(authValidation.loginWith2FA), 
 
 authRouter.post('/generate-2fa-secret', auth, authController.generate2FASecret);
 
+authRouter.post('/change-2fa-secret', auth, validate(authValidation.change2FASecret), authController.change2FASecret);
+
 module.exports = authRouter;
