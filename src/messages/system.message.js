@@ -9,6 +9,7 @@ const systemMessage = () => {
     IMAGE_MAX_SIZE: i18nService.translate('system', 'imageMaxSize'),
     FILE_INVALID: i18nService.translate('system', 'fileInvalid'),
     FILE_MAX_SIZE: i18nService.translate('system', 'fileMaxSize'),
+    URI_QR_INVALID: i18nService.translate('system', 'uriQRInvalid'),
   };
 };
 

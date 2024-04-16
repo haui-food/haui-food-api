@@ -1,4 +1,4 @@
-const { userMessage, contactMessage, authMessage } = require('../messages');
+const { userMessage, contactMessage, authMessage, systemMessage } = require('../messages');
 
 const objectId = (value, helpers) => {
   if (!value.match(/^[0-9a-fA-F]{24}$/)) {
@@ -62,6 +62,13 @@ const codeVerify = (value, helpers) => {
   return value;
 };
 
+const uriQRCode = (value, helpers) => {
+  if (value.length < 5 || value.length > 100) {
+    return helpers.message(systemMessage().URI_QR_INVALID);
+  }
+  return value;
+};
+
 module.exports = {
   objectId,
   password,
@@ -71,4 +78,5 @@ module.exports = {
   phone,
   message,
   codeVerify,
+  uriQRCode,
 };

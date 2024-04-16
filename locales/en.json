@@ -6,7 +6,8 @@
     "imageInvalid": "Image format not supported",
     "imageMaxSize": "Image size too large, please choose another one",
     "fileInvalid": "File format not supported",
-    "fileMaxSize": "File size too large, please choose another one"
+    "fileMaxSize": "File size too large, please choose another one",
+    "uriQRInvalid": "URI QR code format not supported"
   },
   "user": {
     "notFound": "User not found",
