@@ -12,8 +12,6 @@ baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
 baseRouter.get('/qr-code', validate(systemValidation.renderQRCode), baseController.renderQR);
 
-baseRouter.get('/logs', baseController.getLogs);
-
 baseRouter.all('*', baseController.handlerNotFound);
 
 module.exports = baseRouter;
