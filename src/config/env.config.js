@@ -3,6 +3,7 @@ require('dotenv').config();
 const env = {
   port: process.env.PORT || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
+  ipPing: process.env.IP_PING || '',
   mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/haui-food-api',
   rabbitmqURI: process.env.RABBITMQ_URI,
   admin: {

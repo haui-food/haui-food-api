@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const { env } = require('../config');
 const catchAsync = require('../utils/catchAsync');
 const getInfoClient = require('../utils/getInfoClient');
 const { LOG_DIR, LOG_FILENAME } = require('../constants');
@@ -21,9 +22,10 @@ const logUnauthenticatedRequest = catchAsync(async (req, res, next) => {
 
   const isLog = req.originalUrl.toLowerCase() === '/logs';
 
-  if (isAuth || isLog) return next();
-
   const { userIP } = getInfoClient(req);
+  const isPing = userIP === env.ipPing ? true : false;
+
+  if (isAuth || isLog || isPing) return next();
 
   const message = `${getCurrentDate()} - ${req.method} ${req.originalUrl} - Anonymous|${userIP}`;
 
