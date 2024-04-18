@@ -97,7 +97,7 @@ userSchema.methods.is2FAMatch = async function (code) {
   const user = this;
   const result = twoFactor.verifyToken(user.secret, code);
   if (!result) return false;
-  return result.delta === CODE_VERIFY_2FA_SUCCESS;
+  return CODE_VERIFY_2FA_SUCCESS.includes(result.delta);
 };
 
 module.exports = mongoose.model('User', userSchema);

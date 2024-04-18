@@ -90,25 +90,13 @@ const changePassword = async (userId, oldPassword, newPassword) => {
 };
 
 const toggleTwoFactorAuthentication = async (userId, code = '') => {
-  console.log(userId, code);
   const user = await userService.getUserById(userId);
-  // if (!user.is2FA && !(await user.is2FAMatch(code))) {
-  //   throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
-  // }
-
-  if (user.is2FA) {
-    user.is2FA = !user.is2FA;
-    await user.save();
-    return user;
-  } else {
-    const is2FAMatch = verify2FA(user.secret, code.toString());
-    if (!is2FAMatch) {
-      throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
-    }
-    user.is2FA = !user.is2FA;
-    await user.save();
-    return user;
+  if (!user.is2FA && !(await user.is2FAMatch(code))) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
   }
+  user.is2FA = !user.is2FA;
+  await user.save();
+  return user;
 };
 
 const loginWith2FA = async (token2FA, code) => {
