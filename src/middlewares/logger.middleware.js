@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 
 const catchAsync = require('../utils/catchAsync');
 const getInfoClient = require('../utils/getInfoClient');
-const { LOG_DIR, LOG_FILENAME } = require('../constants');
+const { LOG_DIR, LOG_FILENAME, REQUEST_USER_KEY } = require('../constants');
 
 const pathFileLog = path.join(__dirname, '../../', LOG_DIR, LOG_FILENAME);
 
