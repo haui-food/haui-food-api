@@ -17,7 +17,7 @@ const sendLogToFile = async (message) => {
 };
 
 const logUnauthenticatedRequest = catchAsync(async (req, res, next) => {
-  const isAuth = req[REQUEST_USER_KEY] ? true : false;
+  const isAuth = req.headers?.authorization ? true : false;
 
   if (isAuth) return next();
 
