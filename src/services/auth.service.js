@@ -90,13 +90,25 @@ const changePassword = async (userId, oldPassword, newPassword) => {
 };
 
 const toggleTwoFactorAuthentication = async (userId, code = '') => {
+  console.log(userId, code);
   const user = await userService.getUserById(userId);
-  if (!user.is2FA && !(await user.is2FAMatch(code))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
+  // if (!user.is2FA && !(await user.is2FAMatch(code))) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
+  // }
+
+  if (user.is2FA) {
+    user.is2FA = !user.is2FA;
+    await user.save();
+    return user;
+  } else {
+    const is2FAMatch = verify2FA(user.secret, code);
+    if (!is2FAMatch) {
+      throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
+    }
+    user.is2FA = !user.is2FA;
+    await user.save();
+    return user;
   }
-  user.is2FA = !user.is2FA;
-  await user.save();
-  return user;
 };
 
 const loginWith2FA = async (token2FA, code) => {
@@ -125,9 +137,12 @@ const verify2FA = (secret, code) => {
 };
 
 const change2FASecret = async (userId, secret, code) => {
+  const user = await userService.getUserById(userId);
+  if (!user.is2FA) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().DISABLE_2FA);
+  }
   const result = verify2FA(secret, code);
   if (!result) throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
-  const user = await userService.getUserById(userId);
   user.secret = secret;
   await user.save();
   return user;

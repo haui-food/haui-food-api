@@ -57,7 +57,10 @@
     "pleaseBypass2FA": "Please bypass 2-factor authentication",
     "lengthCodeVerify": "Code must be 6 digits",
     "generate2FASuccess": "Generate 2FA successfully",
-    "change2FASuccess": "Change secret 2FA successfully"
+    "change2FASuccess": "Change secret 2FA successfully",
+    "pleaseTryAgain": "Please try again in a few minutes",
+    "tokenVerifyExpired": "The confirmation time has expired, please submit a confirmation request again",
+    "notAllowedChangeSecret": "You are not allowed to change the secret key"
   },
   "product": {
     "notFound": "Product not found",
