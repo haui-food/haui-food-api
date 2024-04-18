@@ -101,7 +101,7 @@ const toggleTwoFactorAuthentication = async (userId, code = '') => {
     await user.save();
     return user;
   } else {
-    const is2FAMatch = verify2FA(user.secret, code);
+    const is2FAMatch = verify2FA(user.secret, code.toString());
     if (!is2FAMatch) {
       throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
     }
@@ -132,8 +132,9 @@ const generate2FASecret = () => {
 
 const verify2FA = (secret, code) => {
   const result = twoFactor.verifyToken(secret, code);
+  console.log(result);
   if (!result) return false;
-  return result.delta === CODE_VERIFY_2FA_SUCCESS;
+  return result.delta == CODE_VERIFY_2FA_SUCCESS;
 };
 
 const change2FASecret = async (userId, secret, code) => {
