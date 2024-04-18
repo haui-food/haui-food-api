@@ -16,7 +16,7 @@ const QUEUE_TYPES = {
   EMAIL_QUEUE: 'email_queue',
 };
 
-const CODE_VERIFY_2FA_SUCCESS = 2;
+const CODE_VERIFY_2FA_SUCCESS = [0, 2];
 
 const LOGO_QRCODE_NAME = 'logo-qrcode.jpg';
 

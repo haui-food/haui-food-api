@@ -134,7 +134,7 @@ const verify2FA = (secret, code) => {
   const result = twoFactor.verifyToken(secret, code);
   console.log(result);
   if (!result) return false;
-  return result.delta == CODE_VERIFY_2FA_SUCCESS;
+  return CODE_VERIFY_2FA_SUCCESS.includes(result.delta);
 };
 
 const change2FASecret = async (userId, secret, code) => {
