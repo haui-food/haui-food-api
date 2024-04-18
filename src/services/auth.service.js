@@ -5,6 +5,7 @@ const httpStatus = require('http-status');
 const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
+const emailService = require('./email.service');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
 const { CODE_VERIFY_2FA_SUCCESS } = require('../constants');
@@ -34,11 +35,19 @@ const register = async (fullname, email, password) => {
     fullname,
     email,
     password,
+    verifyExpireAt: Date.now() + 1000 * 60 * 5,
   };
   const user = await userService.createUser(registerData);
-  const accessToken = generateToken('access', { id: user.id, email, role: user.role });
-  const refreshToken = generateToken('refresh', { id: user.id });
-  return { user, accessToken, refreshToken };
+  const tokenVerify = generateToken('verify', { id: user.id });
+  const linkVerify = `https://api.hauifood.com/api/v1/auth/verify?token=${tokenVerify}`;
+  await emailService.sendEmail({
+    emailData: {
+      emails: email,
+      subject: '[HaUI Food] Verify your email address',
+      linkVerify,
+    },
+    type: 'verify',
+  });
 };
 
 const refreshToken = async (refreshToken) => {

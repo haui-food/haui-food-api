@@ -12,11 +12,13 @@ const env = {
   },
   jwt: {
     secretAccess: process.env.JWT_SECRET_ACCESS || 'secret-access',
-    expiresAccessToken: process.env.JWT_EXPIRES_ACCESS_MINUTES + 'm' || '10m',
+    expiresAccessToken: (process.env.JWT_EXPIRES_ACCESS_MINUTES || '10') + 'm',
     secretRefresh: process.env.JWT_SECRET_REFRESH || 'secret-refresh',
-    expiresRefreshToken: process.env.JWT_EXPIRES_REFRESH_MINUTES + 'm' || '1000m',
+    expiresRefreshToken: (process.env.JWT_EXPIRES_REFRESH_MINUTES || '1000') + 'm',
     secret2FA: process.env.JWT_SECRET_2FA || 'secret-2fa',
-    expires2FAToken: process.env.JWT_EXPIRES_2FA_MINUTES + 'm' || '3m',
+    expires2FAToken: (process.env.JWT_EXPIRES_2FA_MINUTES || '3') + 'm',
+    secretVerify: process.env.JWT_SECRET_VERIFY || 'secret-verify',
+    expiresVerify: (process.env.JWT_EXPIRES_VERIFY_MINUTES || '5') + 'm',
   },
   rateLimit: {
     timeApp: process.env.RATE_LIMIT_TIME_APP || 5,

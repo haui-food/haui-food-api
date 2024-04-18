@@ -13,6 +13,10 @@ const tokenMappings = {
     secret: env.jwt.secret2FA,
     expiresIn: env.jwt.expires2FAToken,
   },
+  verify: {
+    secret: env.jwt.secretVerify,
+    expiresIn: env.jwt.expiresVerify,
+  },
 };
 
 module.exports = tokenMappings;

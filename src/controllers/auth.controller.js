@@ -21,10 +21,8 @@ const login = catchAsync(async (req, res) => {
 
 const register = catchAsync(async (req, res) => {
   const { fullname, email, password } = req.body;
-  const { user, accessToken, refreshToken } = await authService.register(fullname, email, password);
-  res
-    .status(httpStatus.CREATED)
-    .json(response(httpStatus.CREATED, authMessage().REGISTER_SUCCESS, { user, accessToken, refreshToken }));
+  await authService.register(fullname, email, password);
+  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, authMessage().REGISTER_SUCCESS));
 });
 
 const refreshToken = catchAsync(async (req, res) => {
