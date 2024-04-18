@@ -10,6 +10,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const apiRoute = require('./routes/api');
 const { userService } = require('./services');
 const baseRouter = require('./routes/base.route');
+const initLogDirFile = require('./utils/initLogDirFile');
 const { env, logger, morgan, i18nService } = require('./config');
 const { rateLimitApp } = require('./middlewares/rate-limit.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
@@ -46,6 +47,13 @@ app.use('/', baseRouter);
 
 app.use(errorConverter);
 app.use(errorHandler);
+
+try {
+  initLogDirFile();
+  logger.info('Log directory created...');
+} catch (error) {
+  logger.error(error);
+}
 
 mongoose
   .connect(env.mongoURI)

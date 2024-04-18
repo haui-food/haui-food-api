@@ -32,6 +32,10 @@ const LOGO_DOTS_COLOR = '#101010';
 
 const LOGO_BACKGROUND_COLOR = '#e9ebee';
 
+const LOG_DIR = 'logs';
+
+const LOG_FILENAME = 'logger.log';
+
 module.exports = {
   LANGUAGE_DEFAULT,
   LOCALES,
@@ -49,4 +53,6 @@ module.exports = {
   LOGO_IMAGE_MARGIN,
   LOGO_DOTS_COLOR,
   LOGO_BACKGROUND_COLOR,
+  LOG_DIR,
+  LOG_FILENAME,
 };
