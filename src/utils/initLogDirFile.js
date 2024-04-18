@@ -3,13 +3,16 @@ const path = require('path');
 
 const { LOG_DIR, LOG_FILENAME } = require('../constants');
 
+const pathDir = path.join(__dirname, '../../', LOG_DIR);
+const pathFile = path.join(pathDir, LOG_FILENAME);
+
 const initLogDirFile = () => {
-  if (!fs.existsSync(LOG_DIR)) {
-    fs.mkdirSync(LOG_DIR);
+  if (!fs.existsSync(pathDir)) {
+    fs.mkdirSync(pathDir);
   }
 
-  if (!fs.existsSync(LOG_FILENAME)) {
-    fs.writeFileSync(path.join(LOG_DIR, LOG_FILENAME), '');
+  if (!fs.existsSync(pathFile)) {
+    fs.writeFileSync(path.join(pathFile), '');
   }
 };
 
