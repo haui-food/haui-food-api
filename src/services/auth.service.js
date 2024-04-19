@@ -127,9 +127,6 @@ const verify2FA = (secret, code) => {
 
 const change2FASecret = async (userId, secret, code) => {
   const user = await userService.getUserById(userId);
-  if (!user.is2FA) {
-    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().DISABLE_2FA);
-  }
   const result = verify2FA(secret, code);
   if (!result) throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
   user.secret = secret;
