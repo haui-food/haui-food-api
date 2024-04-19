@@ -21,6 +21,8 @@ authRouter
     authController.updateMe,
   );
 
+authRouter.post('/verify', validate(authValidation.verifyEmail), authController.verifyEmail);
+
 authRouter.use(rateLimitAuth);
 
 authRouter.route('/login').post(validate(authValidation.login), authController.login);

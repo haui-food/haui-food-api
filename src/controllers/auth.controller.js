@@ -73,10 +73,17 @@ const change2FASecret = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().CHANGE_2FA_SUCCESS, user));
 });
 
+const verifyEmail = catchAsync(async (req, res) => {
+  const { token } = req.query;
+  await authService.verifyEmail(token);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().VERIFY_EMAIL_SUCCESS));
+});
+
 module.exports = {
   getMe,
   login,
   register,
+  verifyEmail,
   refreshToken,
   updateMe,
   changePassword,

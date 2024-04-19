@@ -39,7 +39,7 @@ const register = async (fullname, email, password) => {
   };
   const user = await userService.createUser(registerData);
   const tokenVerify = generateToken('verify', { id: user.id });
-  const linkVerify = `https://api.hauifood.com/api/v1/auth/verify?token=${tokenVerify}`;
+  const linkVerify = `http://localhost:3000/api/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
       emails: email,
@@ -86,6 +86,7 @@ const changePassword = async (userId, oldPassword, newPassword) => {
   }
   user.password = newPassword;
   await user.save();
+  user.password = undefined;
   return user;
 };
 
@@ -96,6 +97,7 @@ const toggleTwoFactorAuthentication = async (userId, code = '') => {
   }
   user.is2FA = !user.is2FA;
   await user.save();
+  user.password = undefined;
   return user;
 };
 
@@ -131,12 +133,30 @@ const change2FASecret = async (userId, secret, code) => {
   if (!result) throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
   user.secret = secret;
   await user.save();
+  user.password = undefined;
+  return user;
+};
+
+const verifyEmail = async (token) => {
+  try {
+    const payload = jwt.verify(token, env.jwt.secretVerify);
+  } catch (err) {}
+  const user = await userService.getUserById(payload.id);
+  console.log(user, user.isVerify, user.verifyExpireAt);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_VERIFY_EMAIL);
+  }
+  user.isVerify = true;
+  user.verifyExpireAt = null;
+  await user.save();
+  user.password = undefined;
   return user;
 };
 
 module.exports = {
   login,
   register,
+  verifyEmail,
   refreshToken,
   loginWith2FA,
   changePassword,

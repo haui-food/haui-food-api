@@ -46,7 +46,7 @@
     "invalidToken": "Token không chính xác",
     "unauthorized": "Bạn cần đăng nhập",
     "forbidden": "Bạn không có quyền truy cập",
-    "tokenExpired": "Token đã hết hạn vui lòng login lại",
+    "tokenExpired": "Token đã hết hạn",
     "getMeSuccess": "Thông tin cá nhân của bạn",
     "invalidPassword": "Mật khẩu không chính xác",
     "changePasswordSuccess": "Đổi mật khẩu thành công",
@@ -59,7 +59,8 @@
     "generate2FASuccess": "Tạo mới thành công khoá 2FA",
     "change2FASuccess": "Đổi khoá 2FA thành công",
     "pleaseTryAgain": "Vui lòng thử lại sau ít phút",
-    "tokenVerifyExpired": "Thời gian xác nhận đã hết hạn, vui lòng gửi yêu cầu xác nhận lại"
+    "invalidTokenVerifyExpired": "Thời gian xác nhận đã hết hạn, vui lòng gửi yêu cầu xác nhận lại",
+    "verifyEmailSuccess": "Xác nhận email thành công"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

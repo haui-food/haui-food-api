@@ -46,7 +46,7 @@
     "invalidToken": "Invalid token",
     "unauthorized": "Unauthorized",
     "forbidden": "Forbidden",
-    "tokenExpired": "Token expired, please login again",
+    "tokenExpired": "Token expired",
     "getMeSuccess": "Get me successfully",
     "invalidPassword": "Invalid password",
     "changePasswordSuccess": "Change password successfully",
@@ -59,7 +59,8 @@
     "generate2FASuccess": "Generate 2FA successfully",
     "change2FASuccess": "Change secret 2FA successfully",
     "pleaseTryAgain": "Please try again in a few minutes",
-    "tokenVerifyExpired": "The confirmation time has expired, please submit a confirmation request again"
+    "invalidTokenVerifyExpired": "The confirmation time has expired, please submit a confirmation request again",
+    "verifyEmailSuccess": "Verify email successfully"
   },
   "product": {
     "notFound": "Product not found",

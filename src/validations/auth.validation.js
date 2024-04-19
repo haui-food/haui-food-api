@@ -60,6 +60,12 @@ const change2FASecret = {
   }),
 };
 
+const verifyEmail = {
+  query: Joi.object().keys({
+    token: Joi.string().required().max(255),
+  }),
+};
+
 module.exports = {
   login,
   register,
@@ -69,4 +75,5 @@ module.exports = {
   toggle2FA,
   loginWith2FA,
   change2FASecret,
+  verifyEmail,
 };

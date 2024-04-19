@@ -30,7 +30,7 @@ const LOGO_IMAGE_MARGIN = 7;
 
 const LOGO_DOTS_COLOR = '#101010';
 
-const LOGO_BACKGROUND_COLOR = '#e9ebee';
+const LOGO_BACKGROUND_COLOR = '#f6f6f6';
 
 const LOG_DIR = 'logs';
 

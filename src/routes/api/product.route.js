@@ -32,7 +32,7 @@ productRouter
   .get(validate(productValidation.getProduct), productController.getProductById)
   .put(
     auth,
-    // authorize('shop'),
+    authorize('shop'),
     uploadService.uploadImage.single('image'),
     validate(productValidation.updateProduct),
     productController.updateProduct,
