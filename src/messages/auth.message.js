@@ -21,7 +21,7 @@ const authMessage = () => {
     PLEASE_BYPASS_2FA: i18nService.translate('auth', 'pleaseBypass2FA'),
     GENERATE_2FA_SUCCESS: i18nService.translate('auth', 'generate2FASuccess'),
     CHANGE_2FA_SUCCESS: i18nService.translate('auth', 'change2FASuccess'),
-    INVALID_TOKEN_VERIFY_EMAIL: i18nService.translate('auth', 'invalidTokenVerifyEmail'),
+    INVALID_TOKEN_VERIFY_EXPIRED: i18nService.translate('auth', 'invalidTokenVerifyExpired'),
     VERIFY_EMAIL_SUCCESS: i18nService.translate('auth', 'verifyEmailSuccess'),
   };
 };

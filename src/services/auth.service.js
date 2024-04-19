@@ -9,6 +9,7 @@ const emailService = require('./email.service');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
 const { CODE_VERIFY_2FA_SUCCESS } = require('../constants');
+const { error } = require('winston');
 
 const login = async (email, password) => {
   const user = await userService.getUserByEmail(email);
@@ -35,7 +36,7 @@ const register = async (fullname, email, password) => {
     fullname,
     email,
     password,
-    verifyExpireAt: Date.now() + 1000 * 60 * 5,
+    verifyExpireAt: Date.now() + 1000 * 60 * 10,
   };
   const user = await userService.createUser(registerData);
   const tokenVerify = generateToken('verify', { id: user.id });
@@ -138,13 +139,24 @@ const change2FASecret = async (userId, secret, code) => {
 };
 
 const verifyEmail = async (token) => {
+  let payload;
   try {
-    const payload = jwt.verify(token, env.jwt.secretVerify);
-  } catch (err) {}
+    payload = jwt.verify(token, env.jwt.secretVerify);
+  } catch (err) {
+    let message = '';
+    switch (err.message) {
+      case 'jwt expired':
+        message = authMessage().INVALID_TOKEN_VERIFY_EXPIRED;
+        break;
+      default:
+        message = authMessage().INVALID_TOKEN;
+        break;
+    }
+    throw new ApiError(httpStatus.BAD_REQUEST, message);
+  }
   const user = await userService.getUserById(payload.id);
-  console.log(user, user.isVerify, user.verifyExpireAt);
-  if (!user) {
-    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_VERIFY_EMAIL);
+  if (!user || user?.isVerify) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   user.isVerify = true;
   user.verifyExpireAt = null;
