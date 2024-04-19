@@ -79,6 +79,10 @@ const verifyEmail = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().VERIFY_EMAIL_SUCCESS));
 });
 
+const renderPageVerifyEmail = catchAsync(async (req, res) => {
+  res.render('pages/verify-email');
+});
+
 module.exports = {
   getMe,
   login,
@@ -91,4 +95,5 @@ module.exports = {
   loginWith2FA,
   generate2FASecret,
   change2FASecret,
+  renderPageVerifyEmail,
 };

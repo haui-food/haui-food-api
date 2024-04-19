@@ -1,6 +1,6 @@
 const cors = require('cors');
 const xss = require('xss-clean');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
 const compression = require('compression');
@@ -19,9 +19,11 @@ const { errorConverter, errorHandler } = require('./middlewares/error.middleware
 const app = express();
 
 app.set('trust proxy', 1);
+app.set('views', 'src/views');
+app.set('view engine', 'ejs');
 
 app.use(rateLimitApp);
-app.use(helmet());
+// app.use(helmet());
 
 app.use(express.json());
 app.use(cookieParser());

@@ -40,7 +40,7 @@ const register = async (fullname, email, password) => {
   };
   const user = await userService.createUser(registerData);
   const tokenVerify = generateToken('verify', { id: user.id });
-  const linkVerify = `http://localhost:3000/api/v1/auth/verify?token=${tokenVerify}`;
+  const linkVerify = `https://api.hauifood.com/api/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
       emails: email,
