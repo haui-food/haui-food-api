@@ -7,6 +7,7 @@ module.exports.emailService = require('./email.service');
 module.exports.orderService = require('./order.service');
 module.exports.reviewService = require('./review.service');
 module.exports.uploadService = require('./upload.service');
+module.exports.cryptoService = require('./crypto.service');
 module.exports.contactService = require('./contact.service');
 module.exports.productService = require('./product.service');
 module.exports.messageService = require('./message.service');
