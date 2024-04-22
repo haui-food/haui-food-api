@@ -36,7 +36,7 @@ const register = async (fullname, email, password) => {
     fullname,
     email,
     password,
-    verifyExpireAt: Date.now() + 1000 * 60 * 10,
+    verifyExpireAt: Date.now() + 1000 * 60 * 5,
   };
   const user = await userService.createUser(registerData);
   const tokenVerify = generateToken('verify', { id: user.id });
@@ -165,6 +165,32 @@ const verifyEmail = async (token) => {
   return user;
 };
 
+const reSendEmailVerify = async (email) => {
+  const user = await userService.getUserByEmail(email);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, authMessage().INVALID_TOKEN);
+  }
+  if (user.isVerify) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_WAIT);
+  }
+  const now = Date.now();
+  if (now >= user.verifyExpireAt - 1000 * 60 * 3) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().USER_LOCKED);
+  }
+  const token = generateToken('verify', { id: user.id });
+  const linkVerify = `https://api.hauifood.com/api/v1/auth/verify?token=${token}`;
+  await emailService.sendEmail({
+    emailData: {
+      emails: email,
+      subject: '[HaUI Food] Verify your email address',
+      linkVerify,
+    },
+    type: 'verify',
+  });
+  user.verifyExpireAt = now;
+  await user.save();
+};
+
 module.exports = {
   login,
   register,
@@ -173,6 +199,7 @@ module.exports = {
   loginWith2FA,
   changePassword,
   change2FASecret,
+  reSendEmailVerify,
   generate2FASecret,
   toggleTwoFactorAuthentication,
 };

@@ -60,7 +60,8 @@
     "change2FASuccess": "Change secret 2FA successfully",
     "pleaseTryAgain": "Please try again in a few minutes",
     "invalidTokenVerifyExpired": "The confirmation time has expired, please submit a confirmation request again",
-    "verifyEmailSuccess": "Verify email successfully"
+    "verifyEmailSuccess": "Verify email successfully",
+    "pleaseWait": "Please wait a little longer"
   },
   "product": {
     "notFound": "Product not found",

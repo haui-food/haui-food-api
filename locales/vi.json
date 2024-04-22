@@ -60,7 +60,8 @@
     "change2FASuccess": "Đổi khoá 2FA thành công",
     "pleaseTryAgain": "Vui lòng thử lại sau ít phút",
     "invalidTokenVerifyExpired": "Thời gian xác nhận đã hết hạn, vui lòng gửi yêu cầu xác nhận lại",
-    "verifyEmailSuccess": "Xác nhận email thành công"
+    "verifyEmailSuccess": "Xác nhận email thành công",
+    "pleaseWait": "Vui lòng chờ thêm một chút"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

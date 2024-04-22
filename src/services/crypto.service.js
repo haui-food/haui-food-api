@@ -1,4 +1,8 @@
 const CryptoJS = require('crypto-js');
+const httpStatus = require('http-status');
+
+const ApiError = require('../utils/ApiError');
+const { authMessage } = require('../messages');
 
 const objectToString = (obj) => {
   return JSON.stringify(obj);
@@ -22,7 +26,11 @@ const encryptObj = (obj, secret) => {
 };
 
 const decryptObj = (cipherText, secret) => {
-  return stringToObject(decrypt(cipherText, secret));
+  try {
+    return stringToObject(decrypt(cipherText, secret));
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
 };
 
 module.exports = {
