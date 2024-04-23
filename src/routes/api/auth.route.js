@@ -25,6 +25,8 @@ authRouter.get('/verify', authController.renderPageVerifyEmail);
 
 authRouter.post('/verify', validate(authValidation.verifyEmail), authController.verifyEmail);
 
+authRouter.post('/resend-email-verify', validate(authValidation.verifyEmail), authController.reSendEmailVerify);
+
 authRouter.use(rateLimitAuth);
 
 authRouter.route('/login').post(validate(authValidation.login), authController.login);

@@ -1,10 +1,11 @@
 const httpStatus = require('http-status');
 
+const { env } = require('../config');
 const response = require('../utils/response');
 const { authMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
-const { REQUEST_USER_KEY } = require('../constants');
-const { authService, userService } = require('../services');
+const { REQUEST_USER_KEY, URL_HOST } = require('../constants');
+const { authService, userService, cryptoService } = require('../services');
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
@@ -75,11 +76,37 @@ const change2FASecret = catchAsync(async (req, res) => {
 
 const verifyEmail = catchAsync(async (req, res) => {
   const { token } = req.query;
-  await authService.verifyEmail(token);
+  await authService.verifyEmail(token.replaceAll(' ', '+'));
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().VERIFY_EMAIL_SUCCESS));
 });
 
+const reSendEmailVerify = catchAsync(async (req, res) => {
+  const { token } = req.query;
+  await authService.reSendEmailVerify(token.replaceAll(' ', '+'));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().RESEND_EMAIL_SUCCESS));
+});
+
 const renderPageVerifyEmail = catchAsync(async (req, res) => {
+  const { token } = req.query;
+  var payload;
+  var isExpired;
+  try {
+    var { isExpired, payload } = cryptoService.expiresCheck(
+      token.replaceAll(' ', '+'),
+      env.secret.tokenVerify,
+      1000 * 60 * 4 + 35,
+    );
+  } catch {
+    return res.redirect(`${URL_HOST.production}/not-found`);
+  }
+  const user = await userService.getUserById(payload.userId);
+  const userVerified = user?.isVerify;
+  if (userVerified) {
+    return res.redirect(`${URL_HOST.production}/auth/login`);
+  }
+  if (isExpired) {
+    return res.render('pages/resend-verify-email');
+  }
   res.render('pages/verify-email');
 });
 
@@ -87,13 +114,14 @@ module.exports = {
   getMe,
   login,
   register,
+  updateMe,
   verifyEmail,
   refreshToken,
-  updateMe,
-  changePassword,
-  toggleTwoFactorAuthentication,
   loginWith2FA,
-  generate2FASecret,
+  changePassword,
   change2FASecret,
+  generate2FASecret,
+  reSendEmailVerify,
   renderPageVerifyEmail,
+  toggleTwoFactorAuthentication,
 };

@@ -21,6 +21,10 @@ const env = {
     secretVerify: process.env.JWT_SECRET_VERIFY || 'secret-verify',
     expiresVerify: (process.env.JWT_EXPIRES_VERIFY_MINUTES || '5') + 'm',
   },
+  secret: {
+    tokenVerify: process.env.SECRET_TOKEN_VERIFY || 'secret-verify',
+    // tokenForgot: process.env.SECRET_TOKEN_FORGOT || 'secret-forgot',
+  },
   rateLimit: {
     timeApp: process.env.RATE_LIMIT_TIME_APP || 5,
     totalApp: process.env.RATE_LIMIT_TOTAL_APP || 100,

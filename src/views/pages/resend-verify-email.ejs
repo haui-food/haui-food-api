@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verify your email</title>
+    <title>Resend verify your email</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet" />
@@ -119,12 +119,11 @@
 <body>
     <div class="main">
         <form action="" class="form" id="form-verify">
-            <h3 class="heading">Xác nhận đăng ký tài khoản</h3>
+            <h3 class="heading">Gửi lại email xác nhận</h3>
             <p class="desc">
-                Chào mừng bạn đã đăng ký tài khoản! Vui lòng nhấn nút "Xác
-                thực" để hoàn tất quá trình đăng ký.
+                Liên kết xác nhận tài khoản của bạn đã <span style="color: #00ba51;">hết hạn</span>. Vui lòng chọn "Gửi lại email" đã nhận liên kết mới.
             </p>
-            <button class="form-submit">Xác thực</button>
+            <button class="form-submit">Gửi lại email</button>
             <p class="form-login">
                 Bạn đã có tài khoản
                 <a href="https://hauifood.com/auth/login" target="_blank" class="form-link">Đăng nhập</a>
@@ -167,12 +166,12 @@
                 toastr.warning('Token không hợp lệ');
                 return;
             }
-            const response = await fetch(`/api/v1/auth/verify?token=${token}`, {
+            const response = await fetch(`/api/v1/auth/resend-email-verify?token=${token}`, {
                 method: 'POST'
             })
             const data = await response.json();
             if (data.code === 200) {
-                toastr.success('Xác nhận thành công, quay sang trang chủ sau 3s');
+                toastr.success('Gửi lại email xác nhận thành công, vui lòng kiểm tra email');
                 setTimeout(() => {
                     window.location.href = 'https://hauifood.com/auth/login';
                 }, 3000);

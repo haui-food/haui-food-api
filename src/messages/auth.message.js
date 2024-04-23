@@ -24,6 +24,7 @@ const authMessage = () => {
     INVALID_TOKEN_VERIFY_EXPIRED: i18nService.translate('auth', 'invalidTokenVerifyExpired'),
     VERIFY_EMAIL_SUCCESS: i18nService.translate('auth', 'verifyEmailSuccess'),
     PLEASE_WAIT: i18nService.translate('auth', 'pleaseWait'),
+    RESEND_EMAIL_SUCCESS: i18nService.translate('auth', 'resendEmailSuccess'),
   };
 };
 

@@ -6,10 +6,15 @@ const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
 const emailService = require('./email.service');
+const cryptoService = require('./crypto.service');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
-const { CODE_VERIFY_2FA_SUCCESS } = require('../constants');
-const { error } = require('winston');
+const {
+  CODE_VERIFY_2FA_SUCCESS,
+  URL_HOST,
+  EXPIRES_TOKEN_EMAIL_VERIFY,
+  TIME_DIFF_EMAIL_VERIFY,
+} = require('../constants');
 
 const login = async (email, password) => {
   const user = await userService.getUserByEmail(email);
@@ -32,15 +37,22 @@ const login = async (email, password) => {
 };
 
 const register = async (fullname, email, password) => {
+  const expires = Date.now() + EXPIRES_TOKEN_EMAIL_VERIFY;
   const registerData = {
     fullname,
     email,
     password,
-    verifyExpireAt: Date.now() + 1000 * 60 * 5,
+    verifyExpireAt: expires,
   };
   const user = await userService.createUser(registerData);
-  const tokenVerify = generateToken('verify', { id: user.id });
-  const linkVerify = `https://api.hauifood.com/api/v1/auth/verify?token=${tokenVerify}`;
+  const tokenVerify = cryptoService.encryptObj(
+    {
+      userId: user.id,
+      expires,
+    },
+    env.secret.tokenVerify,
+  );
+  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
       emails: email,
@@ -123,7 +135,6 @@ const generate2FASecret = () => {
 
 const verify2FA = (secret, code) => {
   const result = twoFactor.verifyToken(secret, code);
-  console.log(result);
   if (!result) return false;
   return CODE_VERIFY_2FA_SUCCESS.includes(result.delta);
 };
@@ -139,23 +150,12 @@ const change2FASecret = async (userId, secret, code) => {
 };
 
 const verifyEmail = async (token) => {
-  let payload;
-  try {
-    payload = jwt.verify(token, env.jwt.secretVerify);
-  } catch (err) {
-    let message = '';
-    switch (err.message) {
-      case 'jwt expired':
-        message = authMessage().INVALID_TOKEN_VERIFY_EXPIRED;
-        break;
-      default:
-        message = authMessage().INVALID_TOKEN;
-        break;
-    }
-    throw new ApiError(httpStatus.BAD_REQUEST, message);
+  const { isExpired, payload } = cryptoService.expiresCheck(token, env.secret.tokenVerify);
+  if (isExpired) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_VERIFY_EXPIRED);
   }
-  const user = await userService.getUserById(payload.id);
-  if (!user || user?.isVerify) {
+  const user = await userService.getUserById(payload.userId);
+  if (user?.isVerify) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   user.isVerify = true;
@@ -165,29 +165,33 @@ const verifyEmail = async (token) => {
   return user;
 };
 
-const reSendEmailVerify = async (email) => {
-  const user = await userService.getUserByEmail(email);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, authMessage().INVALID_TOKEN);
-  }
-  if (user.isVerify) {
+const reSendEmailVerify = async (token) => {
+  const expires = Date.now() + EXPIRES_TOKEN_EMAIL_VERIFY;
+  const { isExpired, payload } = cryptoService.expiresCheck(token, env.secret.tokenVerify, TIME_DIFF_EMAIL_VERIFY);
+  if (!isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_WAIT);
   }
-  const now = Date.now();
-  if (now >= user.verifyExpireAt - 1000 * 60 * 3) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().USER_LOCKED);
+  const user = await userService.getUserById(payload.userId);
+  if (user.isVerify) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
-  const token = generateToken('verify', { id: user.id });
-  const linkVerify = `https://api.hauifood.com/api/v1/auth/verify?token=${token}`;
+  const tokenVerify = cryptoService.encryptObj(
+    {
+      userId: user.id,
+      expires,
+    },
+    env.secret.tokenVerify,
+  );
+  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
-      emails: email,
+      emails: user.email,
       subject: '[HaUI Food] Verify your email address',
       linkVerify,
     },
     type: 'verify',
   });
-  user.verifyExpireAt = now;
+  user.verifyExpireAt = expires;
   await user.save();
 };
 
