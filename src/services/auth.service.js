@@ -21,6 +21,9 @@ const login = async (email, password) => {
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_LOGIN);
   }
+  if (!user.isVerify) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().PLEASE_VERIFY_EMAIL);
+  }
   if (user.isLocked) {
     throw new ApiError(httpStatus.LOCKED, userMessage().USER_LOCKED);
   }

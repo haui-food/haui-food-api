@@ -62,7 +62,8 @@
     "invalidTokenVerifyExpired": "The confirmation time has expired, please submit a confirmation request again",
     "verifyEmailSuccess": "Verify email successfully",
     "pleaseWait": "Please wait a little longer",
-    "resendEmailSuccess": "Resend email successfully"
+    "resendEmailSuccess": "Resend email successfully",
+    "pleaseVerifyEmail": "Please verify your email"
   },
   "product": {
     "notFound": "Product not found",

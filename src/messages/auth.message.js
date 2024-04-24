@@ -25,6 +25,7 @@ const authMessage = () => {
     VERIFY_EMAIL_SUCCESS: i18nService.translate('auth', 'verifyEmailSuccess'),
     PLEASE_WAIT: i18nService.translate('auth', 'pleaseWait'),
     RESEND_EMAIL_SUCCESS: i18nService.translate('auth', 'resendEmailSuccess'),
+    PLEASE_VERIFY_EMAIL: i18nService.translate('auth', 'pleaseVerifyEmail'),
   };
 };
 
