@@ -37,7 +37,7 @@ const LOG_DIR = 'logs';
 const LOG_FILENAME = 'logger.log';
 
 const URL_HOST = {
-  production: 'https://hauifood.com',
+  production: 'https://api.hauifood.com',
   development: 'http://localhost:3000',
 };
 
