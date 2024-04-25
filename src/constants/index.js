@@ -45,6 +45,14 @@ const EXPIRES_TOKEN_EMAIL_VERIFY = 1000 * 60 * 10;
 
 const TIME_DIFF_EMAIL_VERIFY = 1000 * 60 * 3;
 
+const TOKEN_TYPES = {
+  ACCESS: 'access',
+  REFRESH: 'refresh',
+  TWO_FA: 'twoFA',
+  VERIFY: 'verify',
+  FOTGOT: 'forgot',
+};
+
 module.exports = {
   LOG_DIR,
   LOCALES,
@@ -52,6 +60,7 @@ module.exports = {
   LOGO_SIZE,
   HOST_NAME,
   COOKIE_NAME,
+  TOKEN_TYPES,
   HEADER_NAME,
   QUEUE_TYPES,
   LOGO_MARGIN,
