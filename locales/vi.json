@@ -142,5 +142,9 @@
   "chatBot": {
     "success": "Phản hồi thành công",
     "failed": "Phản hồi thất bại"
+  },
+  "captcha": {
+    "generateSuccess": "Tạo thành công captcha",
+    "invalidCaptcha": "Captcha chưa chính xác"
   }
 }
