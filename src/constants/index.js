@@ -57,12 +57,21 @@ const TOKEN_TYPES = {
   FOTGOT: 'forgot',
 };
 
+const EMAIL_TYPES = {
+  VERIFY: 'verify',
+  FORGOT: 'forgot-password',
+  BIRTHDAY: 'birthday',
+};
+
+const LENGTH_OTP_DEFAULT = 6;
+
 module.exports = {
   LOG_DIR,
   LOCALES,
   URL_HOST,
   LOGO_SIZE,
   HOST_NAME,
+  EMAIL_TYPES,
   COOKIE_NAME,
   TOKEN_TYPES,
   HEADER_NAME,
@@ -76,6 +85,7 @@ module.exports = {
   LOGO_QRCODE_NAME,
   LOGO_IMAGE_MARGIN,
   TIME_CACHE_DEFAULT,
+  LENGTH_OTP_DEFAULT,
   EXPIRES_TOKEN_CAPTCHA,
   LOGO_BACKGROUND_COLOR,
   TIME_DIFF_EMAIL_VERIFY,
