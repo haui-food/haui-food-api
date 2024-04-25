@@ -7,6 +7,7 @@ const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
 const emailService = require('./email.service');
 const cryptoService = require('./crypto.service');
+const generateOTP = require('../utils/generateOTP');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
 const {
@@ -218,7 +219,7 @@ const forgotPassword = async (email) => {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_VERIFY_EMAIL);
   }
   const expires = Date.now() + EXPIRES_TOKEN_FOTGOT_PASSWORD;
-  const OTPForgotPassword = '123456';
+  const OTPForgotPassword = generateOTP();
   const tokenForgot = cryptoService.encryptObj(
     {
       expires,
@@ -231,7 +232,7 @@ const forgotPassword = async (email) => {
     emailData: {
       emails: email,
       subject: '[HaUI Food] Confirm OTP Forgot Password',
-      otp: OTPForgotPassword,
+      OTPForgotPassword,
     },
     type: EMAIL_TYPES.FORGOT,
   });
