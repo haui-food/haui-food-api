@@ -135,5 +135,9 @@
     "updateSuccess": "Cập nhật đánh giá thành công",
     "deleteSuccess": "Xóa đánh giá thành công",
     "alreadyExists": "Đánh giá đã tồn tại"
+  },
+  "chatBot": {
+    "success": "Phản hồi thành công",
+    "failed": "Phản hồi thất bại"
   }
 }

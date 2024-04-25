@@ -1,14 +1,13 @@
 const express = require('express');
 
 const { chatBotConterller } = require('../../controllers');
-// const { messageValidation } = require('../../validations');
-// const { auth } = require('../../middlewares/auth.middleware');
-// const validate = require('../../middlewares/validate.middleware');
+const { chatBotValidation } = require('../../validations');
+const validate = require('../../middlewares/validate.middleware');
 
 const chatBotRouter = express.Router();
 
 chatBotRouter
   .route('/')
-  .post(chatBotConterller.chatBot);
+  .post(validate(chatBotValidation.sendMessage), chatBotConterller.chatBot);
 
 module.exports = chatBotRouter;

@@ -134,5 +134,9 @@
     "createSuccess": "Review created successfully",
     "updateSuccess": "Review updated successfully",
     "deleteSuccess": "Review deleted successfully"
+  },
+  "chatBot": {
+    "success": "Successful response",
+    "failed": "Failed response"
   }
 }
