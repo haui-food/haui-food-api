@@ -37,13 +37,21 @@ const LOG_DIR = 'logs';
 const LOG_FILENAME = 'logger.log';
 
 const URL_HOST = {
-  production: 'https://hauifood.com',
+  production: 'https://api.hauifood.com',
   development: 'http://localhost:3000',
 };
 
 const EXPIRES_TOKEN_EMAIL_VERIFY = 1000 * 60 * 10;
 
 const TIME_DIFF_EMAIL_VERIFY = 1000 * 60 * 3;
+
+const TOKEN_TYPES = {
+  ACCESS: 'access',
+  REFRESH: 'refresh',
+  TWO_FA: 'twoFA',
+  VERIFY: 'verify',
+  FOTGOT: 'forgot',
+};
 
 module.exports = {
   LOG_DIR,
@@ -52,6 +60,7 @@ module.exports = {
   LOGO_SIZE,
   HOST_NAME,
   COOKIE_NAME,
+  TOKEN_TYPES,
   HEADER_NAME,
   QUEUE_TYPES,
   LOGO_MARGIN,

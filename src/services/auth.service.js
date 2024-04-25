@@ -10,10 +10,11 @@ const cryptoService = require('./crypto.service');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
 const {
-  CODE_VERIFY_2FA_SUCCESS,
   URL_HOST,
-  EXPIRES_TOKEN_EMAIL_VERIFY,
+  TOKEN_TYPES,
   TIME_DIFF_EMAIL_VERIFY,
+  CODE_VERIFY_2FA_SUCCESS,
+  EXPIRES_TOKEN_EMAIL_VERIFY,
 } = require('../constants');
 
 const login = async (email, password) => {
@@ -21,15 +22,19 @@ const login = async (email, password) => {
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_LOGIN);
   }
+  if (!user.isVerify) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().PLEASE_VERIFY_EMAIL);
+  }
   if (user.isLocked) {
     throw new ApiError(httpStatus.LOCKED, userMessage().USER_LOCKED);
   }
   if (user.is2FA) {
-    const twoFaToken = generateToken('twoFA', { id: user.id });
+    const twoFaToken = generateToken(TOKEN_TYPES.TWO_FA, { id: user.id });
     return { twoFaToken, user };
   }
-  const accessToken = generateToken('access', { id: user.id, email, role: user.role });
-  const refreshToken = generateToken('refresh', { id: user.id });
+  const payload = { id: user.id };
+  const accessToken = generateToken(TOKEN_TYPES.ACCESS, payload);
+  const refreshToken = generateToken(TOKEN_TYPES.REFRESH, payload);
   user.lastActive = Date.now();
   await user.save();
   user.password = undefined;
@@ -47,8 +52,9 @@ const register = async (fullname, email, password) => {
   const user = await userService.createUser(registerData);
   const tokenVerify = cryptoService.encryptObj(
     {
-      userId: user.id,
       expires,
+      userId: user.id,
+      type: TOKEN_TYPES.VERIFY,
     },
     env.secret.tokenVerify,
   );
@@ -70,7 +76,7 @@ const refreshToken = async (refreshToken) => {
   } catch (err) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
-  if (!payload || payload.type !== 'refresh') {
+  if (!payload || payload.type !== TOKEN_TYPES.REFRESH) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   const user = await userService.getUserById(payload.id);
@@ -80,7 +86,8 @@ const refreshToken = async (refreshToken) => {
   if (user.isLocked) {
     throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
   }
-  const accessToken = generateToken('access', { id: user.id, email: user.email, role: user.role });
+  payload = { id: user.id };
+  const accessToken = generateToken(TOKEN_TYPES.ACCESS, payload);
   return { accessToken };
 };
 
@@ -116,12 +123,16 @@ const toggleTwoFactorAuthentication = async (userId, code = '') => {
 
 const loginWith2FA = async (token2FA, code) => {
   const payload = jwt.verify(token2FA, env.jwt.secret2FA);
+  if (!payload || payload.type !== TOKEN_TYPES.TWO_FA) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
   const user = await userService.getUserById(payload.id);
   if (!user || !(await user.is2FAMatch(code))) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_2FA_CODE);
   }
-  const accessToken = generateToken('access', { id: user.id, email: user.email, role: user.role });
-  const refreshToken = generateToken('refresh', { id: user.id });
+  const payloadData = { id: user.id };
+  const accessToken = generateToken(TOKEN_TYPES.ACCESS, payloadData);
+  const refreshToken = generateToken(TOKEN_TYPES.REFRESH, payloadData);
   user.lastActive = Date.now();
   await user.save();
   user.password = undefined;
@@ -177,8 +188,9 @@ const reSendEmailVerify = async (token) => {
   }
   const tokenVerify = cryptoService.encryptObj(
     {
-      userId: user.id,
       expires,
+      userId: user.id,
+      type: TOKEN_TYPES.VERIFY,
     },
     env.secret.tokenVerify,
   );
@@ -195,6 +207,31 @@ const reSendEmailVerify = async (token) => {
   await user.save();
 };
 
+const forgotPassword = async (email) => {
+  const user = await userService.getUserByEmail(email);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().EMAIL_NOT_EXISTS);
+  }
+  const expires = Date.now() + EXPIRES_TOKEN_EMAIL_VERIFY;
+  const tokenVerify = cryptoService.encryptObj(
+    {
+      expires,
+      userId: user.id,
+      type: TOKEN_TYPES.FOTGOT,
+    },
+    env.secret.tokenForgot,
+  );
+  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
+  await emailService.sendEmail({
+    emailData: {
+      emails: email,
+      subject: '[HaUI Food] Verify your email address',
+      linkVerify,
+    },
+    type: 'forgot',
+  });
+};
+
 module.exports = {
   login,
   register,
@@ -202,6 +239,7 @@ module.exports = {
   refreshToken,
   loginWith2FA,
   changePassword,
+  forgotPassword,
   change2FASecret,
   reSendEmailVerify,
   generate2FASecret,
