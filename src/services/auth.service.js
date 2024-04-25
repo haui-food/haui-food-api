@@ -12,6 +12,7 @@ const { userMessage, authMessage } = require('../messages');
 const {
   URL_HOST,
   TOKEN_TYPES,
+  EMAIL_TYPES,
   TIME_DIFF_EMAIL_VERIFY,
   CODE_VERIFY_2FA_SUCCESS,
   EXPIRES_TOKEN_EMAIL_VERIFY,
@@ -66,7 +67,7 @@ const register = async (fullname, email, password) => {
       subject: '[HaUI Food] Verify your email address',
       linkVerify,
     },
-    type: 'verify',
+    type: EMAIL_TYPES.VERIFY,
   });
 };
 
@@ -202,7 +203,7 @@ const reSendEmailVerify = async (token) => {
       subject: '[HaUI Food] Verify your email address',
       linkVerify,
     },
-    type: 'verify',
+    type: EMAIL_TYPES.VERIFY,
   });
   user.verifyExpireAt = expires;
   await user.save();
@@ -232,7 +233,7 @@ const forgotPassword = async (email) => {
       subject: '[HaUI Food] Confirm OTP Forgot Password',
       otp: OTPForgotPassword,
     },
-    type: 'forgot',
+    type: EMAIL_TYPES.FORGOT,
   });
   user.forgotExpireAt = expires;
   await user.save();

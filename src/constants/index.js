@@ -55,12 +55,19 @@ const TOKEN_TYPES = {
   FOTGOT: 'forgot',
 };
 
+const EMAIL_TYPES = {
+  VERIFY: 'verify',
+  FORGOT: 'forgot-password',
+  BIRTHDAY: 'birthday',
+};
+
 module.exports = {
   LOG_DIR,
   LOCALES,
   URL_HOST,
   LOGO_SIZE,
   HOST_NAME,
+  EMAIL_TYPES,
   COOKIE_NAME,
   TOKEN_TYPES,
   HEADER_NAME,
