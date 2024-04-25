@@ -14,7 +14,7 @@ const generate = () => {
       text,
       expires,
     }),
-    env.secret.tokenForgot,
+    env.secret.tokenCapcha,
   );
 
   return { sign, image };

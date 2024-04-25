@@ -25,6 +25,7 @@ const env = {
   secret: {
     tokenVerify: process.env.SECRET_TOKEN_VERIFY || 'secret-verify',
     tokenForgot: process.env.SECRET_TOKEN_FORGOT || 'secret-forgot',
+    tokenCapcha: process.env.SECRET_TOKEN_CAPCHA || 'secret-capcha',
   },
   rateLimit: {
     timeApp: process.env.RATE_LIMIT_TIME_APP || 5,
