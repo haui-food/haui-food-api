@@ -64,7 +64,8 @@
     "pleaseWait": "Please wait a little longer",
     "resendEmailSuccess": "Resend email successfully",
     "pleaseVerifyEmail": "Please verify your email",
-    "emailNotExists": "Email does not exist"
+    "emailNotExists": "Email does not exist",
+    "fotgotPasswordSuccess": "Send code to reset your password successfully"
   },
   "product": {
     "notFound": "Product not found",

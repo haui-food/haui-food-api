@@ -15,6 +15,7 @@ const {
   TIME_DIFF_EMAIL_VERIFY,
   CODE_VERIFY_2FA_SUCCESS,
   EXPIRES_TOKEN_EMAIL_VERIFY,
+  EXPIRES_TOKEN_FOTGOT_PASSWORD,
 } = require('../constants');
 
 const login = async (email, password) => {
@@ -212,8 +213,12 @@ const forgotPassword = async (email) => {
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().EMAIL_NOT_EXISTS);
   }
-  const expires = Date.now() + EXPIRES_TOKEN_EMAIL_VERIFY;
-  const tokenVerify = cryptoService.encryptObj(
+  if (!user.isVerify) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_VERIFY_EMAIL);
+  }
+  const expires = Date.now() + EXPIRES_TOKEN_FOTGOT_PASSWORD;
+  const OTPForgotPassword = '123456';
+  const tokenForgot = cryptoService.encryptObj(
     {
       expires,
       userId: user.id,
@@ -221,15 +226,17 @@ const forgotPassword = async (email) => {
     },
     env.secret.tokenForgot,
   );
-  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
       emails: email,
-      subject: '[HaUI Food] Verify your email address',
-      linkVerify,
+      subject: '[HaUI Food] Confirm OTP Forgot Password',
+      otp: OTPForgotPassword,
     },
     type: 'forgot',
   });
+  user.forgotExpireAt = expires;
+  await user.save();
+  return tokenForgot;
 };
 
 module.exports = {

@@ -64,7 +64,8 @@
     "pleaseWait": "Vui lòng chờ thêm một chút",
     "resendEmailSuccess": "Gửi email xác nhận lại thành công",
     "pleaseVerifyEmail": "Vui lòng xác nhận email",
-    "emailNotExists": "Email chưa tồn tại trên hệ thống"
+    "emailNotExists": "Email chưa tồn tại trên hệ thống",
+    "fotgotPasswordSuccess": "Gửi mã xác nhận quên mật khẩu thành công"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",
