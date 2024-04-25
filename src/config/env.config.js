@@ -24,7 +24,7 @@ const env = {
   },
   secret: {
     tokenVerify: process.env.SECRET_TOKEN_VERIFY || 'secret-verify',
-    // tokenForgot: process.env.SECRET_TOKEN_FORGOT || 'secret-forgot',
+    tokenForgot: process.env.SECRET_TOKEN_FORGOT || 'secret-forgot',
   },
   rateLimit: {
     timeApp: process.env.RATE_LIMIT_TIME_APP || 5,

@@ -207,6 +207,31 @@ const reSendEmailVerify = async (token) => {
   await user.save();
 };
 
+const forgotPassword = async (email) => {
+  const user = await userService.getUserByEmail(email);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().EMAIL_NOT_EXISTS);
+  }
+  const expires = Date.now() + EXPIRES_TOKEN_EMAIL_VERIFY;
+  const tokenVerify = cryptoService.encryptObj(
+    {
+      expires,
+      userId: user.id,
+      type: TOKEN_TYPES.FOTGOT,
+    },
+    env.secret.tokenForgot,
+  );
+  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
+  await emailService.sendEmail({
+    emailData: {
+      emails: email,
+      subject: '[HaUI Food] Verify your email address',
+      linkVerify,
+    },
+    type: 'forgot',
+  });
+};
+
 module.exports = {
   login,
   register,
@@ -214,6 +239,7 @@ module.exports = {
   refreshToken,
   loginWith2FA,
   changePassword,
+  forgotPassword,
   change2FASecret,
   reSendEmailVerify,
   generate2FASecret,

@@ -63,7 +63,8 @@
     "verifyEmailSuccess": "Verify email successfully",
     "pleaseWait": "Please wait a little longer",
     "resendEmailSuccess": "Resend email successfully",
-    "pleaseVerifyEmail": "Please verify your email"
+    "pleaseVerifyEmail": "Please verify your email",
+    "emailNotExists": "Email does not exist"
   },
   "product": {
     "notFound": "Product not found",
