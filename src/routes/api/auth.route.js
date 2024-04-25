@@ -35,7 +35,7 @@ authRouter.route('/register').post(validate(authValidation.register), authContro
 
 authRouter.route('/refresh-tokens').post(validate(authValidation.refreshToken), authController.refreshToken);
 
-authRouter.post('/fotgot-password', authController.forgotPassword);
+authRouter.post('/fotgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 
 authRouter.route('/change-password').post(auth, validate(authValidation.changePassword), authController.changePassword);
 

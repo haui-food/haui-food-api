@@ -66,6 +66,12 @@ const verifyEmail = {
   }),
 };
 
+const forgotPassword = {
+  body: Joi.object().keys({
+    email: Joi.string().required().custom(email),
+  }),
+};
+
 module.exports = {
   login,
   register,
@@ -76,4 +82,5 @@ module.exports = {
   loginWith2FA,
   change2FASecret,
   verifyEmail,
+  forgotPassword,
 };
