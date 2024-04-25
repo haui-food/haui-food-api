@@ -139,6 +139,7 @@
   },
   "chatBot": {
     "success": "Successful response",
-    "failed": "Failed response"
+    "failed": "Failed response",
+    "retry": "Please try again"
   }
 }

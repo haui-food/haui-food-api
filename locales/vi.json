@@ -140,6 +140,7 @@
   },
   "chatBot": {
     "success": "Phản hồi thành công",
-    "failed": "Phản hồi thất bại"
+    "failed": "Phản hồi thất bại",
+    "retry": "Vui lòng thử lại"
   }
 }
