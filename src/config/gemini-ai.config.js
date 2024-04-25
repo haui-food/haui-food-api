@@ -1,13 +1,9 @@
-const { env } = require('../config');
-
-<<<<<<< HEAD
-const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
-const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
+
+const { env } = require('../config');
+const ApiError = require("../utils/ApiError");
 const { chatBotMessage } = require("../messages");
-=======
-const { GoogleGenerativeAI } = require('@google/generative-ai');
->>>>>>> e392f3cc0291bacec08e8099307344a3407ede5c
 
 const chatHistory = [];
 const genAI = new GoogleGenerativeAI(env.googleAIApiKey);

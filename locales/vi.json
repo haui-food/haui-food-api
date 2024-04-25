@@ -141,15 +141,11 @@
   },
   "chatBot": {
     "success": "Phản hồi thành công",
-<<<<<<< HEAD
     "failed": "Phản hồi thất bại",
     "retry": "Vui lòng thử lại"
-=======
-    "failed": "Phản hồi thất bại"
   },
   "captcha": {
     "generateSuccess": "Tạo thành công captcha",
     "invalidCaptcha": "Captcha chưa chính xác"
->>>>>>> e392f3cc0291bacec08e8099307344a3407ede5c
   }
 }
