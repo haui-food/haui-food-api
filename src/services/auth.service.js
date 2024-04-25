@@ -241,6 +241,21 @@ const forgotPassword = async (email) => {
   return tokenForgot;
 };
 
+const verifyOTPForgotPassword = async (token, OTPForgotPassword) => {
+  const { isExpired, payload } = cryptoService.expiresCheck(token, env.secret.tokenForgot);
+  if (isExpired) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
+  }
+  if (payload.OTPForgotPassword !== OTPForgotPassword) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_FOTGOT);
+  }
+  const user = await userService.getUserById(payload.userId);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_FOTGOT);
+  }
+  return user;
+};
+
 module.exports = {
   login,
   register,
