@@ -64,7 +64,8 @@
     "pleaseWait": "Vui lòng chờ thêm một chút",
     "resendEmailSuccess": "Gửi email xác nhận lại thành công",
     "pleaseVerifyEmail": "Vui lòng xác nhận email",
-    "emailNotExists": "Email chưa tồn tại trên hệ thống"
+    "emailNotExists": "Email chưa tồn tại trên hệ thống",
+    "fotgotPasswordSuccess": "Gửi mã xác nhận quên mật khẩu thành công"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",
@@ -140,7 +141,15 @@
   },
   "chatBot": {
     "success": "Phản hồi thành công",
+<<<<<<< HEAD
     "failed": "Phản hồi thất bại",
     "retry": "Vui lòng thử lại"
+=======
+    "failed": "Phản hồi thất bại"
+  },
+  "captcha": {
+    "generateSuccess": "Tạo thành công captcha",
+    "invalidCaptcha": "Captcha chưa chính xác"
+>>>>>>> e392f3cc0291bacec08e8099307344a3407ede5c
   }
 }

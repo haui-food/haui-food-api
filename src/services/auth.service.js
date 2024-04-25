@@ -7,14 +7,17 @@ const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
 const emailService = require('./email.service');
 const cryptoService = require('./crypto.service');
+const generateOTP = require('../utils/generateOTP');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage } = require('../messages');
 const {
   URL_HOST,
   TOKEN_TYPES,
+  EMAIL_TYPES,
   TIME_DIFF_EMAIL_VERIFY,
   CODE_VERIFY_2FA_SUCCESS,
   EXPIRES_TOKEN_EMAIL_VERIFY,
+  EXPIRES_TOKEN_FOTGOT_PASSWORD,
 } = require('../constants');
 
 const login = async (email, password) => {
@@ -65,7 +68,7 @@ const register = async (fullname, email, password) => {
       subject: '[HaUI Food] Verify your email address',
       linkVerify,
     },
-    type: 'verify',
+    type: EMAIL_TYPES.VERIFY,
   });
 };
 
@@ -201,7 +204,7 @@ const reSendEmailVerify = async (token) => {
       subject: '[HaUI Food] Verify your email address',
       linkVerify,
     },
-    type: 'verify',
+    type: EMAIL_TYPES.VERIFY,
   });
   user.verifyExpireAt = expires;
   await user.save();
@@ -212,8 +215,12 @@ const forgotPassword = async (email) => {
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().EMAIL_NOT_EXISTS);
   }
-  const expires = Date.now() + EXPIRES_TOKEN_EMAIL_VERIFY;
-  const tokenVerify = cryptoService.encryptObj(
+  if (!user.isVerify) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_VERIFY_EMAIL);
+  }
+  const expires = Date.now() + EXPIRES_TOKEN_FOTGOT_PASSWORD;
+  const OTPForgotPassword = generateOTP();
+  const tokenForgot = cryptoService.encryptObj(
     {
       expires,
       userId: user.id,
@@ -221,15 +228,32 @@ const forgotPassword = async (email) => {
     },
     env.secret.tokenForgot,
   );
-  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
       emails: email,
-      subject: '[HaUI Food] Verify your email address',
-      linkVerify,
+      subject: '[HaUI Food] Confirm OTP Forgot Password',
+      OTPForgotPassword,
     },
-    type: 'forgot',
+    type: EMAIL_TYPES.FORGOT,
   });
+  user.forgotExpireAt = expires;
+  await user.save();
+  return tokenForgot;
+};
+
+const verifyOTPForgotPassword = async (token, OTPForgotPassword) => {
+  const { isExpired, payload } = cryptoService.expiresCheck(token, env.secret.tokenForgot);
+  if (isExpired) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
+  }
+  if (payload.OTPForgotPassword !== OTPForgotPassword) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_FOTGOT);
+  }
+  const user = await userService.getUserById(payload.userId);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_FOTGOT);
+  }
+  return user;
 };
 
 module.exports = {

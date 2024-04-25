@@ -42,6 +42,9 @@ const userSchema = mongoose.Schema(
     verifyExpireAt: {
       type: Date,
     },
+    forgotExpireAt: {
+      type: Date,
+    },
     isLocked: {
       type: Boolean,
     },

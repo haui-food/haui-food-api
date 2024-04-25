@@ -27,6 +27,7 @@ const authMessage = () => {
     RESEND_EMAIL_SUCCESS: i18nService.translate('auth', 'resendEmailSuccess'),
     PLEASE_VERIFY_EMAIL: i18nService.translate('auth', 'pleaseVerifyEmail'),
     EMAIL_NOT_EXISTS: i18nService.translate('auth', 'emailNotExists'),
+    FORGOT_PASSWORD_SUCCESS: i18nService.translate('auth', 'fotgotPasswordSuccess'),
   };
 };
 

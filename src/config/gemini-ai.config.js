@@ -1,12 +1,16 @@
-const { env } = require("../config");
+const { env } = require('../config');
 
+<<<<<<< HEAD
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
 const { chatBotMessage } = require("../messages");
+=======
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+>>>>>>> e392f3cc0291bacec08e8099307344a3407ede5c
 
 const chatHistory = [];
-const genAI = new GoogleGenerativeAI(env.apiKey);
+const genAI = new GoogleGenerativeAI(env.googleAIApiKey);
 
 const GENERATION_CONFIG = {
   temperature: 0.9,
@@ -22,7 +26,7 @@ const SAFETY_SETTINGS = [
   { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
 ];
 const startChat = () => {
-  return genAI.getGenerativeModel({ model: "gemini-pro" }).startChat({
+  return genAI.getGenerativeModel({ model: 'gemini-pro' }).startChat({
     history: chatHistory,
     generationConfig: GENERATION_CONFIG,
     safetySettings: SAFETY_SETTINGS,

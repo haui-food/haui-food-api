@@ -91,11 +91,7 @@ const renderPageVerifyEmail = catchAsync(async (req, res) => {
   var payload;
   var isExpired;
   try {
-    var { isExpired, payload } = cryptoService.expiresCheck(
-      token.replaceAll(' ', '+'),
-      env.secret.tokenVerify,
-      1000 * 60 * 4 + 35,
-    );
+    var { isExpired, payload } = cryptoService.expiresCheck(token.replaceAll(' ', '+'), env.secret.tokenVerify);
   } catch {
     return res.redirect(`${URL_HOST.production}/not-found`);
   }
@@ -110,6 +106,12 @@ const renderPageVerifyEmail = catchAsync(async (req, res) => {
   res.render('pages/verify-email');
 });
 
+const forgotPassword = catchAsync(async (req, res) => {
+  const { email } = req.body;
+  const tokenForgot = await authService.forgotPassword(email);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().FORGOT_PASSWORD_SUCCESS, { tokenForgot }));
+});
+
 module.exports = {
   getMe,
   login,
@@ -118,6 +120,7 @@ module.exports = {
   verifyEmail,
   refreshToken,
   loginWith2FA,
+  forgotPassword,
   changePassword,
   change2FASecret,
   generate2FASecret,

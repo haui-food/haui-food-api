@@ -11,6 +11,7 @@ module.exports.cryptoService = require('./crypto.service');
 module.exports.contactService = require('./contact.service');
 module.exports.productService = require('./product.service');
 module.exports.messageService = require('./message.service');
+module.exports.captchaService = require('./captcha.service');
 module.exports.categoryService = require('./category.service');
 module.exports.rabbitmqService = require('./rabbitmq.service');
 module.exports.cartDetailService = require('./cart-detail.service');
