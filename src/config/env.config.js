@@ -6,7 +6,7 @@ const env = {
   ipPing: process.env.IP_PING || '',
   mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/haui-food-api',
   rabbitmqURI: process.env.RABBITMQ_URI,
-  apiKey: process.env.API_KEY,
+  googleAIApiKey: process.env.GOOGLE_AI_API_KEY,
   admin: {
     email: process.env.ADMIN_EMAIL || 'admin@haui-food.com',
     password: process.env.ADMIN_PASSWORD || 'admin@12345',

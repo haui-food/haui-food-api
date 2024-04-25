@@ -7,5 +7,5 @@ const sendMessage = {
 };
 
 module.exports = {
-  sendMessage
+  sendMessage,
 };

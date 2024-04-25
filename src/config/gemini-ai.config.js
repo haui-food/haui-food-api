@@ -1,12 +1,12 @@
-const { env } = require("../config");
+const { env } = require('../config');
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const chatHistory = [];
-const genAI = new GoogleGenerativeAI(env.apiKey);
+const genAI = new GoogleGenerativeAI(env.googleAIApiKey);
 
 const startChat = () => {
-  return genAI.getGenerativeModel({ model: "gemini-pro" }).startChat({
+  return genAI.getGenerativeModel({ model: 'gemini-pro' }).startChat({
     history: chatHistory,
     generationConfig: {
       maxOutputTokens: 100,
