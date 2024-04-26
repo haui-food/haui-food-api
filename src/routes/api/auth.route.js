@@ -47,6 +47,8 @@ authRouter.post(
   authController.verifyOTPForgotPassword,
 );
 
+authRouter.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
+
 authRouter.post('/change-password', auth, validate(authValidation.changePassword), authController.changePassword);
 
 authRouter.post('/toggle-2fa', auth, validate(authValidation.toggle2FA), authController.toggleTwoFactorAuthentication);

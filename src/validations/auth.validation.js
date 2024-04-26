@@ -24,8 +24,8 @@ const refreshToken = {
 
 const changePassword = {
   body: Joi.object().keys({
-    oldPassword: Joi.string().required(password),
-    newPassword: Joi.string().required(password),
+    oldPassword: Joi.string().custom(password),
+    newPassword: Joi.string().custom(password),
   }),
 };
 
@@ -79,6 +79,13 @@ const verifyOTPForgotPassword = {
   }),
 };
 
+const resetPassword = {
+  body: Joi.object().keys({
+    tokenVerifyOTP: Joi.string().required(),
+    newPassword: Joi.string().custom(password),
+  }),
+};
+
 module.exports = {
   login,
   register,
@@ -88,6 +95,7 @@ module.exports = {
   toggle2FA,
   loginWith2FA,
   change2FASecret,
+  resetPassword,
   verifyEmail,
   forgotPassword,
   verifyOTPForgotPassword,

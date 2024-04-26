@@ -226,18 +226,19 @@ const forgotPassword = async (email) => {
       otp,
       expires,
       userId: user.id,
-      type: TOKEN_TYPES.VERIFY_OTP,
+      type: TOKEN_TYPES.FOTGOT,
     },
     env.secret.tokenForgot,
   );
-  await emailService.sendEmail({
-    emailData: {
-      emails: email,
-      subject: '[HaUI Food] Confirm OTP Forgot Password',
-      OTPForgotPassword: otp,
-    },
-    type: EMAIL_TYPES.FORGOT,
-  });
+  console.log(tokenForgot, otp);
+  // await emailService.sendEmail({
+  //   emailData: {
+  //     emails: email,
+  //     subject: '[HaUI Food] Confirm OTP Forgot Password',
+  //     OTPForgotPassword: otp,
+  //   },
+  //   type: EMAIL_TYPES.FORGOT,
+  // });
   user.forgotExpireAt = expires;
   await user.save();
   return tokenForgot;
@@ -248,7 +249,8 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
   if (isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
   }
-  if (payload.type != TOKEN_TYPES.VERIFY_OTP) {
+  console.log(payload, otp);
+  if (payload.type != TOKEN_TYPES.FOTGOT) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   if (payload.otp != otp) {
@@ -270,12 +272,31 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
   return tokenVerifyOTP;
 };
 
+const resetPassword = async (tokenVerifyOTP, newPassword) => {
+  console.log(tokenVerifyOTP, newPassword);
+  const { isExpired, payload } = cryptoService.expiresCheck(tokenVerifyOTP, env.secret.tokenVerifyOTP);
+  if (isExpired) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
+  }
+  if (payload.type != TOKEN_TYPES.VERIFY_OTP) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
+  const user = await userService.getUserById(payload.userId);
+  if (!user || !user.forgotExpireAt) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
+  user.password = newPassword;
+  user.forgotExpireAt = null;
+  await user.save();
+};
+
 module.exports = {
   login,
   register,
   verifyEmail,
   refreshToken,
   loginWith2FA,
+  resetPassword,
   changePassword,
   forgotPassword,
   change2FASecret,
