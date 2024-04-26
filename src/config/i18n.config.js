@@ -30,7 +30,8 @@ class I18nService {
     i18n.setLocale(lang);
   }
 
-  translate(model, key) {
+  translate(messageKey) {
+    const [model, key] = messageKey.split('.');
     return i18n.__(model)[key];
   }
 }
