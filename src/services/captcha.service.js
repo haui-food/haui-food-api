@@ -1,8 +1,8 @@
 const svgCaptcha = require('svg-captcha');
 
 const { env } = require('../config');
-const { encryptObj } = require('./crypto.service');
 const { EXPIRES_TOKEN_CAPTCHA } = require('../constants');
+const { encryptObj, expiresCheck } = require('./crypto.service');
 
 const generate = () => {
   const { text, data: image } = svgCaptcha.create();
@@ -17,7 +17,15 @@ const generate = () => {
     env.secret.tokenCapcha,
   );
 
-  return { sign, image };
+  return { text, sign, image };
 };
 
-module.exports = { generate };
+const verify = (sign, text) => {
+  const { isExpired, payload } = expiresCheck(sign, env.secret.tokenCapcha);
+  if (text === payload.text && !isExpired) {
+    return true;
+  }
+  return false;
+};
+
+module.exports = { generate, verify };

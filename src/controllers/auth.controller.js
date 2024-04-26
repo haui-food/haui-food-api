@@ -107,8 +107,8 @@ const renderPageVerifyEmail = catchAsync(async (req, res) => {
 });
 
 const forgotPassword = catchAsync(async (req, res) => {
-  const { email } = req.body;
-  const tokenForgot = await authService.forgotPassword(email);
+  const { email, text, sign } = req.body;
+  const tokenForgot = await authService.forgotPassword(email, text, sign);
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().FORGOT_PASSWORD_SUCCESS, { tokenForgot }));
 });
 

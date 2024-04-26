@@ -8,8 +8,9 @@ const userService = require('./user.service');
 const emailService = require('./email.service');
 const cryptoService = require('./crypto.service');
 const generateOTP = require('../utils/generateOTP');
+const captchaService = require('./captcha.service');
 const tokenMappings = require('../constants/jwt.constant');
-const { userMessage, authMessage } = require('../messages');
+const { userMessage, authMessage, captchaMessage } = require('../messages');
 const {
   URL_HOST,
   TOKEN_TYPES,
@@ -212,7 +213,11 @@ const reSendEmailVerify = async (token) => {
   await user.save();
 };
 
-const forgotPassword = async (email) => {
+const forgotPassword = async (email, text, sign) => {
+  const isPassCaptcha = captchaService.verify(sign, text);
+  if (!isPassCaptcha) {
+    throw new ApiError(httpStatus.BAD_REQUEST, captchaMessage().INVALID_CAPTCHA);
+  }
   const user = await userService.getUserByEmail(email);
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().EMAIL_NOT_EXISTS);

@@ -69,6 +69,8 @@ const verifyEmail = {
 const forgotPassword = {
   body: Joi.object().keys({
     email: Joi.string().required().custom(email),
+    text: Joi.string().required(),
+    sign: Joi.string().required(),
   }),
 };
 
