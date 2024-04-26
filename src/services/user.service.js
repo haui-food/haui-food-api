@@ -10,7 +10,6 @@ const ApiFeature = require('../utils/ApiFeature');
 
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ email }).select('+password');
-  console.log(user);
   return user;
 };
 
