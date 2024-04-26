@@ -95,7 +95,7 @@ const renderPageVerifyEmail = catchAsync(async (req, res) => {
   } catch {
     return res.redirect(`${URL_HOST.production}/not-found`);
   }
-  const user = await userService.getUserById(payload.userId);
+  const user = await userService.getUserByEmail(payload.email);
   const userVerified = user?.isVerify;
   if (userVerified) {
     return res.redirect(`${URL_HOST.production}/auth/login`);
