@@ -66,6 +66,12 @@ const EMAIL_TYPES = {
   BIRTHDAY: 'birthday',
 };
 
+const STATUS_FORGOT = {
+  DONE: null,
+  VERIFIED: 'verified',
+  VERIFY_OTP: 'verifyOTP',
+};
+
 const LENGTH_OTP_DEFAULT = 6;
 
 module.exports = {
@@ -81,6 +87,7 @@ module.exports = {
   QUEUE_TYPES,
   LOGO_MARGIN,
   LOG_FILENAME,
+  STATUS_FORGOT,
   LOGO_DOTS_COLOR,
   LANGUAGE_DEFAULT,
   REQUEST_USER_KEY,

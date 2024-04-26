@@ -42,8 +42,10 @@ const userSchema = mongoose.Schema(
     verifyExpireAt: {
       type: Date,
     },
-    forgotExpireAt: {
-      type: Date,
+    forgotStatus: {
+      type: String,
+      enum: [null, 'verifyOTP', 'verified'],
+      default: null,
     },
     isLocked: {
       type: Boolean,

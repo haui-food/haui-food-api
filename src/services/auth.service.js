@@ -14,6 +14,7 @@ const {
   URL_HOST,
   TOKEN_TYPES,
   EMAIL_TYPES,
+  STATUS_FORGOT,
   TIME_DIFF_EMAIL_VERIFY,
   CODE_VERIFY_2FA_SUCCESS,
   EXPIRES_TOKEN_EMAIL_VERIFY,
@@ -220,7 +221,8 @@ const forgotPassword = async (email) => {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_VERIFY_EMAIL);
   }
   const expires = Date.now() + EXPIRES_TOKEN_FOTGOT_PASSWORD;
-  const otp = generateOTP();
+  // const otp = generateOTP();
+  const otp = '123456';
   const tokenForgot = cryptoService.encryptObj(
     {
       otp,
@@ -230,7 +232,6 @@ const forgotPassword = async (email) => {
     },
     env.secret.tokenForgot,
   );
-  console.log(tokenForgot, otp);
   // await emailService.sendEmail({
   //   emailData: {
   //     emails: email,
@@ -239,7 +240,7 @@ const forgotPassword = async (email) => {
   //   },
   //   type: EMAIL_TYPES.FORGOT,
   // });
-  user.forgotExpireAt = expires;
+  user.forgotStatus = STATUS_FORGOT.VERIFY_OTP;
   await user.save();
   return tokenForgot;
 };
@@ -249,7 +250,6 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
   if (isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
   }
-  console.log(payload, otp);
   if (payload.type != TOKEN_TYPES.FOTGOT) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
@@ -257,7 +257,7 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_OTP);
   }
   const user = await userService.getUserById(payload.userId);
-  if (!user) {
+  if (!user || user.forgotStatus !== STATUS_FORGOT.VERIFY_OTP) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   const expires = Date.now() + EXPIRES_TOKEN_VERIFY_OTP_FORGOT;
@@ -269,6 +269,8 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
     },
     env.secret.tokenVerifyOTP,
   );
+  user.forgotStatus = STATUS_FORGOT.VERIFIED;
+  await user.save();
   return tokenVerifyOTP;
 };
 
@@ -282,11 +284,11 @@ const resetPassword = async (tokenVerifyOTP, newPassword) => {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   const user = await userService.getUserById(payload.userId);
-  if (!user || !user.forgotExpireAt) {
+  if (!user || user.forgotStatus !== STATUS_FORGOT.VERIFIED) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   user.password = newPassword;
-  user.forgotExpireAt = null;
+  user.forgotStatus = STATUS_FORGOT.DONE;
   await user.save();
 };
 
