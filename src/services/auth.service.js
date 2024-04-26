@@ -18,6 +18,7 @@ const {
   CODE_VERIFY_2FA_SUCCESS,
   EXPIRES_TOKEN_EMAIL_VERIFY,
   EXPIRES_TOKEN_FOTGOT_PASSWORD,
+  EXPIRES_TOKEN_VERIFY_OTP_FORGOT,
 } = require('../constants');
 
 const login = async (email, password) => {
@@ -219,12 +220,13 @@ const forgotPassword = async (email) => {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_VERIFY_EMAIL);
   }
   const expires = Date.now() + EXPIRES_TOKEN_FOTGOT_PASSWORD;
-  const OTPForgotPassword = generateOTP();
+  const otp = generateOTP();
   const tokenForgot = cryptoService.encryptObj(
     {
+      otp,
       expires,
       userId: user.id,
-      type: TOKEN_TYPES.FOTGOT,
+      type: TOKEN_TYPES.VERIFY_OTP,
     },
     env.secret.tokenForgot,
   );
@@ -232,7 +234,7 @@ const forgotPassword = async (email) => {
     emailData: {
       emails: email,
       subject: '[HaUI Food] Confirm OTP Forgot Password',
-      OTPForgotPassword,
+      OTPForgotPassword: otp,
     },
     type: EMAIL_TYPES.FORGOT,
   });
@@ -241,19 +243,31 @@ const forgotPassword = async (email) => {
   return tokenForgot;
 };
 
-const verifyOTPForgotPassword = async (token, OTPForgotPassword) => {
-  const { isExpired, payload } = cryptoService.expiresCheck(token, env.secret.tokenForgot);
+const verifyOTPForgotPassword = async (tokenForgot, otp) => {
+  const { isExpired, payload } = cryptoService.expiresCheck(tokenForgot, env.secret.tokenForgot);
   if (isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
   }
-  if (payload.OTPForgotPassword !== OTPForgotPassword) {
-    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_FOTGOT);
+  if (payload.type != TOKEN_TYPES.VERIFY_OTP) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
+  }
+  if (payload.otp != otp) {
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_OTP);
   }
   const user = await userService.getUserById(payload.userId);
   if (!user) {
-    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_FOTGOT);
+    throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
-  return user;
+  const expires = Date.now() + EXPIRES_TOKEN_VERIFY_OTP_FORGOT;
+  const tokenVerifyOTP = cryptoService.encryptObj(
+    {
+      expires,
+      userId: user.id,
+      type: TOKEN_TYPES.VERIFY_OTP,
+    },
+    env.secret.tokenVerifyOTP,
+  );
+  return tokenVerifyOTP;
 };
 
 module.exports = {
@@ -267,5 +281,6 @@ module.exports = {
   change2FASecret,
   reSendEmailVerify,
   generate2FASecret,
+  verifyOTPForgotPassword,
   toggleTwoFactorAuthentication,
 };

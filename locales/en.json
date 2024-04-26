@@ -65,7 +65,9 @@
     "resendEmailSuccess": "Resend email successfully",
     "pleaseVerifyEmail": "Please verify your email",
     "emailNotExists": "Email does not exist",
-    "fotgotPasswordSuccess": "Send code to reset your password successfully"
+    "fotgotPasswordSuccess": "Send code to reset your password successfully",
+    "verifyOTPSuccess": "Verify OTP successfully",
+    "invalidOTP": "Invalid OTP"
   },
   "product": {
     "notFound": "Product not found",

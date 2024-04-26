@@ -72,6 +72,13 @@ const forgotPassword = {
   }),
 };
 
+const verifyOTPForgotPassword = {
+  body: Joi.object().keys({
+    tokenForgot: Joi.string().required(),
+    otp: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   login,
   register,
@@ -83,4 +90,5 @@ module.exports = {
   change2FASecret,
   verifyEmail,
   forgotPassword,
+  verifyOTPForgotPassword,
 };

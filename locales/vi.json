@@ -65,7 +65,9 @@
     "resendEmailSuccess": "Gửi email xác nhận lại thành công",
     "pleaseVerifyEmail": "Vui lòng xác nhận email",
     "emailNotExists": "Email chưa tồn tại trên hệ thống",
-    "fotgotPasswordSuccess": "Gửi mã xác nhận quên mật khẩu thành công"
+    "fotgotPasswordSuccess": "Gửi mã xác nhận quên mật khẩu thành công",
+    "verifyOTPSuccess": "Xác nhận OTP thành công",
+    "invalidOTP": "OTP không chính xác"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

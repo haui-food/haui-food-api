@@ -112,6 +112,12 @@ const forgotPassword = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().FORGOT_PASSWORD_SUCCESS, { tokenForgot }));
 });
 
+const verifyOTPForgotPassword = catchAsync(async (req, res) => {
+  const { tokenForgot, otp } = req.body;
+  const tokenVerifyOTP = await authService.verifyOTPForgotPassword(tokenForgot, otp);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().VERIFY_OTP_SUCCESS, tokenVerifyOTP));
+});
+
 module.exports = {
   getMe,
   login,
@@ -126,5 +132,6 @@ module.exports = {
   generate2FASecret,
   reSendEmailVerify,
   renderPageVerifyEmail,
+  verifyOTPForgotPassword,
   toggleTwoFactorAuthentication,
 };

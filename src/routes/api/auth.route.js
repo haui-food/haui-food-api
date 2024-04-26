@@ -39,7 +39,13 @@ authRouter.post('/login-with-2fa', validate(authValidation.loginWith2FA), authCo
 
 authRouter.post('/generate-2fa-secret', auth, logAuthenticatedRequest, authController.generate2FASecret);
 
-authRouter.post('/fotgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
+authRouter.post('/forgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
+
+authRouter.post(
+  '/verify-otp-forgot-password',
+  validate(authValidation.verifyOTPForgotPassword),
+  authController.verifyOTPForgotPassword,
+);
 
 authRouter.post('/change-password', auth, validate(authValidation.changePassword), authController.changePassword);
 

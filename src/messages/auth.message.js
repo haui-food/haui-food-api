@@ -28,6 +28,8 @@ const authMessage = () => {
     PLEASE_VERIFY_EMAIL: i18nService.translate('auth', 'pleaseVerifyEmail'),
     EMAIL_NOT_EXISTS: i18nService.translate('auth', 'emailNotExists'),
     FORGOT_PASSWORD_SUCCESS: i18nService.translate('auth', 'fotgotPasswordSuccess'),
+    VERIFY_OTP_SUCCESS: i18nService.translate('auth', 'verifyOTPSuccess'),
+    INVALID_OTP: i18nService.translate('auth', 'invalidOTP'),
   };
 };
 
