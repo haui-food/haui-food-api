@@ -3,7 +3,6 @@ const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@googl
 
 const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
-const { chatBotMessage } = require('../messages');
 
 const chatHistory = [];
 const genAI = new GoogleGenerativeAI(env.googleAIApiKey);
@@ -30,7 +29,7 @@ const startChat = () => {
 };
 
 const addToHistory = async (role, message) => {
-  if (!message) throw new ApiError(httpStatus.BAD_REQUEST, chatBotMessage().RETRY);
+  if (!message) throw new ApiError(httpStatus.BAD_REQUEST, 'Please try again');
   chatHistory.push({ role: role, parts: [{ text: message }] });
 };
 

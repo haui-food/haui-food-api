@@ -1,9 +1,10 @@
-const { chatAI } = require('../config');
 const httpStatus = require('http-status');
-const response = require('../utils/response');
-const catchAsync = require('../utils/catchAsync');
-const { chatBotMessage } = require('../messages');
+
+const { chatAI } = require('../config');
 const ApiError = require('../utils/ApiError');
+const response = require('../utils/response');
+const { chatBotMessage } = require('../messages');
+const catchAsync = require('../utils/catchAsync');
 
 const chatBot = catchAsync(async (req, res) => {
   const chat = chatAI.startChat();
