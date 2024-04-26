@@ -54,11 +54,11 @@ const register = async (fullname, email, password) => {
     password,
     verifyExpireAt: expires,
   };
-  const user = await userService.createUser(registerData);
+  await userService.createUser(registerData);
   const tokenVerify = cryptoService.encryptObj(
     {
+      email,
       expires,
-      userId: user.id,
       type: TOKEN_TYPES.VERIFY,
     },
     env.secret.tokenVerify,
@@ -170,8 +170,8 @@ const verifyEmail = async (token) => {
   if (isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN_VERIFY_EXPIRED);
   }
-  const user = await userService.getUserById(payload.userId);
-  if (user?.isVerify) {
+  const user = await userService.getUserByEmail(payload.email);
+  if (!user || user?.isVerify) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   user.isVerify = true;
@@ -187,14 +187,14 @@ const reSendEmailVerify = async (token) => {
   if (!isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().PLEASE_WAIT);
   }
-  const user = await userService.getUserById(payload.userId);
+  const user = await userService.getUserByEmail(payload.email);
   if (user.isVerify) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   const tokenVerify = cryptoService.encryptObj(
     {
       expires,
-      userId: user.id,
+      email: user.email,
       type: TOKEN_TYPES.VERIFY,
     },
     env.secret.tokenVerify,
@@ -226,8 +226,8 @@ const forgotPassword = async (email) => {
   const tokenForgot = cryptoService.encryptObj(
     {
       otp,
+      email,
       expires,
-      userId: user.id,
       type: TOKEN_TYPES.FOTGOT,
     },
     env.secret.tokenForgot,
@@ -256,15 +256,15 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
   if (payload.otp != otp) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_OTP);
   }
-  const user = await userService.getUserById(payload.userId);
-  if (!user || user.forgotStatus !== STATUS_FORGOT.VERIFY_OTP) {
+  const user = await userService.getUserByEmail(payload.email);
+  if (!user || user?.forgotStatus !== STATUS_FORGOT.VERIFY_OTP) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   const expires = Date.now() + EXPIRES_TOKEN_VERIFY_OTP_FORGOT;
   const tokenVerifyOTP = cryptoService.encryptObj(
     {
       expires,
-      userId: user.id,
+      email: user.email,
       type: TOKEN_TYPES.VERIFY_OTP,
     },
     env.secret.tokenVerifyOTP,
@@ -275,7 +275,6 @@ const verifyOTPForgotPassword = async (tokenForgot, otp) => {
 };
 
 const resetPassword = async (tokenVerifyOTP, newPassword) => {
-  console.log(tokenVerifyOTP, newPassword);
   const { isExpired, payload } = cryptoService.expiresCheck(tokenVerifyOTP, env.secret.tokenVerifyOTP);
   if (isExpired) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().TOKEN_EXPIRED);
@@ -283,8 +282,8 @@ const resetPassword = async (tokenVerifyOTP, newPassword) => {
   if (payload.type != TOKEN_TYPES.VERIFY_OTP) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
-  const user = await userService.getUserById(payload.userId);
-  if (!user || user.forgotStatus !== STATUS_FORGOT.VERIFIED) {
+  const user = await userService.getUserByEmail(payload.email);
+  if (!user || user?.forgotStatus !== STATUS_FORGOT.VERIFIED) {
     throw new ApiError(httpStatus.BAD_REQUEST, authMessage().INVALID_TOKEN);
   }
   user.password = newPassword;
