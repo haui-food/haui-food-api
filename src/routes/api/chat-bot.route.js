@@ -6,6 +6,6 @@ const validate = require('../../middlewares/validate.middleware');
 
 const chatBotRouter = express.Router();
 
-chatBotRouter.route('/').post(validate(chatBotValidation.sendMessage), chatBotConterller.chatBot);
+chatBotRouter.post('/', validate(chatBotValidation.sendMessage), chatBotConterller.chatBot);
 
 module.exports = chatBotRouter;

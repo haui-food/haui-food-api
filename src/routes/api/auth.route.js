@@ -29,23 +29,21 @@ authRouter.post('/resend-email-verify', validate(authValidation.verifyEmail), au
 
 authRouter.use(rateLimitAuth);
 
-authRouter.route('/login').post(validate(authValidation.login), authController.login);
+authRouter.post('/login', validate(authValidation.login), authController.login);
 
-authRouter.route('/register').post(validate(authValidation.register), authController.register);
+authRouter.post('/register', validate(authValidation.register), authController.register);
 
-authRouter.route('/refresh-tokens').post(validate(authValidation.refreshToken), authController.refreshToken);
+authRouter.post('/refresh-tokens', validate(authValidation.refreshToken), authController.refreshToken);
+
+authRouter.post('/login-with-2fa', validate(authValidation.loginWith2FA), authController.loginWith2FA);
+
+authRouter.post('/generate-2fa-secret', auth, logAuthenticatedRequest, authController.generate2FASecret);
 
 authRouter.post('/fotgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 
-authRouter.route('/change-password').post(auth, validate(authValidation.changePassword), authController.changePassword);
+authRouter.post('/change-password', auth, validate(authValidation.changePassword), authController.changePassword);
 
-authRouter.route('/login-with-2fa').post(validate(authValidation.loginWith2FA), authController.loginWith2FA);
-
-authRouter
-  .route('/toggle-2fa')
-  .post(auth, validate(authValidation.toggle2FA), authController.toggleTwoFactorAuthentication);
-
-authRouter.post('/generate-2fa-secret', auth, logAuthenticatedRequest, authController.generate2FASecret);
+authRouter.post('/toggle-2fa', auth, validate(authValidation.toggle2FA), authController.toggleTwoFactorAuthentication);
 
 authRouter.post(
   '/change-2fa-secret',

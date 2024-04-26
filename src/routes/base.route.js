@@ -8,11 +8,11 @@ const baseRouter = express.Router();
 
 baseRouter.get('/', baseController.getHome);
 
+baseRouter.get('/logs', baseController.sendLogs);
+
 baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
 baseRouter.get('/qr-code', validate(systemValidation.renderQRCode), baseController.renderQR);
-
-baseRouter.get('/logs', baseController.sendLogs);
 
 baseRouter.all('*', baseController.handlerNotFound);
 

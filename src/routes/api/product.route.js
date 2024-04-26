@@ -19,13 +19,21 @@ productRouter
     productController.createProduct,
   );
 
-productRouter
-  .route('/exports')
-  .get(auth, authorize('admin'), validate(productValidation.getProducts), productController.exportExcel);
+productRouter.get(
+  '/exports',
+  auth,
+  authorize('admin'),
+  validate(productValidation.getProducts),
+  productController.exportExcel,
+);
 
-productRouter
-  .route('/me')
-  .get(auth, authorize('shop'), validate(productValidation.getProducts), productController.getMyProducts);
+productRouter.get(
+  '/me',
+  auth,
+  authorize('shop'),
+  validate(productValidation.getProducts),
+  productController.getMyProducts,
+);
 
 productRouter
   .route('/:productId')

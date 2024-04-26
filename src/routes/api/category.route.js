@@ -1,5 +1,4 @@
 const multer = require('multer');
-const upload = multer();
 const express = require('express');
 
 const { uploadService } = require('../../services');
@@ -8,6 +7,7 @@ const { categoryValidation } = require('../../validations');
 const validate = require('../../middlewares/validate.middleware');
 const { auth, authorize } = require('../../middlewares/auth.middleware');
 
+const upload = multer();
 const categoryRouter = express.Router();
 
 categoryRouter
@@ -21,9 +21,13 @@ categoryRouter
     categoryController.createCategory,
   );
 
-categoryRouter
-  .route('/exports')
-  .get(auth, authorize('admin'), validate(categoryValidation.getCategories), categoryController.exportExcel);
+categoryRouter.get(
+  '/exports',
+  auth,
+  authorize('admin'),
+  validate(categoryValidation.getCategories),
+  categoryController.exportExcel,
+);
 
 categoryRouter.post(
   '/imports',

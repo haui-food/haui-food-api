@@ -11,9 +11,7 @@ orderRouter
   .get(validate(orderValidation.getOrders), orderController.getOrders)
   .post(auth, authorize('admin'), validate(orderValidation.createOrder), orderController.createOrder);
 
-orderRouter
-  .route('/exports')
-  .get(auth, authorize('admin'), validate(orderValidation.getOrders), orderController.exportExcel);
+orderRouter.get('/exports', auth, authorize('admin'), validate(orderValidation.getOrders), orderController.exportExcel);
 
 orderRouter
   .route('/:orderId')

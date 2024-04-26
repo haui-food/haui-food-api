@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { reviewController } = require('../../controllers');
 const { reviewValidation } = require('../../validations');
 const validate = require('../../middlewares/validate.middleware');
@@ -11,9 +12,13 @@ reviewRouter
   .get(validate(reviewValidation.getReviews), reviewController.getReviews)
   .post(auth, authorize('admin'), validate(reviewValidation.createReview), reviewController.createReview);
 
-reviewRouter
-  .route('/exports')
-  .get(auth, authorize('admin'), validate(reviewValidation.getReviews), reviewController.exportExcel);
+reviewRouter.get(
+  '/exports',
+  auth,
+  authorize('admin'),
+  validate(reviewValidation.getReviews),
+  reviewController.exportExcel,
+);
 
 reviewRouter
   .route('/:reviewId')

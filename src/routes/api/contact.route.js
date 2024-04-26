@@ -11,9 +11,13 @@ contactRouter
   .get(auth, authorize('admin'), validate(contactValidation.getContacts), contactController.getContacts)
   .post(validate(contactValidation.createContact), contactController.createContact);
 
-contactRouter
-  .route('/exports')
-  .get(auth, authorize('admin'), validate(contactValidation.getContacts), contactController.exportExcel);
+contactRouter.get(
+  '/exports',
+  auth,
+  authorize('admin'),
+  validate(contactValidation.getContacts),
+  contactController.exportExcel,
+);
 
 contactRouter
   .route('/:contactId')
