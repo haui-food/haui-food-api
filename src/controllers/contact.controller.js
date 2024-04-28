@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+
 const response = require('../utils/response');
 const catchAsync = require('../utils/catchAsync');
 const { contactService } = require('../services');
@@ -15,12 +16,18 @@ const getContacts = catchAsync(async (req, res) => {
 });
 
 const getContact = catchAsync(async (req, res) => {
-  const contact = await contactService.getContactById(req.params.contactId);
+  const { contactId } = req.params;
+
+  const contact = await contactService.getContactById(contactId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, contactMessage().FIND_SUCCESS, contact));
 });
 
 const deleteContact = catchAsync(async (req, res) => {
-  const contact = await contactService.deleteContactById(req.params.contactId);
+  const { contactId } = req.params;
+
+  const contact = await contactService.deleteContactById(contactId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, contactMessage().DELETE_SUCCESS, contact));
 });
 
@@ -34,9 +41,9 @@ const exportExcel = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-  createContact,
-  getContacts,
   getContact,
-  deleteContact,
+  getContacts,
   exportExcel,
+  deleteContact,
+  createContact,
 };
