@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+
 const response = require('../utils/response');
 const catchAsync = require('../utils/catchAsync');
 const { conversationService } = require('../services');
@@ -15,24 +16,33 @@ const getConversations = catchAsync(async (req, res) => {
 });
 
 const getConversationById = catchAsync(async (req, res) => {
-  const conversation = await conversationService.getConversationById(req.params.conversationId);
+  const { conversationId } = req.params;
+
+  const conversation = await conversationService.getConversationById(conversationId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, conversationMessage().FIND_SUCCESS, conversation));
 });
 
 const updateConversation = catchAsync(async (req, res) => {
-  const conversation = await conversationService.updateConversationById(req.params.conversationId, req.body);
+  const { conversationId } = req.params;
+
+  const conversation = await conversationService.updateConversationById(conversationId, req.body);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, conversationMessage().UPDATE_SUCCESS, conversation));
 });
 
 const deleteConversation = catchAsync(async (req, res) => {
-  const conversation = await conversationService.deleteConversationById(req.params.conversationId);
+  const { conversationId } = req.params;
+
+  const conversation = await conversationService.deleteConversationById(conversationId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, conversationMessage().DELETE_SUCCESS, conversation));
 });
 
 module.exports = {
-  createConversation,
   getConversations,
-  getConversationById,
+  createConversation,
   updateConversation,
   deleteConversation,
+  getConversationById,
 };
