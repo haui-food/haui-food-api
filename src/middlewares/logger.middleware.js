@@ -23,7 +23,9 @@ const logUnauthenticatedRequest = catchAsync(async (req, res, next) => {
   const isLog = req.originalUrl.toLowerCase() === '/logs';
 
   const { userIP } = getInfoClient(req);
-  const isPing = userIP === env.ipPing ? true : false;
+
+  const listIPPing = env.listIPPing.split(',');
+  const isPing = listIPPing.includes(userIP) ? true : false;
 
   if (isAuth || isLog || isPing) return next();
 
