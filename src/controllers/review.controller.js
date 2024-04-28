@@ -1,8 +1,9 @@
 const httpStatus = require('http-status');
+
 const response = require('../utils/response');
-const catchAsync = require('../utils/catchAsync');
 const { reviewService } = require('../services');
 const { reviewMessage } = require('../messages');
+const catchAsync = require('../utils/catchAsync');
 
 const createReview = catchAsync(async (req, res) => {
   const review = await reviewService.createReview(req.body);
@@ -15,17 +16,26 @@ const getReviews = catchAsync(async (req, res) => {
 });
 
 const getReviewById = catchAsync(async (req, res) => {
-  const review = await reviewService.getReviewById(req.params.reviewId);
+  const { reviewId } = req.params;
+
+  const review = await reviewService.getReviewById(reviewId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, reviewMessage().FIND_SUCCESS, review));
 });
 
 const updateReview = catchAsync(async (req, res) => {
-  const review = await reviewService.updateReviewById(req.params.reviewId, req.body);
+  const { reviewId } = req.params;
+
+  const review = await reviewService.updateReviewById(reviewId, req.body);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, reviewMessage().UPDATE_SUCCESS, review));
 });
 
 const deleteReview = catchAsync(async (req, res) => {
-  const review = await reviewService.deleteReviewById(req.params.reviewId);
+  const { reviewId } = req.params;
+
+  const review = await reviewService.deleteReviewById(reviewId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, reviewMessage().DELETE_SUCCESS, review));
 });
 
@@ -39,10 +49,10 @@ const exportExcel = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-  createReview,
   getReviews,
-  getReviewById,
+  exportExcel,
+  createReview,
   updateReview,
   deleteReview,
-  exportExcel,
+  getReviewById,
 };
