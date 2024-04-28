@@ -41,9 +41,7 @@ const refreshToken = catchAsync(async (req, res) => {
 const getMe = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY];
 
-  const response = response(httpStatus.OK, authMessage().GET_ME_SUCCESS, user);
-
-  res.status(httpStatus.OK).json(...response);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().GET_ME_SUCCESS, user));
 });
 
 const updateMe = catchAsync(async (req, res) => {
@@ -90,6 +88,7 @@ const loginWith2FA = catchAsync(async (req, res) => {
 
 const generate2FASecret = catchAsync(async (req, res) => {
   const secret = authService.generate2FASecret();
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().GENERATE_2FA_SUCCESS, { secret }));
 });
 
