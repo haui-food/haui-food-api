@@ -15,24 +15,33 @@ const getCarts = catchAsync(async (req, res) => {
 });
 
 const getCartById = catchAsync(async (req, res) => {
-  const cart = await cartService.getCartById(req.params.cartId);
+  const { cartId } = req.params;
+
+  const cart = await cartService.getCartById(cartId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().FIND_SUCCESS, cart));
 });
 
 const updateCart = catchAsync(async (req, res) => {
-  const cart = await cartService.updateCartById(req.params.cartId, req.body);
+  const { cartId } = req.params;
+
+  const cart = await cartService.updateCartById(cartId, req.body);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().UPDATE_SUCCESS, cart));
 });
 
 const deleteCart = catchAsync(async (req, res) => {
-  const cart = await cartService.deleteCartById(req.params.cartId);
+  const { cartId } = req.params;
+
+  const cart = await cartService.deleteCartById(cartId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().DELETE_SUCCESS, cart));
 });
 
 module.exports = {
-  createCart,
   getCarts,
-  getCartById,
   updateCart,
   deleteCart,
+  createCart,
+  getCartById,
 };
