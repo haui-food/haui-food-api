@@ -9,14 +9,14 @@ const catchAsync = require('../utils/catchAsync');
 const chatBot = catchAsync(async (req, res) => {
   const chat = chatAI.startChat();
 
-  const userMessage = req.body.message;
-  const result = await chat.sendMessage(userMessage);
+  const { message } = req.body.message;
+  const result = await chat.sendMessage(message);
   if (!result) throw new ApiError(httpStatus.BAD_REQUEST, chatBotMessage().RETRY);
 
   const aiResponse = result.response.text();
   if (!aiResponse) throw new ApiError(httpStatus.BAD_REQUEST, chatBotMessage().RETRY);
 
-  chatAI.addToHistory('user', userMessage);
+  chatAI.addToHistory('user', message);
   chatAI.addToHistory('model', aiResponse);
 
   return res.status(httpStatus.OK).json(response(httpStatus.OK, chatBotMessage().SUCCESS, aiResponse));
