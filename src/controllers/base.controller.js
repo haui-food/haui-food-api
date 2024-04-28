@@ -11,17 +11,22 @@ const getHome = (req, res) => {
 };
 
 const changeLanguage = (req, res) => {
-  res.cookie('lang', req.params.lang);
+  const { lang } = req.params;
+
+  res.cookie('lang', lang);
+
   res.redirect('/');
 };
 
 const renderQR = catchAsync(async (req, res) => {
   const { uri } = req.query;
+
   const buffer = await renderQRCode(uri);
   res.writeHead(200, {
     'Content-Type': 'image/png',
     'Content-Length': buffer.length,
   });
+
   res.end(buffer);
 });
 
@@ -36,8 +41,8 @@ const handlerNotFound = (req, res, next) => {
 
 module.exports = {
   getHome,
-  changeLanguage,
-  handlerNotFound,
   renderQR,
   sendLogs,
+  changeLanguage,
+  handlerNotFound,
 };
