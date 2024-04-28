@@ -1,8 +1,9 @@
 const httpStatus = require('http-status');
+
 const response = require('../utils/response');
-const catchAsync = require('../utils/catchAsync');
 const { orderService } = require('../services');
 const { orderMessage } = require('../messages');
+const catchAsync = require('../utils/catchAsync');
 
 const createOrder = catchAsync(async (req, res) => {
   const order = await orderService.createOrder(req.body);
@@ -15,17 +16,26 @@ const getOrders = catchAsync(async (req, res) => {
 });
 
 const getOrderById = catchAsync(async (req, res) => {
-  const order = await orderService.getOrderById(req.params.orderId);
+  const { orderId } = req.params;
+
+  const order = await orderService.getOrderById(orderId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_SUCCESS, order));
 });
 
 const updateOrder = catchAsync(async (req, res) => {
-  const order = await orderService.updateOrderById(req.params.orderId, req.body);
+  const { orderId } = req.params;
+
+  const order = await orderService.updateOrderById(orderId, req.body);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_SUCCESS, order));
 });
 
 const deleteOrder = catchAsync(async (req, res) => {
-  const order = await orderService.deleteOrderById(req.params.orderId);
+  const { orderId } = req.params;
+
+  const order = await orderService.deleteOrderById(orderId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().DELETE_SUCCESS, order));
 });
 
@@ -39,10 +49,10 @@ const exportExcel = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-  createOrder,
   getOrders,
-  getOrderById,
+  createOrder,
   updateOrder,
   deleteOrder,
   exportExcel,
+  getOrderById,
 };
