@@ -16,28 +16,42 @@ const getMessages = catchAsync(async (req, res) => {
 });
 
 const getMessageById = catchAsync(async (req, res) => {
-  const message = await messageService.getMessageById(req.params.messageId);
+  const { messageId } = req.params;
+
+  const message = await messageService.getMessageById(messageId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, messageMessage().FIND_SUCCESS, message));
 });
 
+const deleteMessageById = catchAsync(async (req, res) => {
+  const { messageId } = req.params;
+
+  const message = await messageService.deleteMessageById(messageId);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, messageMessage().DELETE_SUCCESS, message));
+});
+
 const getMessagesBysenderId = catchAsync(async (req, res) => {
-  const messages = await messageService.getMessageBysenderId(req.params.senderId);
+  const { senderId } = req.params;
+
+  const messages = await messageService.getMessageBysenderId(senderId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, messageMessage().FIND_LIST_SUCCESS, messages));
 });
 
-const deleteMessage = catchAsync(async (req, res) => {
-  const message = await messageService.deleteMessageById(req.params.messageId);
-  res.status(httpStatus.OK).json(response(httpStatus.OK, messageMessage().DELETE_SUCCESS, message));
-});
 const deleteMessageBysenderId = catchAsync(async (req, res) => {
-  const message = await messageService.deleteMessageBysenderId(req.params.senderId);
+  const { senderId } = req.params;
+
+  const message = await messageService.deleteMessageBysenderId(senderId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, messageMessage().DELETE_SUCCESS, message));
 });
+
 module.exports = {
-  createMessage,
   getMessages,
+  createMessage,
   getMessageById,
+  deleteMessageById,
   getMessagesBysenderId,
-  deleteMessage,
   deleteMessageBysenderId,
 };

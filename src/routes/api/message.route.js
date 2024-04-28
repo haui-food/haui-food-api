@@ -14,7 +14,7 @@ messageRouter
 messageRouter
   .route('/:messageId')
   .get(validate(messageValidation.getMessage), messageController.getMessageById)
-  .delete(validate(messageValidation.deleteMessage), messageController.deleteMessage);
+  .delete(validate(messageValidation.deleteMessage), messageController.deleteMessageById);
 
 messageRouter
   .route('/users/:senderId')
