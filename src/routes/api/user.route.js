@@ -21,7 +21,9 @@ userRouter.get('/exports', validate(userValidation.getUsers), userController.exp
 userRouter
   .route('/:userId')
   .get(validate(userValidation.getUser), userController.getUser)
-  .options(validate(userValidation.lockUser), userController.lockUser)
   .delete(validate(userValidation.deleteUser), userController.deleteUser)
   .put(uploadService.uploadImage.single('avatar'), validate(userValidation.updateUser), userController.updateUser);
+
+userRouter.post('/:userId/lock', validate(userValidation.lockUser), userController.lockUser);
+
 module.exports = userRouter;
