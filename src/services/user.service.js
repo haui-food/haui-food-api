@@ -13,11 +13,13 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
-const getUserById = async (id) => {
-  const user = await User.findById(id).select('+password');
+const getUserById = async (userId) => {
+  const user = await User.findById(userId).select('+password');
+
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, userMessage().NOT_FOUND);
   }
+
   return user;
 };
 
@@ -25,45 +27,59 @@ const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
   }
+
   const user = await User.create(userBody);
   user.password = undefined;
+
   return user;
 };
 
 const getUsersByKeyword = async (query) => {
   const apiFeature = new ApiFeature(User);
+
   const { results, ...detailResult } = await apiFeature.getResults(query, ['fullname', 'email', 'phone']);
+
   return { users: results, ...detailResult };
 };
 
 const updateUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
+
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
   }
+
   Object.assign(user, updateBody);
+
   await user.save();
   user.password = undefined;
+
   return user;
 };
 
 const deleteUserById = async (userId) => {
   const user = await getUserById(userId);
+
   await user.deleteOne();
   user.password = undefined;
+
   return user;
 };
 
 const lockUserById = async (userId) => {
   const user = await getUserById(userId);
+
   Object.assign(user, { isLocked: !user.isLocked });
+
   await user.save();
   user.password = undefined;
+
   return user;
 };
 
 const createAdmin = async () => {
   const { email, password, fullname } = env.admin;
+
   let admin = await User.findOne({ email });
 
   if (!admin) {
@@ -79,8 +95,10 @@ const createAdmin = async () => {
 
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(User);
+
   query.page = 1;
   query.limit = 1000;
+
   const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone']);
   const wb = new excel4node.Workbook();
 
@@ -140,13 +158,13 @@ const exportExcel = async (query) => {
 };
 
 module.exports = {
-  getUserByEmail,
   createUser,
   getUserById,
-  getUsersByKeyword,
-  updateUserById,
-  deleteUserById,
-  lockUserById,
   createAdmin,
   exportExcel,
+  lockUserById,
+  getUserByEmail,
+  updateUserById,
+  deleteUserById,
+  getUsersByKeyword,
 };
