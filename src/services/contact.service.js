@@ -12,11 +12,13 @@ const getContactByEmail = async (email) => {
   return contact;
 };
 
-const getContactById = async (id) => {
-  const contact = await Contact.findById(id);
+const getContactById = async (contactId) => {
+  const contact = await Contact.findById(contactId);
+
   if (!contact) {
     throw new ApiError(httpStatus.NOT_FOUND, contactMessage().NOT_FOUND);
   }
+
   return contact;
 };
 
@@ -27,20 +29,26 @@ const createContact = async (contactBody) => {
 
 const getContactsByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Contact);
+
   const { results, ...detailResult } = await apiFeature.getResults(query, ['fullname', 'email', 'phone', 'message']);
+
   return { contacts: results, ...detailResult };
 };
 
 const deleteContactById = async (contactId) => {
   const contact = await getContactById(contactId);
+
   await contact.deleteOne();
+
   return contact;
 };
 
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Contact);
+
   query.page = 1;
   query.limit = 1000;
+
   const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone', 'message']);
   const wb = new excel4node.Workbook();
 
@@ -88,10 +96,10 @@ const exportExcel = async (query) => {
 };
 
 module.exports = {
-  getContactByEmail,
+  exportExcel,
   createContact,
   getContactById,
-  getContactsByKeyword,
+  getContactByEmail,
   deleteContactById,
-  exportExcel,
+  getContactsByKeyword,
 };
