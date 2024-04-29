@@ -10,35 +10,47 @@ const { userMessage, authMessage } = require('../messages');
 
 const auth = catchAsync(async (req, res, next) => {
   const token = extractToken(req);
+
   if (!token) {
     throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().UNAUTHORIZED);
   }
-  const decoded = jwt.verify(token, env.jwt.secretAccess);
-  const user = await User.findByIdAndUpdate(decoded.id, {
+
+  const payload = jwt.verify(token, env.jwt.secretAccess);
+
+  const user = await User.findByIdAndUpdate(payload.id, {
     lastActive: Date.now(),
   });
+
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, authMessage().UNAUTHORIZED);
   }
+
   if (user.isLocked) {
     throw new ApiError(httpStatus.UNAUTHORIZED, userMessage().USER_LOCKED);
   }
+
   req[REQUEST_USER_KEY] = user;
+
   next();
 });
 
 const authorize = (rolesAllow) => (req, res, next) => {
-  if (!rolesAllow.includes(req[REQUEST_USER_KEY].role)) {
+  const { role } = req[REQUEST_USER_KEY];
+
+  if (!rolesAllow.includes(role)) {
     return next(new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN));
   }
+
   next();
 };
 
 const extractToken = (req) => {
   let token;
+
   if (req.headers.authorization?.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1];
   }
+
   return token;
 };
 
