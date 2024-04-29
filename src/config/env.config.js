@@ -29,10 +29,10 @@ const env = {
     tokenVerifyOTP: process.env.SECRET_TOKEN_VERIFY_OTP || 'secret-verify-otp',
   },
   rateLimit: {
-    timeApp: process.env.RATE_LIMIT_TIME_APP || 5,
-    totalApp: process.env.RATE_LIMIT_TOTAL_APP || 100,
-    timeAuth: process.env.RATE_LIMIT_TIME_AUTH || 3,
-    totalAuth: process.env.RATE_LIMIT_TOTAL_AUTH || 15,
+    timeApp: +process.env.RATE_LIMIT_TIME_APP || 5,
+    totalApp: +process.env.RATE_LIMIT_TOTAL_APP || 100,
+    timeAuth: +process.env.RATE_LIMIT_TIME_AUTH || 3,
+    totalAuth: +process.env.RATE_LIMIT_TOTAL_AUTH || 15,
   },
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME,
@@ -42,12 +42,12 @@ const env = {
   image: {
     folderName: 'haui-food',
     typeAllow: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'],
-    maxFileSize: (process.env.MAX_FILE_SIZE_IMAGE_MB || 3) * 1024 * 1024,
+    maxFileSize: (+process.env.MAX_FILE_SIZE_IMAGE_MB || 3) * 1024 * 1024,
   },
   file: {
     folderName: 'haui-food-file',
     typeAllow: ['.xlsx'],
-    maxFileSize: (process.env.MAX_FILE_SIZE_FILE_MB || 5) * 1024 * 1024,
+    maxFileSize: (+process.env.MAX_FILE_SIZE_FILE_MB || 5) * 1024 * 1024,
   },
 };
 
