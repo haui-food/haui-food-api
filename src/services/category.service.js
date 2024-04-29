@@ -10,31 +10,43 @@ const { categoryMessage } = require('../messages');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 
-const getCategoryById = async (id) => {
-  const category = await Category.findById(id);
+const getCategoryById = async (categoryId) => {
+  const category = await Category.findById(categoryId);
+
   if (!category) {
     throw new ApiError(httpStatus.NOT_FOUND, categoryMessage().NOT_FOUND);
   }
+
   return category;
 };
 
 const createCategory = async (categoryBody) => {
   const { name } = categoryBody;
+
   const category = await Category.findOne({ name });
+
   if (category) {
     throw new ApiError(httpStatus.BAD_REQUEST, categoryMessage().ALREADY_EXISTS);
   }
+
   const newCategory = await Category.create(categoryBody);
+
   return newCategory;
 };
 
 const getCategoriesByKeyword = async (query) => {
   const key = objectToString(query);
+
   const categoriesCache = cacheService.get(key);
-  if (categoriesCache) return categoriesCache;
+
+  if (categoriesCache) {
+    return categoriesCache;
+  }
 
   const apiFeature = new ApiFeature(Category);
+
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'slug']);
+
   cacheService.set(key, { categories: results, ...detailResult });
 
   return { categories: results, ...detailResult };
@@ -42,21 +54,27 @@ const getCategoriesByKeyword = async (query) => {
 
 const updateCategoryById = async (categoryId, updateBody) => {
   const category = await getCategoryById(categoryId);
+
   Object.assign(category, updateBody);
   await category.save();
+
   return category;
 };
 
 const deleteCategoryById = async (categoryId) => {
   const category = await getCategoryById(categoryId);
+
   await category.deleteOne();
+
   return category;
 };
 
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Category);
+
   query.page = 1;
   query.limit = 1000;
+
   const { results } = await apiFeature.getResults(query, ['name', 'slug']);
   const wb = new excel4node.Workbook();
 
@@ -112,16 +130,17 @@ const importCategoriesFromExcelFile = async (file) => {
       image: row['C'],
     });
   }
+
   await Category.insertMany(categories);
   return categories;
 };
 
 module.exports = {
-  getCategoryById,
+  exportExcel,
   createCategory,
-  getCategoriesByKeyword,
+  getCategoryById,
   updateCategoryById,
   deleteCategoryById,
-  exportExcel,
+  getCategoriesByKeyword,
   importCategoriesFromExcelFile,
 };
