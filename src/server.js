@@ -11,8 +11,8 @@ const apiRoute = require('./routes/api');
 const { userService } = require('./services');
 const baseRouter = require('./routes/base.route');
 const initLogDirFile = require('./utils/initLogDirFile');
+const limiter = require('./middlewares/rate-limit.middleware');
 const { env, logger, morgan, i18nService } = require('./config');
-const { rateLimitApp } = require('./middlewares/rate-limit.middleware');
 const { logUnauthenticatedRequest } = require('./middlewares/logger.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
 
@@ -22,7 +22,7 @@ app.set('trust proxy', 1);
 app.set('views', 'src/views');
 app.set('view engine', 'ejs');
 
-app.use(rateLimitApp);
+app.use(limiter());
 // app.use(helmet());
 
 app.use(express.json());
