@@ -10,42 +10,52 @@ const createMessage = async (messageBody) => {
   return message;
 };
 
-const getMessageById = async (id) => {
-  const message = await Message.findById(id);
+const getMessageById = async (messageId) => {
+  const message = await Message.findById(messageId);
+
   if (!message) {
     throw new ApiError(httpStatus.NOT_FOUND, messageMessage().NOT_FOUND);
   }
+
   return message;
 };
 
 const getMessageBysenderId = async (senderId) => {
   const messages = await Message.find({ senderId: senderId });
+
   if (!messages) {
     throw new ApiError(httpStatus.NOT_FOUND, messageMessage().NOT_FOUND);
   }
+
   return messages;
 };
 
 const getMessagesByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Message);
+
   const { results, ...detailResult } = await apiFeature.getResults(query, ['senderId', 'receiverId', 'message']);
+
   return { messages: results, ...detailResult };
 };
 
 const deleteMessageById = async (messageId) => {
   const message = await getMessageById(messageId);
+
   await message.deleteOne();
+
   return message;
 };
+
 const deleteMessageBysenderId = async (senderId) => {
   const message = await Message.deleteMany({ senderId: senderId });
   return message;
 };
+
 module.exports = {
   createMessage,
   getMessageById,
+  deleteMessageById,
   getMessageBysenderId,
   getMessagesByKeyword,
-  deleteMessageById,
   deleteMessageBysenderId,
 };

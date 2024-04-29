@@ -35,7 +35,9 @@ const decryptObj = (cipherText, secret) => {
 
 const expiresCheck = (token, secret, timeDiff = 0) => {
   const payload = decryptObj(token, secret);
+
   const isExpired = Date.now() + timeDiff > payload?.expires;
+
   return { isExpired, payload };
 };
 
