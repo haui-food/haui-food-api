@@ -22,9 +22,11 @@ const generate = () => {
 
 const verify = (sign, text) => {
   const { isExpired, payload } = expiresCheck(sign, env.secret.tokenCapcha);
+
   if (text === JSON.parse(payload).text && !isExpired) {
     return true;
   }
+
   return false;
 };
 
