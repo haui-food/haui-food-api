@@ -7,6 +7,7 @@ const { systemMessage, authMessage } = require('../messages');
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
+
   if (!(error instanceof ApiError)) {
     const statusCode =
       error.statusCode || error instanceof mongoose.Error ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
@@ -21,11 +22,13 @@ const errorConverter = (err, req, res, next) => {
   if (error.message === 'File too large') {
     error = new ApiError(httpStatus.BAD_REQUEST, systemMessage().IMAGE_MAX_SIZE);
   }
+
   next(error);
 };
 
 const errorHandler = (err, req, res, next) => {
   let { statusCode, message } = err;
+
   if (env.nodeEnv === 'production' && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
@@ -47,6 +50,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = {
-  errorConverter,
   errorHandler,
+  errorConverter,
 };
