@@ -18,14 +18,14 @@ const sendLogToFile = (message) => {
 };
 
 const logUnauthenticatedRequest = catchAsync(async (req, res, next) => {
-  const isAuth = req.headers?.authorization ? true : false;
+  const isAuth = !!req.headers?.authorization;
 
   const isLog = req.originalUrl.toLowerCase() === '/logs';
 
   const { userIP } = getInfoClient(req);
 
   const listIPPing = env.listIPPing.split(',');
-  const isPing = listIPPing.includes(userIP) ? true : false;
+  const isPing = listIPPing.includes(userIP);
 
   if (isAuth || isLog || isPing) return next();
 
