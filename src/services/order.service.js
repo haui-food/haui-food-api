@@ -7,11 +7,13 @@ const ApiError = require('../utils/ApiError');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 
-const getOrderById = async (id) => {
-  const order = await Order.findById(id);
+const getOrderById = async (orderId) => {
+  const order = await Order.findById(orderId);
+
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, orderMessage().NOT_FOUND);
   }
+
   return order;
 };
 
@@ -22,6 +24,7 @@ const createOrder = async (orderBody) => {
 
 const getOrdersByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Order);
+
   const { results, ...detailResult } = await apiFeature.getResults(query, [
     'userId',
     'cartId',
@@ -29,26 +32,33 @@ const getOrdersByKeyword = async (query) => {
     'address',
     'status',
   ]);
+
   return { orders: results, ...detailResult };
 };
 
 const updateOrderById = async (orderId, updateBody) => {
   const order = await getOrderById(orderId);
+
   Object.assign(order, updateBody);
   await order.save();
+
   return order;
 };
 
 const deleteOrderById = async (orderId) => {
   const order = await getOrderById(orderId);
+
   await order.deleteOne();
+
   return order;
 };
 
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Order);
+
   query.page = 1;
   query.limit = 1000;
+
   const { results } = await apiFeature.getResults(query, ['userId', 'cartId', 'address', 'status']);
   const wb = new excel4node.Workbook();
 
@@ -99,10 +109,10 @@ const exportExcel = async (query) => {
 };
 
 module.exports = {
-  getOrderById,
+  exportExcel,
   createOrder,
-  getOrdersByKeyword,
+  getOrderById,
   updateOrderById,
   deleteOrderById,
-  exportExcel,
+  getOrdersByKeyword,
 };
