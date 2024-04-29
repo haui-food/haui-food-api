@@ -67,7 +67,8 @@
     "emailNotExists": "Email chưa tồn tại trên hệ thống",
     "fotgotPasswordSuccess": "Gửi mã xác nhận quên mật khẩu thành công",
     "verifyOTPSuccess": "Xác nhận OTP thành công",
-    "invalidOTP": "OTP không chính xác"
+    "invalidOTP": "OTP không chính xác",
+    "jwtExpired": "jwt hết hạn"
   },
   "product": {
     "notFound": "Không tìm thấy sản phẩm",

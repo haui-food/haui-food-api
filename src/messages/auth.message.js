@@ -3,6 +3,7 @@ const { i18nService } = require('../config');
 const authMessage = () => {
   return {
     FORBIDDEN: i18nService.translate('auth.forbidden'),
+    JWT_EXPIRED: i18nService.translate('auth.jwtExpired'),
     PLEASE_WAIT: i18nService.translate('auth.pleaseWait'),
     INVALID_OTP: i18nService.translate('auth.invalidOTP'),
     UNAUTHORIZED: i18nService.translate('auth.unauthorized'),
