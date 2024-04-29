@@ -23,6 +23,10 @@ const errorConverter = (err, req, res, next) => {
     error = new ApiError(httpStatus.BAD_REQUEST, systemMessage().IMAGE_MAX_SIZE);
   }
 
+  if (error.message === 'invalid signature') {
+    error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
+  }
+
   next(error);
 };
 
