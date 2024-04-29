@@ -74,6 +74,18 @@ const STATUS_FORGOT = {
 
 const LENGTH_OTP_DEFAULT = 6;
 
+const STYLE_EXPORT_EXCEL = {
+  font: {
+    color: '#FFFFFF',
+    bold: true,
+  },
+  fill: {
+    type: 'pattern',
+    patternType: 'solid',
+    fgColor: '#1ABD76',
+  },
+};
+
 module.exports = {
   LOG_DIR,
   LOCALES,
@@ -96,6 +108,7 @@ module.exports = {
   LOGO_IMAGE_MARGIN,
   TIME_CACHE_DEFAULT,
   LENGTH_OTP_DEFAULT,
+  STYLE_EXPORT_EXCEL,
   EXPIRES_TOKEN_CAPTCHA,
   LOGO_BACKGROUND_COLOR,
   TIME_DIFF_EMAIL_VERIFY,

@@ -5,6 +5,7 @@ const httpStatus = require('http-status');
 const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
 const ApiFeature = require('../utils/ApiFeature');
+const { STYLE_EXPORT_EXCEL } = require('../constants');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
@@ -88,17 +89,7 @@ const exportExcel = async (query) => {
 
   const ws = wb.addWorksheet('Products');
 
-  const headerStyle = wb.createStyle({
-    font: {
-      color: '#FFFFFF',
-      bold: true,
-    },
-    fill: {
-      type: 'pattern',
-      patternType: 'solid',
-      fgColor: '#1ABD76',
-    },
-  });
+  const headerStyle = wb.createStyle(STYLE_EXPORT_EXCEL);
 
   ws.column(1).setWidth(28);
   ws.column(2).setWidth(23);

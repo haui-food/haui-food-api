@@ -7,6 +7,7 @@ const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { userMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
+const { STYLE_EXPORT_EXCEL } = require('../constants');
 
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ email }).select('+password');
@@ -104,17 +105,7 @@ const exportExcel = async (query) => {
 
   const ws = wb.addWorksheet('Users');
 
-  const headerStyle = wb.createStyle({
-    font: {
-      color: '#FFFFFF',
-      bold: true,
-    },
-    fill: {
-      type: 'pattern',
-      patternType: 'solid',
-      fgColor: '#1ABD76',
-    },
-  });
+  const headerStyle = wb.createStyle(STYLE_EXPORT_EXCEL);
 
   ws.column(1).setWidth(28);
   ws.column(2).setWidth(23);
