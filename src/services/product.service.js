@@ -14,56 +14,75 @@ const createProduct = async (productBody) => {
   return product;
 };
 
-const getProductById = async (id) => {
-  const product = await Product.findById(id);
+const getProductById = async (productId) => {
+  const product = await Product.findById(productId);
+
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
   }
+
   return product;
 };
 
 const getProductsByKeyword = async (query) => {
   const key = objectToString(query);
+
   const productsCache = cacheService.get(key);
-  if (productsCache) return productsCache;
+
+  if (productsCache) {
+    return productsCache;
+  }
 
   const apiFeature = new ApiFeature(Product);
+
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description', 'slug']);
+
   cacheService.set(key, { products: results, ...detailResult });
 
   return { products: results, ...detailResult };
 };
 
-const getMyProducts = async (query) => {
+const getMyProducts = async (query, shopId) => {
   const apiFeature = new ApiFeature(Product);
-  query.shopId = query.user.id;
+
+  query.shopId = shopId;
+
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
+
   return { products: results, ...detailResult };
 };
 
 const updateProductById = async (productId, updateBody, shopId) => {
   const product = await getProductById(productId);
+
   if (updateBody.shopId !== shopId) {
     throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
   }
+
   Object.assign(product, updateBody);
   await product.save();
+
   return product;
 };
 
 const deleteProductById = async (productId, shopId) => {
   const product = await getProductById(productId);
+
   if (product.shopId !== shopId) {
     throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
   }
+
   await product.deleteOne();
+
   return product;
 };
 
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Product);
+
   query.page = 1;
   query.limit = 1000;
+
   const { results } = await apiFeature.getResults(query, ['name', 'description', 'slug', 'price']);
   const wb = new excel4node.Workbook();
 
@@ -120,11 +139,11 @@ const exportExcel = async (query) => {
 };
 
 module.exports = {
-  getProductById,
+  exportExcel,
   createProduct,
   getMyProducts,
-  getProductsByKeyword,
+  getProductById,
   updateProductById,
   deleteProductById,
-  exportExcel,
+  getProductsByKeyword,
 };

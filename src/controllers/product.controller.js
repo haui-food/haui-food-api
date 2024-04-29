@@ -29,7 +29,10 @@ const getProductById = catchAsync(async (req, res) => {
 });
 
 const getMyProducts = catchAsync(async (req, res) => {
-  const products = await productService.getMyProducts(req.query);
+  const shopId = req[REQUEST_USER_KEY].id;
+
+  const products = await productService.getMyProducts(req.query, shopId);
+
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
 
