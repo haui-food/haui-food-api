@@ -13,6 +13,7 @@ const baseRouter = require('./routes/base.route');
 const initLogDirFile = require('./utils/initLogDirFile');
 const limiter = require('./middlewares/rate-limit.middleware');
 const { env, logger, morgan, i18nService } = require('./config');
+const countAccess = require('./middlewares/count-access.middleware');
 const { logUnauthenticatedRequest } = require('./middlewares/logger.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
 
@@ -45,7 +46,9 @@ if (env.nodeEnv !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+app.use(countAccess);
 app.use(logUnauthenticatedRequest);
+
 app.use('/api/v1', apiRoute);
 app.use('/', baseRouter);
 

@@ -86,6 +86,10 @@ const STYLE_EXPORT_EXCEL = {
   },
 };
 
+const KEY_CACHE_ACCESS = 'totalAccess';
+
+const TTL_CACHE_ACCESS = 10 * 60;
+
 module.exports = {
   LOG_DIR,
   LOCALES,
@@ -101,6 +105,8 @@ module.exports = {
   LOG_FILENAME,
   STATUS_FORGOT,
   LOGO_DOTS_COLOR,
+  TTL_CACHE_ACCESS,
+  KEY_CACHE_ACCESS,
   LANGUAGE_DEFAULT,
   REQUEST_USER_KEY,
   PATH_API_DEFAULT,
