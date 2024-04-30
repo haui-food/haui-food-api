@@ -12,6 +12,8 @@ baseRouter.get('/logs', baseController.sendLogs);
 
 baseRouter.all('/health', baseController.healthCheck);
 
+baseRouter.get('/count-access', baseController.countAccess);
+
 baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
 baseRouter.get('/qr-code', validate(systemValidation.renderQRCode), baseController.renderQR);

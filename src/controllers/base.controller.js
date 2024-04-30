@@ -4,7 +4,9 @@ const ApiError = require('../utils/ApiError');
 const { systemMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
 const readFileLog = require('../utils/readFileLog');
+const { KEY_CACHE_ACCESS } = require('../constants');
 const renderQRCode = require('../utils/renderQRCode');
+const cacheService = require('../services/cache.service');
 
 const getHome = (req, res) => {
   res.send('Server HaUI Food is running 🎉');
@@ -39,6 +41,14 @@ const healthCheck = (req, res) => {
   res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'] });
 };
 
+const countAccess = (req, res) => {
+  const totalAccess = cacheService.get(KEY_CACHE_ACCESS) || 0;
+
+  cacheService.del(KEY_CACHE_ACCESS);
+
+  res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'], totalAccess });
+};
+
 const handlerNotFound = (req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, systemMessage().RESOURCE_NOT_FOUND));
 };
@@ -48,6 +58,7 @@ module.exports = {
   renderQR,
   sendLogs,
   healthCheck,
+  countAccess,
   changeLanguage,
   handlerNotFound,
 };
