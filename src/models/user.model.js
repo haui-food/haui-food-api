@@ -17,6 +17,11 @@ const userSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
+    normalizedEmail: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
     password: {
       type: String,
       select: false,
@@ -76,8 +81,8 @@ const userSchema = mongoose.Schema(
   },
 );
 
-userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
-  const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+userSchema.statics.isEmailTaken = async function (normalizedEmail, excludeUserId) {
+  const user = await this.findOne({ normalizedEmail, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

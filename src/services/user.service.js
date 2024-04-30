@@ -8,9 +8,13 @@ const ApiError = require('../utils/ApiError');
 const { userMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 const { STYLE_EXPORT_EXCEL } = require('../constants');
+const emailFormatter = require('../utils/emailFormatter');
 
 const getUserByEmail = async (email) => {
-  const user = await User.findOne({ email }).select('+password');
+  const normalizedEmail = emailFormatter(email);
+
+  const user = await User.findOne({ normalizedEmail }).select('+password');
+
   return user;
 };
 
@@ -25,10 +29,13 @@ const getUserById = async (userId) => {
 };
 
 const createUser = async (userBody) => {
-  if (await User.isEmailTaken(userBody.email)) {
+  const normalizedEmail = emailFormatter(userBody.email);
+
+  if (await User.isEmailTaken(normalizedEmail)) {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
   }
 
+  userBody['normalizedEmail'] = normalizedEmail;
   const user = await User.create(userBody);
   user.password = undefined;
 
