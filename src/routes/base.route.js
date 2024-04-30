@@ -10,7 +10,7 @@ baseRouter.get('/', baseController.getHome);
 
 baseRouter.get('/logs', baseController.sendLogs);
 
-baseRouter.get('/health', baseController.healthCheck);
+baseRouter.all('/health', baseController.healthCheck);
 
 baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
