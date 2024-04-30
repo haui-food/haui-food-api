@@ -49,6 +49,10 @@ const env = {
     typeAllow: ['.xlsx'],
     maxFileSize: (+process.env.MAX_FILE_SIZE_FILE_MB || 5) * 1024 * 1024,
   },
+  apiKey: {
+    mailer: process.env.API_KEY_MAILER || 'mailer',
+    cronJob: process.env.API_KEY_CRON_JOB || 'cron-job',
+  },
 };
 
 module.exports = env;
