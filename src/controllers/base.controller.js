@@ -30,10 +30,14 @@ const renderQR = catchAsync(async (req, res) => {
   res.end(buffer);
 });
 
-const sendLogs = catchAsync((req, res) => {
+const sendLogs = (req, res) => {
   const logs = readFileLog();
   res.send({ code: httpStatus.OK, data: { logs } });
-});
+};
+
+const healthCheck = (req, res) => {
+  res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'] });
+};
 
 const handlerNotFound = (req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, systemMessage().RESOURCE_NOT_FOUND));
@@ -43,6 +47,7 @@ module.exports = {
   getHome,
   renderQR,
   sendLogs,
+  healthCheck,
   changeLanguage,
   handlerNotFound,
 };
