@@ -13,6 +13,7 @@ const userMessage = () => {
     UPDATE_SUCCESS: i18nService.translate('user.updateSuccess'),
     DELETE_SUCCESS: i18nService.translate('user.deleteSuccess'),
     LOCKED_SUCCESS: i18nService.translate('user.lockedSuccess'),
+    FULLNAME_LENGTH: i18nService.translate('user.fullnameLength'),
     PASSWORD_LENGTH: i18nService.translate('user.passwordLength'),
     PASSWORD_INVALID: i18nService.translate('user.passwordInvalid'),
     UNLOCKED_SUCCESS: i18nService.translate('user.unlockedSuccess'),
