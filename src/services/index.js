@@ -1,4 +1,5 @@
 module.exports.cache = require('./cache.service');
+module.exports.redis = require('./redis.service');
 module.exports.chatService = require('./chat.service');
 module.exports.userService = require('./user.service');
 module.exports.authService = require('./auth.service');
