@@ -7,6 +7,9 @@ const errorHistorySchema = mongoose.Schema({
   path: {
     type: String,
   },
+  method: {
+    type: String,
+  },
   message: {
     type: String,
   },
