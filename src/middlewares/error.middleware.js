@@ -3,6 +3,8 @@ const httpStatus = require('http-status');
 
 const { env, logger } = require('../config');
 const ApiError = require('../utils/ApiError');
+const { errorHistoryService } = require('../services');
+const getInfoClient = require('../utils/getInfoClient');
 const { systemMessage, authMessage } = require('../messages');
 
 const errorConverter = (err, req, res, next) => {
@@ -22,9 +24,9 @@ const errorConverter = (err, req, res, next) => {
     case 'File too large':
       error = new ApiError(httpStatus.BAD_REQUEST, systemMessage().IMAGE_MAX_SIZE);
       break;
-    case 'invalid signature':
-      error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
-      break;
+    // case 'invalid signature':
+    //   error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
+    //   break;
     default:
       break;
   }
@@ -32,12 +34,24 @@ const errorConverter = (err, req, res, next) => {
   next(error);
 };
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = async (err, req, res, next) => {
   let { statusCode, message } = err;
 
   if (env.nodeEnv === 'production' && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+  }
+
+  if (statusCode === httpStatus.INTERNAL_SERVER_ERROR) {
+    const { userIP } = getInfoClient(req);
+
+    await errorHistoryService.createErrorHistory({
+      ip: userIP,
+      path: req.path,
+      stack: err.stack,
+      method: req.method,
+      message: err.message,
+    });
   }
 
   res.locals.errorMessage = err.message;
