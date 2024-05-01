@@ -9,3 +9,4 @@ module.exports.Category = require('./category.model');
 module.exports.CartDetail = require('./cart-detail.model');
 module.exports.DailyAccess = require('./daily-access.model');
 module.exports.Conversation = require('./conversation.model');
+module.exports.ErrorHistory = require('./error-history.model');
