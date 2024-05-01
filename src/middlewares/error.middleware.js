@@ -24,9 +24,9 @@ const errorConverter = (err, req, res, next) => {
     case 'File too large':
       error = new ApiError(httpStatus.BAD_REQUEST, systemMessage().IMAGE_MAX_SIZE);
       break;
-    // case 'invalid signature':
-    //   error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
-    //   break;
+    case 'invalid signature':
+      error = new ApiError(httpStatus.UNAUTHORIZED, authMessage().INVALID_TOKEN);
+      break;
     default:
       break;
   }
