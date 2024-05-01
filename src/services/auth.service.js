@@ -274,8 +274,8 @@ const forgotPassword = async (email, text, sign) => {
   }
 
   const expires = Date.now() + EXPIRES_TOKEN_FOTGOT_PASSWORD;
-  // const otp = generateOTP();
-  const otp = '123456';
+  const otp = generateOTP();
+  // const otp = '123456';
 
   const tokenForgot = cryptoService.encryptObj(
     {
@@ -287,14 +287,14 @@ const forgotPassword = async (email, text, sign) => {
     env.secret.tokenForgot,
   );
 
-  // await emailService.sendEmail({
-  //   emailData: {
-  //     emails: email,
-  //     subject: '[HaUI Food] Confirm OTP Forgot Password',
-  //     OTPForgotPassword: otp,
-  //   },
-  //   type: EMAIL_TYPES.FORGOT,
-  // });
+  await emailService.sendEmail({
+    emailData: {
+      emails: email,
+      subject: '[HaUI Food] Confirm OTP Forgot Password',
+      OTPForgotPassword: otp,
+    },
+    type: EMAIL_TYPES.FORGOT,
+  });
 
   user.forgotStatus = STATUS_FORGOT.VERIFY_OTP;
   await user.save();
