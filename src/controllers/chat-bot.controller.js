@@ -9,7 +9,8 @@ const catchAsync = require('../utils/catchAsync');
 const chatBot = catchAsync(async (req, res) => {
   const chat = chatAI.startChat();
 
-  const { message } = req.body.message;
+  const { message } = req.body;
+
   const result = await chat.sendMessage(message);
   if (!result) throw new ApiError(httpStatus.BAD_REQUEST, chatBotMessage().RETRY);
 
