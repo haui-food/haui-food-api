@@ -7,8 +7,8 @@ const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { userMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
-const { STYLE_EXPORT_EXCEL } = require('../constants');
 const emailFormatter = require('../utils/emailFormatter');
+const { STYLE_EXPORT_EXCEL, THIRTY_DAYS_IN_MILLISECONDS } = require('../constants');
 
 const getUserByEmail = async (email) => {
   const normalizedEmail = emailFormatter(email);
@@ -155,6 +155,19 @@ const exportExcel = async (query) => {
   return wb;
 };
 
+const deleteMyAccount = async (userId) => {
+  const user = await getUserById(userId);
+
+  const thirtyDaysAgo = new Date(Date.now() - THIRTY_DAYS_IN_MILLISECONDS);
+  const readyDelete = user.createdAt < thirtyDaysAgo;
+
+  if (!readyDelete) {
+    throw new ApiError(httpStatus.BAD_REQUEST, userMessage().DONT_DELETE_ACCOUNT);
+  }
+
+  await user.deleteOne();
+};
+
 module.exports = {
   createUser,
   getUserById,
@@ -164,5 +177,6 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  deleteMyAccount,
   getUsersByKeyword,
 };
