@@ -174,7 +174,7 @@ const resetPassword = catchAsync(async (req, res) => {
 const deleteMyAccount = catchAsync(async (req, res) => {
   const userId = req[REQUEST_USER_KEY].id;
 
-  await authService.deleteMyAccount(userId);
+  await userService.deleteMyAccount(userId);
 
   res.status(httpStatus.OK).json(response(httpStatus.OK, userMessage().DELETE_ACCOUNT_SUCCESS));
 });

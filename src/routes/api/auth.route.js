@@ -20,7 +20,8 @@ authRouter
     uploadService.uploadImage.single('avatar'),
     validate(authValidation.updateMe),
     authController.updateMe,
-  );
+  )
+  .delete(auth, logAuthenticatedRequest, authController.deleteMyAccount);
 
 authRouter.get('/verify', authController.renderPageVerifyEmail);
 
@@ -50,9 +51,21 @@ authRouter.post(
 
 authRouter.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
 
-authRouter.post('/change-password', auth, validate(authValidation.changePassword), authController.changePassword);
+authRouter.post(
+  '/change-password',
+  auth,
+  logAuthenticatedRequest,
+  validate(authValidation.changePassword),
+  authController.changePassword,
+);
 
-authRouter.post('/toggle-2fa', auth, validate(authValidation.toggle2FA), authController.toggleTwoFactorAuthentication);
+authRouter.post(
+  '/toggle-2fa',
+  auth,
+  logAuthenticatedRequest,
+  validate(authValidation.toggle2FA),
+  authController.toggleTwoFactorAuthentication,
+);
 
 authRouter.post(
   '/change-2fa-secret',
