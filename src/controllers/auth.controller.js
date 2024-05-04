@@ -2,8 +2,8 @@ const httpStatus = require('http-status');
 
 const { env } = require('../config');
 const response = require('../utils/response');
-const { authMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
+const { authMessage, userMessage } = require('../messages');
 const { REQUEST_USER_KEY, URL_HOST } = require('../constants');
 const { authService, userService, cryptoService } = require('../services');
 
@@ -171,6 +171,14 @@ const resetPassword = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, authMessage().CHANGE_PASSWORD_SUCCESS));
 });
 
+const deleteMyAccount = catchAsync(async (req, res) => {
+  const userId = req[REQUEST_USER_KEY].id;
+
+  await authService.deleteMyAccount(userId);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, userMessage().DELETE_ACCOUNT_SUCCESS));
+});
+
 module.exports = {
   getMe,
   login,
@@ -183,6 +191,7 @@ module.exports = {
   forgotPassword,
   changePassword,
   change2FASecret,
+  deleteMyAccount,
   generate2FASecret,
   reSendEmailVerify,
   renderPageVerifyEmail,
