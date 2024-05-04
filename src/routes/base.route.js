@@ -9,7 +9,7 @@ const baseRouter = express.Router();
 
 baseRouter.get('/', baseController.getHome);
 
-baseRouter.all('/health', baseController.healthCheck);
+baseRouter.all('/health-check', baseController.healthCheck);
 
 baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
