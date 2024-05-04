@@ -91,12 +91,22 @@ const createAdmin = async () => {
   let admin = await User.findOne({ email });
 
   if (!admin) {
-    await User.create({ fullname, email, password, role: 'admin' });
+    await User.create({
+      email,
+      fullname,
+      password,
+      role: 'admin',
+      isVerify: true,
+      normalizedEmail: emailFormatter(email),
+    });
   } else {
-    admin.fullname = fullname;
     admin.email = email;
-    admin.password = password;
     admin.role = 'admin';
+    admin.isVerify = true;
+    admin.fullname = fullname;
+    admin.password = password;
+    admin.forgotStatus = null;
+    admin.normalizedEmail = emailFormatter(email);
     await admin.save();
   }
 };
