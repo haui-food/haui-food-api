@@ -18,6 +18,8 @@ const userMessage = () => {
     PASSWORD_INVALID: i18nService.translate('user.passwordInvalid'),
     UNLOCKED_SUCCESS: i18nService.translate('user.unlockedSuccess'),
     FIND_LIST_SUCCESS: i18nService.translate('user.findListSuccess'),
+    DONT_DELETE_ACCOUNT: i18nService.translate('user.dontDeleteAccount'),
+    DELETE_ACCOUNT_SUCCESS: i18nService.translate('user.deleteAccountSuccess'),
   };
 };
 

@@ -26,7 +26,9 @@
     "unlockedSuccess": "User unlocked successfully",
     "userLocked": "Account locked",
     "fullnameLength": "Full name must be between 3 and 50 characters",
-    "phoneLength": "Phone number must be between 5 and 12 characters"
+    "phoneLength": "Phone number must be between 5 and 12 characters",
+    "dontDeleteAccount": "Cannot delete account after 30 days",
+    "deleteAccountSuccess": "Delete account successfully"
   },
   "category": {
     "notFound": "Category not found",

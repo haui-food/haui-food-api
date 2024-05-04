@@ -26,7 +26,9 @@
     "unlockedSuccess": "Mở khoá người dùng thành công",
     "userLocked": "Tài khoản đã bị khoá",
     "fullnameLength": "Họ tên từ 3 đến 50 ký tự",
-    "phoneLength": "Số điện thoại từ 8 đến 13 ký tự"
+    "phoneLength": "Số điện thoại từ 8 đến 13 ký tự",
+    "dontDeleteAccount": "Không thể xóa tài khoản khi chưa đủ 30 ngày",
+    "deleteAccountSuccess": "Xóa tài khoản thành công"
   },
   "category": {
     "notFound": "Không tìm thấy danh mục",
