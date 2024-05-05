@@ -17,7 +17,8 @@ const generate = () => {
     env.secret.tokenCapcha,
   );
 
-  return { text, sign, image };
+  // return { text, sign, image };
+  return { sign, image };
 };
 
 const verify = (sign, text) => {
