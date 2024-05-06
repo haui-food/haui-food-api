@@ -4,8 +4,16 @@ const ApiError = require('../utils/ApiError');
 const { shopMessage } = require('../messages');
 const { User, Product } = require('../models');
 const { RATING_RANGE } = require('../constants');
+const cacheService = require('../services/cache.service');
+const objectToString = require('../utils/objectToString');
 
 const getShops = async (requestQuery) => {
+  const key = objectToString(requestQuery);
+
+  const shopsCache = cacheService.get(key);
+
+  if (shopsCache) return shopsCache;
+
   const { limit = 10, page = 1, keyword = '' } = requestQuery;
 
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
@@ -48,6 +56,8 @@ const getShops = async (requestQuery) => {
     ...shop._doc,
     rating: randomRating(),
   }));
+
+  cacheService.set(key, { shops, ...detailResult });
 
   return { shops, ...detailResult };
 };
