@@ -28,6 +28,4 @@ class RabbitMQClient {
   }
 }
 
-const rabbitmqService = new RabbitMQClient();
-
-module.exports = rabbitmqService;
+module.exports = new RabbitMQClient();
