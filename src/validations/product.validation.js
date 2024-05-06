@@ -13,16 +13,11 @@ const createProduct = {
 
 const getProducts = {
   query: Joi.object().keys({
-    keyword: Joi.string(),
+    keyword: Joi.string().allow(null, ''),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
-    name: Joi.string().allow(null, ''),
-    price: Joi.string().allow(null, ''),
-    description: Joi.string().allow(null, ''),
-    slug: Joi.string().allow(null, ''),
-    populate: Joi.string().allow(null, ''),
   }),
 };
 

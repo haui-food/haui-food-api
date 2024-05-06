@@ -4,7 +4,7 @@ const { objectId } = require('./custom.validation');
 
 const getShops = {
   query: Joi.object().keys({
-    keyword: Joi.string(),
+    keyword: Joi.string().allow(null, ''),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),

@@ -13,7 +13,7 @@ const createOrder = {
 
 const getOrders = {
   query: Joi.object().keys({
-    keyword: Joi.string(),
+    keyword: Joi.string().allow(null, ''),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
