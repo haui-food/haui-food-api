@@ -72,7 +72,7 @@ const getDetailShop = async (id) => {
     throw new ApiError(httpStatus.NOT_FOUND, shopMessage().NOT_FOUND);
   }
 
-  const products = await Product.find({ shopId: id }).select('name description image price slug');
+  const products = await Product.find({ shop: id }).select('name description image price slug');
 
   return { shop: { ...shop.toObject(), products } };
 };
