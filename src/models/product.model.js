@@ -23,12 +23,12 @@ const productSchema = mongoose.Schema(
       type: String,
       default: '',
     },
-    shopId: {
+    shop: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    categoryId: {
+    category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
       required: true,

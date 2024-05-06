@@ -7,7 +7,7 @@ const createProduct = {
     image: Joi.string(),
     description: Joi.string().allow(null, ''),
     price: Joi.number().required(),
-    categoryId: Joi.string().custom(objectId),
+    category: Joi.string().custom(objectId),
   }),
 };
 
@@ -18,8 +18,6 @@ const getProducts = {
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     lang: Joi.string(),
-    shopId: Joi.string().optional().custom(objectId),
-    categoryId: Joi.string().optional().custom(objectId),
     name: Joi.string().allow(null, ''),
     price: Joi.string().allow(null, ''),
     description: Joi.string().allow(null, ''),
@@ -43,7 +41,7 @@ const updateProduct = {
     image: Joi.string(),
     description: Joi.string().allow(null, ''),
     price: Joi.number(),
-    categoryId: Joi.string().custom(objectId),
+    category: Joi.string().custom(objectId),
   }),
 };
 

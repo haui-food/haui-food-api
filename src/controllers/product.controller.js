@@ -7,7 +7,7 @@ const { productMessage } = require('../messages');
 const { REQUEST_USER_KEY } = require('../constants');
 
 const createProduct = catchAsync(async (req, res) => {
-  req.body.shopId = req[REQUEST_USER_KEY].id;
+  req.body.shop = req[REQUEST_USER_KEY].id;
 
   if (req.file) req.body['image'] = req.file.path;
 
@@ -29,9 +29,9 @@ const getProductById = catchAsync(async (req, res) => {
 });
 
 const getMyProducts = catchAsync(async (req, res) => {
-  const shopId = req[REQUEST_USER_KEY].id;
+  const shop = req[REQUEST_USER_KEY].id;
 
-  const products = await productService.getMyProducts(req.query, shopId);
+  const products = await productService.getMyProducts(req.query, shop);
 
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().FIND_LIST_SUCCESS, products));
 });
@@ -39,11 +39,11 @@ const getMyProducts = catchAsync(async (req, res) => {
 const updateProduct = catchAsync(async (req, res) => {
   const { productId } = req.params;
 
-  const shopId = req[REQUEST_USER_KEY].id;
+  const shop = req[REQUEST_USER_KEY].id;
 
   if (req.file) req.body['image'] = req.file.path;
 
-  const product = await productService.updateProductById(productId, req.body, shopId);
+  const product = await productService.updateProductById(productId, req.body, shop);
 
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().UPDATE_SUCCESS, product));
 });
@@ -51,9 +51,9 @@ const updateProduct = catchAsync(async (req, res) => {
 const deleteProduct = catchAsync(async (req, res) => {
   const { productId } = req.params;
 
-  const shopId = req[REQUEST_USER_KEY].id;
+  const shop = req[REQUEST_USER_KEY].id;
 
-  const result = await productService.deleteProductById(productId, shopId);
+  const result = await productService.deleteProductById(productId, shop);
 
   res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().DELETE_SUCCESS, result));
 });

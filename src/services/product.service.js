@@ -46,17 +46,17 @@ const getProductsByKeyword = async (query) => {
 const getMyProducts = async (query, shopId) => {
   const apiFeature = new ApiFeature(Product);
 
-  query.shopId = shopId;
+  query.shop = shop;
 
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description']);
 
   return { products: results, ...detailResult };
 };
 
-const updateProductById = async (productId, updateBody, shopId) => {
+const updateProductById = async (productId, updateBody, shop) => {
   const product = await getProductById(productId);
 
-  if (updateBody.shopId !== shopId) {
+  if (updateBody.shop !== shop) {
     throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
   }
 
@@ -66,10 +66,10 @@ const updateProductById = async (productId, updateBody, shopId) => {
   return product;
 };
 
-const deleteProductById = async (productId, shopId) => {
+const deleteProductById = async (productId, shop) => {
   const product = await getProductById(productId);
 
-  if (product.shopId !== shopId) {
+  if (product.shop !== shop) {
     throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
   }
 
@@ -120,8 +120,8 @@ const exportExcel = async (query) => {
     ws.cell(index + 2, 4).string(product.description);
     ws.cell(index + 2, 5).number(product.price);
     ws.cell(index + 2, 6).string(product.image);
-    ws.cell(index + 2, 7).string(product.shopId.toString());
-    ws.cell(index + 2, 8).string(product.categoryId.toString());
+    ws.cell(index + 2, 7).string(product.shop.toString());
+    ws.cell(index + 2, 8).string(product.category.toString());
     ws.cell(index + 2, 9).string(moment(product.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
     ws.cell(index + 2, 10).string(moment(product.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
   });
