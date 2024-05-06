@@ -151,5 +151,11 @@
   "captcha": {
     "generateSuccess": "Captcha generated successfully",
     "invalidCaptcha": "Invalid captcha"
+  },
+  "shop": {
+    "notFound": "Shop not found",
+    "findSuccess": "Shop found successfully",
+    "shopDetail": "Shop detail",
+    "resultFind": "Search result"
   }
 }

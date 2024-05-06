@@ -152,5 +152,11 @@
   "captcha": {
     "generateSuccess": "Tạo thành công captcha",
     "invalidCaptcha": "Captcha chưa chính xác"
+  },
+  "shop": {
+    "notFound": "Không tìm thấy shop",
+    "findSuccess": "Tìm danh sách cửa hàng thành công",
+    "shopDetail": "Chi tiết cửa hàng",
+    "resultFind": "Kết quả tìm kiếm"
   }
 }

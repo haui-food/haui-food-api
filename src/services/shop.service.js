@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 
 const ApiError = require('../utils/ApiError');
+const { shopMessage } = require('../messages');
 const { User, Product } = require('../models');
 
 const getShops = async (requestQuery) => {
@@ -47,7 +48,7 @@ const getDetailShop = async (id) => {
   }).select('fullname email phone address avatar background');
 
   if (!shop) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Không tìm thấy cửa hàng');
+    throw new ApiError(httpStatus.NOT_FOUND, shopMessage().NOT_FOUND);
   }
 
   const products = await Product.find({ shopId: id }).select('name description image price slug');

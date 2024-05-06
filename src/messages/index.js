@@ -1,6 +1,7 @@
 module.exports.userMessage = require('./user.message');
 module.exports.authMessage = require('./auth.message');
 module.exports.cartMessage = require('./cart.message');
+module.exports.shopMessage = require('./shop.message');
 module.exports.orderMessage = require('./order.message');
 module.exports.reviewMessage = require('./review.message');
 module.exports.systemMessage = require('./system.message');

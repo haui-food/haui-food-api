@@ -2,12 +2,13 @@ const httpStatus = require('http-status');
 
 const response = require('../utils/response');
 const { shopService } = require('../services');
+const { shopMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
 
 const getShops = catchAsync(async (req, res) => {
   const result = await shopService.getShops(req.query);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Danh sách cửa hàng', { ...result }));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().FIND_SUCCESS(), { ...result }));
 });
 
 const getDetailShop = catchAsync(async (req, res) => {
@@ -15,13 +16,13 @@ const getDetailShop = catchAsync(async (req, res) => {
 
   const shop = await shopService.getDetailShop(shopId);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Chi tiết cửa hàng', shop));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOP_DETAIL(), shop));
 });
 
 const searchRestaurants = catchAsync(async (req, res) => {
   const result = await shopService.searchRestaurants(req.query);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Kết quả tìm kiếm', { ...result }));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().RESULT_FIND(), { ...result }));
 });
 
 module.exports = {
