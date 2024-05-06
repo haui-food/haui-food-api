@@ -27,9 +27,9 @@ const getReviewsByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Review);
 
   const { results, ...detailResult } = await apiFeature.getResults(query, [
-    'userId',
-    'productId',
-    'orderId',
+    'user',
+    'product',
+    'order',
     'rating',
     'isReview',
     'comment',
@@ -61,7 +61,7 @@ const exportExcel = async (query) => {
   query.page = 1;
   query.limit = 1000;
 
-  const { results } = await apiFeature.getResults(query, ['userId', 'productId', 'orderId', 'rating']);
+  const { results } = await apiFeature.getResults(query, ['user', 'product', 'order', 'rating']);
   const wb = new excel4node.Workbook();
 
   const ws = wb.addWorksheet('Reviews');
@@ -90,9 +90,9 @@ const exportExcel = async (query) => {
 
   results.forEach((review, index) => {
     ws.cell(index + 2, 1).string(review._id.toString());
-    ws.cell(index + 2, 2).string(review.userId.toString());
-    ws.cell(index + 2, 3).string(review.productId.toString());
-    ws.cell(index + 2, 4).string(review.orderId.toString());
+    ws.cell(index + 2, 2).string(review.user.toString());
+    ws.cell(index + 2, 3).string(review.product.toString());
+    ws.cell(index + 2, 4).string(review.order.toString());
     ws.cell(index + 2, 5).number(review.rating);
     ws.cell(index + 2, 6).string(review.isReview.toString());
     ws.cell(index + 2, 7).string(review.comment);

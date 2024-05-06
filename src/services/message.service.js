@@ -20,8 +20,8 @@ const getMessageById = async (messageId) => {
   return message;
 };
 
-const getMessageBysenderId = async (senderId) => {
-  const messages = await Message.find({ senderId: senderId });
+const getMessageBysenderId = async (sender) => {
+  const messages = await Message.find({ sender });
 
   if (!messages) {
     throw new ApiError(httpStatus.NOT_FOUND, messageMessage().NOT_FOUND);
@@ -33,7 +33,7 @@ const getMessageBysenderId = async (senderId) => {
 const getMessagesByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Message);
 
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['senderId', 'receiverId', 'message']);
+  const { results, ...detailResult } = await apiFeature.getResults(query, ['sender', 'receiver', 'message']);
 
   return { messages: results, ...detailResult };
 };
@@ -46,8 +46,8 @@ const deleteMessageById = async (messageId) => {
   return message;
 };
 
-const deleteMessageBysenderId = async (senderId) => {
-  const message = await Message.deleteMany({ senderId: senderId });
+const deleteMessageBysenderId = async (sender) => {
+  const message = await Message.deleteMany({ sender });
   return message;
 };
 

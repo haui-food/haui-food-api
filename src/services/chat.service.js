@@ -5,20 +5,20 @@ const { Message, Conversation } = require('../models');
 const { getReceiverSocketId } = require('../sockets/socket');
 
 const sendMessage = async (chatBody) => {
-  const { senderId, receiverId, message } = chatBody;
+  const { sender, receiver, message } = chatBody;
 
-  const conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
+  const conversation = await Conversation.findOne({ participants: { $all: [sender, receiver] } });
   if (!conversation) {
-    const conversation = await Conversation.create({ participants: [senderId, receiverId] });
+    const conversation = await Conversation.create({ participants: [sender, receiver] });
   }
 
-  const newMessage = await Message.create({ senderId, receiverId, message });
+  const newMessage = await Message.create({ sender, receiver, message });
   if (newMessage) {
     conversation.message.push(newMessage._id);
   }
 
   await Promise.all([conversation.save(), newMessage.save()]);
-  const receiverSocketId = getReceiverSocketId(receiverId);
+  const receiverSocketId = getReceiverSocketId(receiver);
 
   if (receiverSocketId) {
     io.to(receiverSocketId).emit('newMessage', newMessage);
@@ -28,11 +28,9 @@ const sendMessage = async (chatBody) => {
 };
 
 const getMessage = async (chatBody) => {
-  const { senderId, receiverId } = chatBody;
+  const { sender, receiver } = chatBody;
 
-  const conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } }).populate(
-    'message',
-  );
+  const conversation = await Conversation.findOne({ participants: { $all: [sender, receiver] } }).populate('message');
 
   if (!conversation) {
     throw new ApiError(httpStatus.NOT_FOUND, messageMessage().NOT_FOUND);

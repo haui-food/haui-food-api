@@ -27,8 +27,8 @@ const getOrdersByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Order);
 
   const { results, ...detailResult } = await apiFeature.getResults(query, [
-    'userId',
-    'cartId',
+    'user',
+    'cart',
     'note',
     'address',
     'status',
@@ -87,8 +87,8 @@ const exportExcel = async (query) => {
 
   results.forEach((order, index) => {
     ws.cell(index + 2, 1).string(order._id.toString());
-    ws.cell(index + 2, 2).string(order.userId);
-    ws.cell(index + 2, 3).string(order.cartId);
+    ws.cell(index + 2, 2).string(order.user);
+    ws.cell(index + 2, 3).string(order.cart);
     ws.cell(index + 2, 4).string(order.address);
     ws.cell(index + 2, 5).string(order.note);
     ws.cell(index + 2, 6).string(order.status);
