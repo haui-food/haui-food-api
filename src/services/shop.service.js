@@ -3,6 +3,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { shopMessage } = require('../messages');
 const { User, Product } = require('../models');
+const { RATING_RANGE } = require('../constants');
 
 const getShops = async (requestQuery) => {
   const { limit = 10, page = 1, keyword = '' } = requestQuery;
@@ -22,7 +23,7 @@ const getShops = async (requestQuery) => {
     ],
   };
 
-  const shops = await User.find(query)
+  let shops = await User.find(query)
     .select('fullname email phone address avatar background')
     .limit(limit)
     .skip(skip)
@@ -37,6 +38,16 @@ const getShops = async (requestQuery) => {
     currentPage: +page,
     currentResult: shops.length,
   };
+
+  const randomRating = () => {
+    const randomIndex = Math.floor(Math.random() * RATING_RANGE.length);
+    return RATING_RANGE[randomIndex];
+  };
+
+  shops = shops.map((shop) => ({
+    ...shop._doc,
+    rating: randomRating(),
+  }));
 
   return { shops, ...detailResult };
 };
