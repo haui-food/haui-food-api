@@ -14,6 +14,8 @@ const createProduct = {
 const getProducts = {
   query: Joi.object().keys({
     keyword: Joi.string().allow(null, ''),
+    shop: Joi.string().custom(objectId).allow(null, ''),
+    category: Joi.string().custom(objectId).allow(null, ''),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

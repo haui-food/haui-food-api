@@ -32,7 +32,7 @@ const getProductsByKeyword = async (requestQuery) => {
 
   if (productsCache) return productsCache;
 
-  const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc' } = requestQuery;
+  const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc', shop, category } = requestQuery;
 
   const sort = sortBy.split(',').map((sortItem) => {
     const [field, option = 'desc'] = sortItem.split(':');
@@ -42,12 +42,26 @@ const getProductsByKeyword = async (requestQuery) => {
   const sortObject = Object.assign(...sort);
 
   const query = {
-    $or: [
-      { name: { $regex: new RegExp(keyword, 'i') } },
-      { slug: { $regex: new RegExp(keyword, 'i') } },
-      { description: { $regex: new RegExp(keyword, 'i') } },
+    $and: [
+      {
+        $or: [
+          { name: { $regex: new RegExp(keyword, 'i') } },
+          { slug: { $regex: new RegExp(keyword, 'i') } },
+          { description: { $regex: new RegExp(keyword, 'i') } },
+        ],
+      },
     ],
   };
+
+  console.log(shop, category);
+
+  if (shop) {
+    query.$and.push({ shop });
+  }
+
+  if (category) {
+    query.$and.push({ category });
+  }
 
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
 
