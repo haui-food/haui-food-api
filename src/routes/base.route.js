@@ -1,6 +1,7 @@
 const express = require('express');
 
 const { baseController } = require('../controllers');
+const { shopController } = require('../controllers');
 const { systemValidation } = require('../validations');
 const validate = require('../middlewares/validate.middleware');
 const authApiKey = require('../middlewares/auth-api-key.middleware');
@@ -14,6 +15,8 @@ baseRouter.all('/health-check', baseController.healthCheck);
 baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
 baseRouter.get('/logs', authApiKey('cronJob'), baseController.sendLogs);
+
+baseRouter.get('/api/v1/restaurants/search', shopController.searchRestaurants);
 
 baseRouter.get('/count-access', authApiKey('cronJob'), baseController.countAccess);
 

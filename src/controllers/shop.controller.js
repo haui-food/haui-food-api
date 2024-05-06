@@ -18,7 +18,14 @@ const getDetailShop = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, 'Chi tiết cửa hàng', shop));
 });
 
+const searchRestaurants = catchAsync(async (req, res) => {
+  const result = await shopService.searchRestaurants(req.query);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Kết quả tìm kiếm', { ...result }));
+});
+
 module.exports = {
   getShops,
   getDetailShop,
+  searchRestaurants,
 };

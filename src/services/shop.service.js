@@ -55,7 +55,40 @@ const getDetailShop = async (id) => {
   return { shop: { ...shop.toObject(), products } };
 };
 
+const searchRestaurants = async (requestQuery) => {
+  const { keyword = '' } = requestQuery;
+
+  const queryShop = {
+    $and: [
+      { role: 'shop' },
+      {
+        $or: [
+          { phone: { $regex: new RegExp(keyword, 'i') } },
+          { address: { $regex: new RegExp(keyword, 'i') } },
+          { fullname: { $regex: new RegExp(keyword, 'i') } },
+        ],
+      },
+    ],
+  };
+
+  const queryProduct = {
+    $or: [
+      { name: { $regex: new RegExp(keyword, 'i') } },
+      { slug: { $regex: new RegExp(keyword, 'i') } },
+      { description: { $regex: new RegExp(keyword, 'i') } },
+    ],
+  };
+
+  const [shops, products] = await Promise.all([
+    User.find(queryShop).limit(5).select('fullname email phone address avatar background'),
+    Product.find(queryProduct).limit(20).select('name description image price slug'),
+  ]);
+
+  return { shops, products };
+};
+
 module.exports = {
   getShops,
   getDetailShop,
+  searchRestaurants,
 };
