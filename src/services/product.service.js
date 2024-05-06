@@ -25,25 +25,64 @@ const getProductById = async (productId) => {
   return product;
 };
 
-const getProductsByKeyword = async (query) => {
-  const key = objectToString(query);
+const getProductsByKeyword = async (requestQuery) => {
+  const key = objectToString(requestQuery);
 
   const productsCache = cacheService.get(key);
 
-  if (productsCache) {
-    return productsCache;
-  }
+  if (productsCache) return productsCache;
 
-  const apiFeature = new ApiFeature(Product);
+  const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc' } = requestQuery;
 
-  const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'description', 'slug']);
+  const sort = sortBy.split(',').map((sortItem) => {
+    const [field, option = 'desc'] = sortItem.split(':');
+    return { [field]: option === 'desc' ? -1 : 1 };
+  });
 
-  cacheService.set(key, { products: results, ...detailResult });
+  const sortObject = Object.assign(...sort);
 
-  return { products: results, ...detailResult };
+  const query = {
+    $or: [
+      { name: { $regex: new RegExp(keyword, 'i') } },
+      { slug: { $regex: new RegExp(keyword, 'i') } },
+      { description: { $regex: new RegExp(keyword, 'i') } },
+    ],
+  };
+
+  const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
+
+  const products = await Product.find(query)
+    .select('name description image price slug shop category')
+    .populate([
+      {
+        path: 'shop',
+        select: 'fullname email phone address',
+      },
+      {
+        path: 'category',
+        select: 'name slug image',
+      },
+    ])
+    .skip(skip)
+    .limit(limit)
+    .sort(sortObject);
+
+  const totalSearch = await Product.countDocuments(query);
+
+  const detailResult = {
+    limit: +limit,
+    totalResult: totalSearch,
+    totalPage: Math.ceil(totalSearch / +limit),
+    currentPage: +page,
+    currentResult: products.length,
+  };
+
+  cacheService.set(key, { products, ...detailResult });
+
+  return { products, ...detailResult };
 };
 
-const getMyProducts = async (query, shopId) => {
+const getMyProducts = async (query, shop) => {
   const apiFeature = new ApiFeature(Product);
 
   query.shop = shop;
