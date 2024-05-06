@@ -8,7 +8,7 @@ const catchAsync = require('../utils/catchAsync');
 const getShops = catchAsync(async (req, res) => {
   const result = await shopService.getShops(req.query);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().FIND_SUCCESS(), { ...result }));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().FIND_SUCCESS, { ...result }));
 });
 
 const getDetailShop = catchAsync(async (req, res) => {
@@ -16,13 +16,13 @@ const getDetailShop = catchAsync(async (req, res) => {
 
   const shop = await shopService.getDetailShop(shopId);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOP_DETAIL(), shop));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOP_DETAIL, shop));
 });
 
 const searchRestaurants = catchAsync(async (req, res) => {
   const result = await shopService.searchRestaurants(req.query);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().RESULT_FIND(), { ...result }));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().RESULT_FIND, { ...result }));
 });
 
 module.exports = {
