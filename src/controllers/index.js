@@ -1,6 +1,7 @@
 module.exports.chatController = require('./chat.controller');
 module.exports.userController = require('./user.controller');
 module.exports.baseController = require('./base.controller');
+module.exports.shopController = require('./shop.controller');
 module.exports.authController = require('./auth.controller');
 module.exports.cartController = require('./cart.controller');
 module.exports.orderController = require('./order.controller');

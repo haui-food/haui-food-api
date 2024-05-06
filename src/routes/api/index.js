@@ -59,6 +59,10 @@ const listRoutesApi = [
     path: '/captcha',
     route: require('./captcha.route'),
   },
+  {
+    path: '/shops',
+    route: require('./shop.route'),
+  },
 ];
 
 listRoutesApi.forEach((route) => {
