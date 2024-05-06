@@ -46,6 +46,10 @@ if (env.nodeEnv !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+if (env.nodeEnv === 'development') {
+  mongoose.set('debug', true);
+}
+
 app.use(countAccess);
 app.use(logUnauthenticatedRequest);
 
