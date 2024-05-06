@@ -64,6 +64,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default: 'https://hitly.vn/avatar-default',
     },
+    background: {
+      type: String,
+      default: 'https://hitly.vn/background-default',
+    },
     lastActive: {
       type: Date,
       default: Date.now,
