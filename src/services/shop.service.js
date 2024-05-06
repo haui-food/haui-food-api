@@ -1,4 +1,7 @@
-const { User } = require('../models');
+const httpStatus = require('http-status');
+
+const ApiError = require('../utils/ApiError');
+const { User, Product } = require('../models');
 
 const getShops = async (requestQuery) => {
   const { limit = 10, page = 1, keyword = '' } = requestQuery;
@@ -37,6 +40,22 @@ const getShops = async (requestQuery) => {
   return { shops, ...detailResult };
 };
 
+const getDetailShop = async (id) => {
+  const shop = await User.findOne({
+    _id: id,
+    role: 'shop',
+  }).select('fullname email phone address avatar background');
+
+  if (!shop) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Không tìm thấy cửa hàng');
+  }
+
+  const products = await Product.find({ shopId: id }).select('name description image price slug');
+
+  return { shop: { ...shop.toObject(), products } };
+};
+
 module.exports = {
   getShops,
+  getDetailShop,
 };

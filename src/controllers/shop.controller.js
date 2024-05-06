@@ -10,6 +10,15 @@ const getShops = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, 'Danh sách cửa hàng', { ...result }));
 });
 
+const getDetailShop = catchAsync(async (req, res) => {
+  const { shopId } = req.params;
+
+  const shop = await shopService.getDetailShop(shopId);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Chi tiết cửa hàng', shop));
+});
+
 module.exports = {
   getShops,
+  getDetailShop,
 };

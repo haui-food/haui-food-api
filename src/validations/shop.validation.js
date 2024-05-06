@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
+const { objectId } = require('./custom.validation');
+
 const getShops = {
   query: Joi.object().keys({
     keyword: Joi.string(),
@@ -9,6 +11,13 @@ const getShops = {
   }),
 };
 
+const getDetailShop = {
+  params: Joi.object().keys({
+    shopId: Joi.string().custom(objectId),
+  }),
+};
+
 module.exports = {
   getShops,
+  getDetailShop,
 };
