@@ -38,7 +38,7 @@ const createCategory = async (categoryBody) => {
 const getCategoriesByKeyword = async (query) => {
   const key = objectToString(query);
 
-  const categoriesCache = cacheService.get(key);
+  const categoriesCache = cacheService.get(`${key}:categories`);
 
   if (categoriesCache) {
     return categoriesCache;
@@ -48,7 +48,7 @@ const getCategoriesByKeyword = async (query) => {
 
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'slug']);
 
-  cacheService.set(key, { categories: results, ...detailResult });
+  cacheService.set(`${key}:categories`, { categories: results, ...detailResult });
 
   return { categories: results, ...detailResult };
 };

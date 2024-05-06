@@ -10,7 +10,7 @@ const objectToString = require('../utils/objectToString');
 const getShops = async (requestQuery) => {
   const key = objectToString(requestQuery);
 
-  const shopsCache = cacheService.get(key);
+  const shopsCache = cacheService.get(`${key}:shops`);
 
   if (shopsCache) return shopsCache;
 
@@ -57,7 +57,7 @@ const getShops = async (requestQuery) => {
     rating: randomRating(),
   }));
 
-  cacheService.set(key, { shops, ...detailResult });
+  cacheService.set(`${key}:shops`, { shops, ...detailResult });
 
   return { shops, ...detailResult };
 };
