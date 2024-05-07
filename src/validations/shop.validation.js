@@ -17,7 +17,19 @@ const getDetailShop = {
   }),
 };
 
+const getShopsByCategory = {
+  params: Joi.object().keys({
+    categoryId: Joi.string().custom(objectId),
+  }),
+  query: Joi.object().keys({
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+    lang: Joi.string(),
+  }),
+};
+
 module.exports = {
   getShops,
   getDetailShop,
+  getShopsByCategory,
 };

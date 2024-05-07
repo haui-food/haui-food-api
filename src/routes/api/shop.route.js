@@ -8,6 +8,8 @@ const shopRouter = express.Router();
 
 shopRouter.get('/:shopId', validate(shopValidation.getDetailShop), shopController.getDetailShop);
 
+shopRouter.get('/category/:categoryId', validate(shopValidation.getShopsByCategory), shopController.getShopsByCategory);
+
 shopRouter.get('/', validate(shopValidation.getShops), shopController.getShops);
 
 module.exports = shopRouter;

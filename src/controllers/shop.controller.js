@@ -25,8 +25,15 @@ const searchRestaurants = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().RESULT_FIND, { ...result }));
 });
 
+const getShopsByCategory = catchAsync(async (req, res) => {
+  const shops = await shopService.getShopsByCategory(req.query, req.params.categoryId);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().FIND_BY_CATEGORY, shops));
+});
+
 module.exports = {
   getShops,
   getDetailShop,
   searchRestaurants,
+  getShopsByCategory,
 };
