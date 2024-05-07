@@ -19,6 +19,14 @@ const getDetailShop = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOP_DETAIL, shop));
 });
 
+const getDetailShopGroupByCategory = catchAsync(async (req, res) => {
+  const { shopId } = req.params;
+
+  const shop = await shopService.getShopDetailByIdAndGroupByCategory(shopId);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOP_DETAIL, shop));
+});
+
 const searchRestaurants = catchAsync(async (req, res) => {
   const result = await shopService.searchRestaurants(req.query);
 
@@ -36,4 +44,5 @@ module.exports = {
   getDetailShop,
   searchRestaurants,
   getShopsByCategory,
+  getDetailShopGroupByCategory,
 };

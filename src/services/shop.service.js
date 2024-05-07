@@ -79,6 +79,37 @@ const getDetailShop = async (id, selectProduct = true) => {
   return { shop: { ...shop.toObject(), products } };
 };
 
+const getShopDetailByIdAndGroupByCategory = async (id) => {
+  const shop = await User.findOne({
+    _id: id,
+    role: 'shop',
+  }).select('fullname email phone address avatar background description');
+
+  if (!shop) {
+    throw new ApiError(httpStatus.NOT_FOUND, shopMessage().NOT_FOUND);
+  }
+
+  const products = await Product.find({ shop: id }).select('name description image price slug category');
+
+  const categoryIds = [...new Set(products.map((product) => product.category.toString()))];
+
+  const categories = await Category.find({ _id: { $in: categoryIds } }).select('name slug image');
+
+  const categoriesZ = [];
+
+  categories.forEach((category) => {
+    categoriesZ.push({ ...category.toObject(), products: [] });
+  });
+
+  products.forEach((product) => {
+    const categoryIndex = categoriesZ.findIndex((category) => category._id.toString() === product.category.toString());
+    const { category, ...productWithoutCategory } = product.toObject();
+    categoriesZ[categoryIndex].products.push(productWithoutCategory);
+  });
+
+  return { shop: { ...shop.toObject(), categories: categoriesZ } };
+};
+
 const searchRestaurants = async (requestQuery) => {
   const { keyword = '' } = requestQuery;
 
@@ -144,4 +175,5 @@ module.exports = {
   getDetailShop,
   searchRestaurants,
   getShopsByCategory,
+  getShopDetailByIdAndGroupByCategory,
 };
