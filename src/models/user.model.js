@@ -79,6 +79,9 @@ const userSchema = mongoose.Schema(
     secret: {
       type: String,
     },
+    description: {
+      type: String,
+    },
   },
   {
     timestamps: true,

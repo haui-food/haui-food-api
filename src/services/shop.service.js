@@ -32,7 +32,7 @@ const getShops = async (requestQuery) => {
   };
 
   let shops = await User.find(query)
-    .select('fullname email phone address avatar background')
+    .select('fullname email phone address avatar background description')
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });
