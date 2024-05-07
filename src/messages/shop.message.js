@@ -6,6 +6,7 @@ const shopMessage = () => {
     SHOP_DETAIL: i18nService.translate('shop.shopDetail'),
     RESULT_FIND: i18nService.translate('shop.resultFind'),
     FIND_SUCCESS: i18nService.translate('shop.findSuccess'),
+    FIND_BY_CATEGORY: i18nService.translate('shop.findByCategory'),
   };
 };
 
