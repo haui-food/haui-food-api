@@ -1,12 +1,16 @@
 const httpStatus = require('http-status');
 
 const response = require('../utils/response');
-const catchAsync = require('../utils/catchAsync');
 const { cartService } = require('../services');
 const { cartMessage } = require('../messages');
+const catchAsync = require('../utils/catchAsync');
+const { REQUEST_USER_KEY } = require('../constants');
 
-const createCart = catchAsync(async (req, res) => {
-  const cart = await cartService.createCart(req.body);
+const addProductToCart = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY].id;
+
+  const cart = await cartService.addProductToCart(req.body, user);
+
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().CREATE_SUCCESS, cart));
 });
 
@@ -43,6 +47,6 @@ module.exports = {
   getCarts,
   updateCart,
   deleteCart,
-  createCart,
   getCartById,
+  addProductToCart,
 };

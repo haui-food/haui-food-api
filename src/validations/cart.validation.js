@@ -3,10 +3,8 @@ const { objectId } = require('./custom.validation');
 
 const createCart = {
   body: Joi.object().keys({
-    cartDetailId: Joi.array().allow(null, ''),
-    userId: Joi.string().custom(objectId),
-    isOrder: Joi.boolean().allow(null, ''),
-    totalMoney: Joi.number().allow(null, ''),
+    quantity: Joi.number().integer().required(),
+    product: Joi.string().custom(objectId).required(),
   }),
 };
 

@@ -1,8 +1,10 @@
 const httpStatus = require('http-status');
+const ObjectId = require('mongoose').Types.ObjectId;
 
-const { Cart } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { cartMessage } = require('../messages');
+const { Cart, CartDetail } = require('../models');
+const productService = require('./product.service');
 
 const getCartById = async (cartId) => {
   const cart = await Cart.findById(cartId);
@@ -14,9 +16,94 @@ const getCartById = async (cartId) => {
   return cart;
 };
 
-const createCart = async (cartBody) => {
-  const cart = await Cart.create(cartBody);
-  return cart;
+const addProductToCart = async (cartBody, user) => {
+  const { product, quantity } = cartBody;
+
+  await productService.getProductById(product);
+
+  const cartExists = await Cart.findOne({ user }, { isOrder: false }).populate([
+    {
+      path: 'cartDetails',
+      populate: { path: 'product' },
+    },
+    {
+      path: 'user',
+    },
+  ]);
+
+  if (cartExists) {
+    const { cartDetails } = cartExists;
+
+    let cartDetailExists = false;
+
+    for (cartDetail of cartDetails) {
+      if (cartDetail.product.id === product) {
+        if (cartDetail.quantity + quantity > 100) {
+          throw new ApiError(httpStatus.BAD_REQUEST, 'Không được mua quá 100 sản phẩm mỗi loại');
+        }
+        cartDetail.quantity += quantity;
+
+        await cartDetail.save();
+
+        cartDetailExists = true;
+
+        break;
+      }
+    }
+
+    if (!cartDetailExists) {
+      const newCartDetail = await CartDetail.create({
+        product,
+        quantity,
+      });
+
+      const newCart = await Cart.findOneAndUpdate(
+        { user, isOrder: false },
+        {
+          $push: { cartDetails: new ObjectId(newCartDetail._id) },
+        },
+        { new: true },
+      );
+
+      console.log(newCart);
+    }
+  } else {
+    const newCartDetail = await CartDetail.create({
+      product,
+      quantity,
+    });
+
+    await Cart.create({
+      user,
+      cartDetails: new ObjectId(newCartDetail._id),
+    });
+  }
+
+  const againCart = await Cart.findOne({ user }, { isOrder: false })
+    .populate([
+      {
+        path: 'cartDetails',
+        select: 'product quantity',
+        populate: { path: 'product', select: 'name price' },
+      },
+      {
+        path: 'user',
+        select: 'fullname email phone',
+      },
+    ])
+    .select('-__v');
+
+  let total = 0;
+
+  for (cartDetail of againCart.cartDetails) {
+    total += cartDetail.product.price * cartDetail.quantity;
+  }
+
+  againCart.totalMoney = total;
+
+  await againCart.save();
+
+  return againCart;
 };
 
 const getCartsByKeyword = async (query) => {
@@ -42,9 +129,9 @@ const deleteCartById = async (cartId) => {
 };
 
 module.exports = {
-  createCart,
   getCartById,
   updateCartById,
   deleteCartById,
+  addProductToCart,
   getCartsByKeyword,
 };
