@@ -9,10 +9,8 @@ const cartRouter = express.Router();
 
 cartRouter.use(auth);
 
-cartRouter
-  .route('/')
-  .get(validate(cartValidation.getCarts), cartController.getCarts)
-  .post(validate(cartValidation.createCart), cartController.addProductToCart);
+cartRouter.get('/', validate(cartValidation.getCarts), cartController.getCarts);
+cartRouter.post('/add', validate(cartValidation.createCart), cartController.addProductToCart);
 
 cartRouter
   .route('/:cartId')
