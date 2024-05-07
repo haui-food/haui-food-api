@@ -1,11 +1,11 @@
 const httpStatus = require('http-status');
 
 const ApiError = require('../utils/ApiError');
-const { shopMessage } = require('../messages');
-const { User, Product } = require('../models');
 const { RATING_RANGE } = require('../constants');
+const { User, Product, Category } = require('../models');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
+const { shopMessage, categoryMessage } = require('../messages');
 
 const getShops = async (requestQuery) => {
   const key = objectToString(requestQuery);
@@ -62,7 +62,7 @@ const getShops = async (requestQuery) => {
   return { shops, ...detailResult };
 };
 
-const getDetailShop = async (id) => {
+const getDetailShop = async (id, selectProduct = true) => {
   const shop = await User.findOne({
     _id: id,
     role: 'shop',
@@ -71,6 +71,8 @@ const getDetailShop = async (id) => {
   if (!shop) {
     throw new ApiError(httpStatus.NOT_FOUND, shopMessage().NOT_FOUND);
   }
+
+  if (!selectProduct) return shop;
 
   const products = await Product.find({ shop: id }).select('name description image price slug');
 
@@ -102,15 +104,44 @@ const searchRestaurants = async (requestQuery) => {
   };
 
   const [shops, products] = await Promise.all([
-    User.find(queryShop).limit(5).select('fullname email phone address avatar background description'),
+    User.find(queryShop).limit(10).select('fullname email phone address avatar background description'),
     Product.find(queryProduct).limit(20).select('name description image price slug'),
   ]);
 
   return { shops, products };
 };
 
+const getShopsByCategory = async (requestQuery, categoryId) => {
+  const { limit = 10, page = 1 } = requestQuery;
+
+  const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
+
+  const category = await Category.findById(categoryId).select('name slug image');
+
+  if (!category) {
+    throw new ApiError(httpStatus.NOT_FOUND, categoryMessage().NOT_FOUND);
+  }
+
+  const products = await Product.find({ category: categoryId }).limit(+limit).skip(skip).select('shop');
+
+  const shopIds = [...new Set(products.map((product) => product.shop.toString()))];
+
+  const shops = await Promise.all(shopIds.map((shopId) => getDetailShop(shopId, false)));
+
+  const detailResult = {
+    limit: +limit,
+    totalResult: shopIds.length,
+    totalPage: Math.ceil(shopIds.length / +limit),
+    currentPage: +page,
+    currentResult: shops.length,
+  };
+
+  return { category, shops: shops, ...detailResult };
+};
+
 module.exports = {
   getShops,
   getDetailShop,
   searchRestaurants,
+  getShopsByCategory,
 };
