@@ -158,6 +158,7 @@
     "findSuccess": "Tìm danh sách cửa hàng thành công",
     "shopDetail": "Chi tiết cửa hàng",
     "resultFind": "Kết quả tìm kiếm",
-    "findByCategory": "Tìm kiếm danh sách cửa hàng theo thể loại thành công"
+    "findByCategory": "Tìm kiếm danh sách cửa hàng theo thể loại thành công",
+    "shopsByCategory": "Danh sách cửa này theo thể loại"
   }
 }

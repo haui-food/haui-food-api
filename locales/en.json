@@ -157,6 +157,7 @@
     "findSuccess": "Shop found successfully",
     "shopDetail": "Shop detail",
     "resultFind": "Search result",
-    "findByCategory": "Search shops by category successfully"
+    "findByCategory": "Search shops by category successfully",
+    "shopsByCategory": "Shops by category"
   }
 }

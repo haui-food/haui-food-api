@@ -24,7 +24,7 @@ const getDetailShopGroupByCategory = catchAsync(async (req, res) => {
 
   const shop = await shopService.getShopDetailByIdAndGroupByCategory(shopId);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOP_DETAIL, shop));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().FIND_BY_CATEGORY, shop));
 });
 
 const searchRestaurants = catchAsync(async (req, res) => {
@@ -36,7 +36,7 @@ const searchRestaurants = catchAsync(async (req, res) => {
 const getShopsByCategory = catchAsync(async (req, res) => {
   const shops = await shopService.getShopsByCategory(req.query, req.params.categoryId);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().FIND_BY_CATEGORY, shops));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOPS_BY_CATEGORY, shops));
 });
 
 module.exports = {
