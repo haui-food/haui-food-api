@@ -65,8 +65,6 @@ const addProductToCart = async (cartBody, user) => {
         },
         { new: true },
       );
-
-      console.log(newCart);
     }
   } else {
     const newCartDetail = await CartDetail.create({
