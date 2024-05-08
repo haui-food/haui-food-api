@@ -33,11 +33,9 @@ const addProductToCart = async (cartBody, user) => {
   ]);
 
   if (cartExists) {
-    const { cartDetails } = cartExists;
-
     let cartDetailExists = false;
 
-    for (cartDetail of cartDetails) {
+    for (cartDetail of cartExists.cartDetails) {
       if (cartDetail.product.id === product) {
         if (cartDetail.quantity + quantity > 100) {
           throw new ApiError(httpStatus.BAD_REQUEST, cartMessage().MAXIMUM_QUANTITY_BY_CATEGORY);
@@ -78,19 +76,75 @@ const addProductToCart = async (cartBody, user) => {
     });
   }
 
+  const cartUpdated = await updateTotalMoney(user);
+
+  return cartUpdated;
+};
+
+const removeProductFromCart = async (cartBody, user) => {
+  const { product, quantity = 1, isDeleteAll = false } = cartBody;
+
+  if (quantity <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Số lượng sản phẩm xoá cần lớn hơn 0');
+  }
+
+  const cart = await Cart.findOne({ user }, { isOrder: false }).populate([
+    {
+      path: 'cartDetails',
+      select: 'product quantity',
+      populate: { path: 'product' },
+    },
+  ]);
+
+  if (!cart) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Không tìm thấy giỏ hàng của bạn');
+  }
+
+  for (cartDetail of cart.cartDetails) {
+    if (cartDetail.product.id === product) {
+      if (cartDetail.quantity - quantity < 0) {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể xoá số lượng nhiều hơn số lượng đang có');
+      }
+
+      if (cartDetail.quantity - quantity === 0 || isDeleteAll) {
+        await CartDetail.deleteOne({ _id: cartDetail._id });
+
+        await Cart.findOneAndUpdate(
+          { user, isOrder: false },
+          {
+            $pull: { cartDetails: cartDetail._id },
+          },
+          { new: true },
+        );
+
+        break;
+      }
+
+      cartDetail.quantity -= quantity;
+
+      await cartDetail.save();
+    }
+  }
+
+  const cartUpdated = await updateTotalMoney(user);
+
+  return cartUpdated;
+};
+
+const updateTotalMoney = async (user) => {
   const againCart = await Cart.findOne({ user }, { isOrder: false })
     .populate([
       {
         path: 'cartDetails',
         select: 'product quantity',
-        populate: { path: 'product', select: 'name price' },
+        populate: { path: 'product', select: 'name price image slug' },
       },
       {
         path: 'user',
         select: 'fullname email phone',
       },
     ])
-    .select('-__v');
+    .select('-__v isOrder');
 
   let total = 0;
 
@@ -150,4 +204,5 @@ module.exports = {
   deleteCartById,
   addProductToCart,
   getCartsByKeyword,
+  removeProductFromCart,
 };

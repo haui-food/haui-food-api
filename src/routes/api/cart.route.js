@@ -16,8 +16,15 @@ cartRouter.get('/me', authorize(['user']), cartController.getMyCart);
 cartRouter.post(
   '/add-product',
   authorize(['user']),
-  validate(cartValidation.createCart),
+  validate(cartValidation.addProductToCart),
   cartController.addProductToCart,
+);
+
+cartRouter.put(
+  '/remove-product',
+  authorize(['user']),
+  validate(cartValidation.removeProductFromCart),
+  cartController.removeProductFromCart,
 );
 
 cartRouter

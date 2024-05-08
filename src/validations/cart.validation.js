@@ -1,9 +1,17 @@
 const Joi = require('joi');
-const { objectId } = require('./custom.validation');
+const { objectId, quantity } = require('./custom.validation');
 
-const createCart = {
+const addProductToCart = {
   body: Joi.object().keys({
-    quantity: Joi.number().integer(),
+    quantity: Joi.number().integer().custom(quantity),
+    product: Joi.string().custom(objectId).required(),
+  }),
+};
+
+const removeProductFromCart = {
+  body: Joi.object().keys({
+    isDeleteAll: Joi.boolean(),
+    quantity: Joi.number().integer().custom(quantity),
     product: Joi.string().custom(objectId).required(),
   }),
 };
@@ -49,9 +57,10 @@ const deleteCart = {
 };
 
 module.exports = {
-  createCart,
-  getCarts,
   getCart,
+  getCarts,
   updateCart,
   deleteCart,
+  addProductToCart,
+  removeProductFromCart,
 };

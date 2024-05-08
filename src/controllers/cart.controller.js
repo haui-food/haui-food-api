@@ -14,6 +14,14 @@ const addProductToCart = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().ADD_PRODUCT_SUCCESS, cart));
 });
 
+const removeProductFromCart = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY].id;
+
+  const cart = await cartService.removeProductFromCart(req.body, user);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().REMOVE_PRODUCT_SUCCESS, cart));
+});
+
 const getCarts = catchAsync(async (req, res) => {
   const carts = await cartService.getCartsByKeyword(req.query);
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().FIND_LIST_SUCCESS, carts));
@@ -58,4 +66,5 @@ module.exports = {
   deleteCart,
   getCartById,
   addProductToCart,
+  removeProductFromCart,
 };
