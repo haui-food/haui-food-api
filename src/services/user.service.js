@@ -3,7 +3,7 @@ const excel4node = require('excel4node');
 const httpStatus = require('http-status');
 
 const { env } = require('../config');
-const { User } = require('../models');
+const { User, Cart } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { userMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
@@ -37,6 +37,11 @@ const createUser = async (userBody) => {
 
   userBody['normalizedEmail'] = normalizedEmail;
   const user = await User.create(userBody);
+
+  if (!userBody.role || userBody.role === 'user') {
+    await Cart.create({ user: user._id });
+  }
+
   user.password = undefined;
 
   return user;
