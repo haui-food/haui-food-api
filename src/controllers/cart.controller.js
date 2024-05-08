@@ -9,7 +9,7 @@ const { REQUEST_USER_KEY } = require('../constants');
 const addProductToCart = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY].id;
 
-  const cart = await cartService.addProductToCart(req.body, user);
+  const cart = await cartService.addProductToCartV2(req.body, user);
 
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().ADD_PRODUCT_SUCCESS, cart));
 });

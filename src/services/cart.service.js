@@ -17,7 +17,7 @@ const getCartById = async (cartId) => {
   return cart;
 };
 
-const addProductToCart = async (cartBody, user) => {
+const addProductToCartV1 = async (cartBody, user) => {
   const { product, quantity = 1 } = cartBody;
 
   await productService.getProductById(product);
@@ -74,6 +74,58 @@ const addProductToCart = async (cartBody, user) => {
       user,
       cartDetails: new ObjectId(newCartDetail._id),
     });
+  }
+
+  const cartUpdated = await updateTotalMoney(user);
+
+  return cartUpdated;
+};
+
+const addProductToCartV2 = async (cartBody, user) => {
+  const { product, quantity = 1 } = cartBody;
+
+  await productService.getProductById(product);
+
+  const cart = await Cart.findOne({ user }, { isOrder: false }).populate([
+    {
+      path: 'cartDetails',
+      populate: { path: 'product' },
+    },
+    {
+      path: 'user',
+    },
+  ]);
+
+  let cartDetailExists = false;
+
+  for (cartDetail of cart.cartDetails) {
+    if (cartDetail.product.id === product) {
+      if (cartDetail.quantity + quantity > 100) {
+        throw new ApiError(httpStatus.BAD_REQUEST, cartMessage().MAXIMUM_QUANTITY_BY_CATEGORY);
+      }
+      cartDetail.quantity += quantity;
+
+      await cartDetail.save();
+
+      cartDetailExists = true;
+
+      break;
+    }
+  }
+
+  if (!cartDetailExists) {
+    const newCartDetail = await CartDetail.create({
+      product,
+      quantity,
+    });
+
+    await Cart.findOneAndUpdate(
+      { user, isOrder: false },
+      {
+        $push: { cartDetails: new ObjectId(newCartDetail._id) },
+      },
+      { new: true },
+    );
   }
 
   const cartUpdated = await updateTotalMoney(user);
@@ -202,7 +254,8 @@ module.exports = {
   getCartById,
   updateCartById,
   deleteCartById,
-  addProductToCart,
   getCartsByKeyword,
+  addProductToCartV1,
+  addProductToCartV2,
   removeProductFromCart,
 };
