@@ -9,6 +9,11 @@ const categoryMessage = () => {
     DELETE_SUCCESS: i18nService.translate('cart.deleteSuccess'),
     ALREADY_EXISTS: i18nService.translate('cart.alreadyExists'),
     FIND_LIST_SUCCESS: i18nService.translate('cart.findListSuccess'),
+    GET_MY_CART_SUCCESS: i18nService.translate('cart.getMyCartSuccess'),
+    ADD_PRODUCT_SUCCESS: i18nService.translate('cart.addProductSuccess'),
+    REMOVE_PRODUCT_SUCCESS: i18nService.translate('cart.removeProductSuccess'),
+    MAXIMUM_QUANTITY_BY_CATEGORY: i18nService.translate('cart.maximumQuantityByCategory'),
+    MAXIMUM_QUANTITY_PRODUCT: i18nService.translate('cart.maximumQuantityProduct'),
   };
 };
 

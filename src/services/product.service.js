@@ -16,7 +16,18 @@ const createProduct = async (productBody) => {
 };
 
 const getProductById = async (productId) => {
-  const product = await Product.findById(productId);
+  const product = await Product.findById(productId)
+    .select('name description image price slug shop category')
+    .populate([
+      {
+        path: 'shop',
+        select: 'fullname email phone description address avatar background',
+      },
+      {
+        path: 'category',
+        select: 'name slug image',
+      },
+    ]);
 
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, productMessage().NOT_FOUND);
@@ -70,7 +81,7 @@ const getProductsByKeyword = async (requestQuery) => {
     .populate([
       {
         path: 'shop',
-        select: 'fullname email phone address',
+        select: 'fullname email phone description address avatar background',
       },
       {
         path: 'category',

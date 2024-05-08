@@ -11,7 +11,7 @@ const addProductToCart = catchAsync(async (req, res) => {
 
   const cart = await cartService.addProductToCart(req.body, user);
 
-  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().CREATE_SUCCESS, cart));
+  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().ADD_PRODUCT_SUCCESS, cart));
 });
 
 const getCarts = catchAsync(async (req, res) => {
@@ -43,8 +43,17 @@ const deleteCart = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().DELETE_SUCCESS, cart));
 });
 
+const getMyCart = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY];
+
+  const result = await cartService.getMyCart(user);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().GET_MY_CART_SUCCESS, result));
+});
+
 module.exports = {
   getCarts,
+  getMyCart,
   updateCart,
   deleteCart,
   getCartById,

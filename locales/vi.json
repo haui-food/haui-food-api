@@ -116,7 +116,12 @@
     "createSuccess": "Tạo mới giỏ hàng thành công",
     "updateSuccess": "Cập nhật giỏ hàng thành công",
     "deleteSuccess": "Xóa giỏ hàng thành công",
-    "alreadyExists": "Giỏ hàng đã tồn tại"
+    "alreadyExists": "Giỏ hàng đã tồn tại",
+    "getMyCartSuccess": "Lấy thành công giỏ hàng của bạn",
+    "addProductSuccess": "Thêm sản phẩm vào giỏ hàng thành công",
+    "removeProductSuccess": "Xóa sản phẩm vào giỏ hàng thành công",
+    "maximumQuantityByCategory": "Số lượng không được lớn hơn 20 sản phẩm mỗi loại",
+    "maximumQuantityProduct": "Số lượng sản phẩm của giỏ hàng không được lớn hơn 100"
   },
   "order": {
     "notFound": "Không tìm thấy đơn đặt hàng",
