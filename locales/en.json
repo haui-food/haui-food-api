@@ -115,7 +115,8 @@
     "findListSuccess": "Cart list found successfully",
     "createSuccess": "Cart created successfully",
     "updateSuccess": "Cart updated successfully",
-    "deleteSuccess": "Cart deleted successfully"
+    "deleteSuccess": "Cart deleted successfully",
+    "getMyCartSuccess": "Get my cart successfully"
   },
   "order": {
     "notFound": "Order not found",

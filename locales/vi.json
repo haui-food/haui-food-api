@@ -116,7 +116,8 @@
     "createSuccess": "Tạo mới giỏ hàng thành công",
     "updateSuccess": "Cập nhật giỏ hàng thành công",
     "deleteSuccess": "Xóa giỏ hàng thành công",
-    "alreadyExists": "Giỏ hàng đã tồn tại"
+    "alreadyExists": "Giỏ hàng đã tồn tại",
+    "getMyCartSuccess": "Lấy thành công giỏ hàng của bạn"
   },
   "order": {
     "notFound": "Không tìm thấy đơn đặt hàng",
