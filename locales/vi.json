@@ -7,7 +7,8 @@
     "imageMaxSize": "Hình ảnh có dung lượng quá lớn, vui lòng chọn lại",
     "fileInvalid": "Định dạng tập tin không hỗ trợ",
     "fileMaxSize": "Tập tin có dài quá lớn, vui loại chọn lại",
-    "uriQRInvalid": "Định dạng URI QR code không hợp lệ"
+    "uriQRInvalid": "Định dạng URI QR code không hợp lệ",
+    "fileRequired": "Vui lòng nhập tập tin"
   },
   "user": {
     "notFound": "Không tìm thấy người dùng",

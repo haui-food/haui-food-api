@@ -5,6 +5,7 @@ const systemMessage = () => {
     EMAIL_FROM: i18nService.translate('system.emailFrom'),
     FILE_INVALID: i18nService.translate('system.fileInvalid'),
     FILE_MAX_SIZE: i18nService.translate('system.fileMaxSize'),
+    FILE_REQUIRED: i18nService.translate('system.fileRequired'),
     MANY_REQUESTS: i18nService.translate('system.manyRequests'),
     IMAGE_INVALID: i18nService.translate('system.imageInvalid'),
     IMAGE_MAX_SIZE: i18nService.translate('system.imageMaxSize'),
