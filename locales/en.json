@@ -116,7 +116,11 @@
     "createSuccess": "Cart created successfully",
     "updateSuccess": "Cart updated successfully",
     "deleteSuccess": "Cart deleted successfully",
-    "getMyCartSuccess": "Get my cart successfully"
+    "getMyCartSuccess": "Get my cart successfully",
+    "addProductSuccess": "Successfully added the product to the cart",
+    "removeProductSuccess": "Successfully removed the product from the cart",
+    "maximumQuantityByCategory": "Quantity cannot exceed 20 products per category",
+    "maximumQuantityProduct": "The total quantity of products in the cart cannot exceed 100"
   },
   "order": {
     "notFound": "Order not found",
