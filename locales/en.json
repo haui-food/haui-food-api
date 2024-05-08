@@ -120,7 +120,8 @@
     "addProductSuccess": "Successfully added the product to the cart",
     "removeProductSuccess": "Successfully removed the product from the cart",
     "maximumQuantityByCategory": "Quantity cannot exceed 20 products per category",
-    "maximumQuantityProduct": "The total quantity of products in the cart cannot exceed 100"
+    "maximumQuantityProduct": "The total quantity of products in the cart cannot exceed 100",
+    "quantityInvalid": "Quantity of products you want to add or delete needs to be greater than 0 and less than 100"
   },
   "order": {
     "notFound": "Order not found",

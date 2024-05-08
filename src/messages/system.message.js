@@ -10,6 +10,7 @@ const systemMessage = () => {
     IMAGE_INVALID: i18nService.translate('system.imageInvalid'),
     IMAGE_MAX_SIZE: i18nService.translate('system.imageMaxSize'),
     URI_QR_INVALID: i18nService.translate('system.uriQRInvalid'),
+    QUANTITY_INVALID: i18nService.translate('cart.quantityInvalid'),
     RESOURCE_NOT_FOUND: i18nService.translate('system.resourceNotFound'),
   };
 };

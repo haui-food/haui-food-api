@@ -69,14 +69,22 @@ const uriQRCode = (value, helpers) => {
   return value;
 };
 
+const quantity = (value, helpers) => {
+  if (value <= 0 || value > 100) {
+    return helpers.message(systemMessage().QUANTITY_INVALID);
+  }
+  return value;
+};
+
 module.exports = {
+  role,
+  phone,
+  email,
+  message,
   objectId,
   password,
-  email,
-  role,
   fullname,
-  phone,
-  message,
-  codeVerify,
+  quantity,
   uriQRCode,
+  codeVerify,
 };

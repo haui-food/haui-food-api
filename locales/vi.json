@@ -121,7 +121,8 @@
     "addProductSuccess": "Thêm sản phẩm vào giỏ hàng thành công",
     "removeProductSuccess": "Xóa sản phẩm vào giỏ hàng thành công",
     "maximumQuantityByCategory": "Số lượng không được lớn hơn 20 sản phẩm mỗi loại",
-    "maximumQuantityProduct": "Số lượng sản phẩm của giỏ hàng không được lớn hơn 100"
+    "maximumQuantityProduct": "Số lượng sản phẩm của giỏ hàng không được lớn hơn 100",
+    "quantityInvalid": "Số lượng sản phẩm muốn thêm hoặc xoá cần lớn hơn 0 và nhỏ hơn 100"
   },
   "order": {
     "notFound": "Không tìm thấy đơn đặt hàng",
