@@ -12,6 +12,20 @@ const orderSchema = mongoose.Schema(
       ref: 'Cart',
       required: true,
     },
+    shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    totalMoney: {
+      type: Number,
+      default: 0,
+    },
+    payment: {
+      type: String,
+      enum: ['cod', 'bank'],
+      default: 'cod',
+    },
     address: {
       type: String,
       trim: true,
@@ -22,7 +36,7 @@ const orderSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'confirmed', 'reject', 'shipping', 'success', 'canceled'],
+      enum: ['pending', 'canceled', 'confirmed', 'reject', 'shipping', 'success'],
       default: 'pending',
     },
   },
