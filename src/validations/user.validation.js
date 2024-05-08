@@ -14,6 +14,8 @@ const createUser = {
     address: Joi.string().allow(null, ''),
     avatar: Joi.string().allow(null, ''),
     gender: Joi.string().allow('male', 'female', ''),
+    description: Joi.string().allow(null, ''),
+    background: Joi.string().allow(null, ''),
     avatar: Joi.string(),
   }),
 };
@@ -54,6 +56,8 @@ const updateUser = {
       isLocked: Joi.boolean().valid(true, false),
       isVerify: Joi.boolean().valid(true, false),
       phone: Joi.string().allow(null, ''),
+      background: Joi.string().allow(null, ''),
+      description: Joi.string().allow(null, ''),
       dateOfBirth: Joi.date().allow(null, ''),
       address: Joi.string().allow(null, ''),
       avatar: Joi.string().allow(null, ''),
