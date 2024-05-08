@@ -49,6 +49,14 @@ const countAccess = (req, res) => {
   res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'], totalAccess });
 };
 
+const uploadImage = (req, res) => {
+  if (!req.file) {
+    throw new ApiError(httpStatus.BAD_REQUEST, systemMessage().FILE_REQUIRED);
+  }
+
+  res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'], url: req.file.path });
+};
+
 const handlerNotFound = (req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, systemMessage().RESOURCE_NOT_FOUND));
 };
@@ -57,6 +65,7 @@ module.exports = {
   getHome,
   renderQR,
   sendLogs,
+  uploadImage,
   healthCheck,
   countAccess,
   changeLanguage,

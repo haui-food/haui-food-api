@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { uploadService } = require('../services');
 const { baseController } = require('../controllers');
 const { shopController } = require('../controllers');
 const { systemValidation } = require('../validations');
@@ -21,6 +22,8 @@ baseRouter.get('/api/v1/restaurants/search', shopController.searchRestaurants);
 baseRouter.get('/count-access', authApiKey('cronJob'), baseController.countAccess);
 
 baseRouter.get('/qr-code', validate(systemValidation.renderQRCode), baseController.renderQR);
+
+baseRouter.post('/api/v1/images', uploadService.uploadImage.single('image'), baseController.uploadImage);
 
 baseRouter.all('*', baseController.handlerNotFound);
 
