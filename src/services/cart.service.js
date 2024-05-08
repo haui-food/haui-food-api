@@ -5,6 +5,7 @@ const ApiError = require('../utils/ApiError');
 const { cartMessage } = require('../messages');
 const { Cart, CartDetail } = require('../models');
 const productService = require('./product.service');
+const selectProperties = require('../utils/selectProperties');
 
 const getCartById = async (cartId) => {
   const cart = await Cart.findById(cartId);
@@ -106,9 +107,25 @@ const addProductToCart = async (cartBody, user) => {
   return againCart;
 };
 
+const getMyCart = async (user) => {
+  const query = { user: user.id };
+
+  const cart = await Cart.findOne(query)
+    .populate([
+      {
+        path: 'cartDetails',
+        select: 'product quantity',
+        populate: { path: 'product', select: 'name price image' },
+      },
+    ])
+    .select('-__v -user');
+
+  return { user: selectProperties(user.toObject(), '_id fullname email phone avatar'), cart };
+};
+
 const getCartsByKeyword = async (query) => {
   const results = await Cart.find(query);
-  return { Carts: results };
+  return { carts: results };
 };
 
 const updateCartById = async (cartId, updateBody) => {
@@ -129,6 +146,7 @@ const deleteCartById = async (cartId) => {
 };
 
 module.exports = {
+  getMyCart,
   getCartById,
   updateCartById,
   deleteCartById,
