@@ -63,6 +63,10 @@ const getShops = async (requestQuery) => {
 };
 
 const getDetailShop = async (id, selectProduct = true) => {
+  const shopsCache = cacheService.get(`${id}:shopDetail`);
+
+  if (shopsCache) return shopsCache;
+
   const shop = await User.findOne({
     _id: id,
     role: 'shop',
@@ -76,10 +80,16 @@ const getDetailShop = async (id, selectProduct = true) => {
 
   const products = await Product.find({ shop: id }).select('name description image price slug');
 
+  cacheService.set(`${id}:shopDetail`, { shop: { ...shop.toObject(), products } });
+
   return { shop: { ...shop.toObject(), products } };
 };
 
 const getShopDetailByIdAndGroupByCategory = async (id) => {
+  const shopsCache = cacheService.get(`${id}:shopDetailGroup`);
+
+  if (shopsCache) return shopsCache;
+
   const shop = await User.findOne({
     _id: id,
     role: 'shop',
@@ -107,11 +117,17 @@ const getShopDetailByIdAndGroupByCategory = async (id) => {
     categoriesZ[categoryIndex].products.push(productWithoutCategory);
   });
 
+  cacheService.set(`${id}:shopDetailGroup`, { shop: { ...shop.toObject(), categories: categoriesZ } });
+
   return { shop: { ...shop.toObject(), categories: categoriesZ } };
 };
 
 const searchRestaurants = async (requestQuery) => {
   const { keyword = '' } = requestQuery;
+
+  const searchRestaurantsCache = cacheService.get(`${keyword}:searchRestaurants`);
+
+  if (searchRestaurantsCache) return searchRestaurantsCache;
 
   const queryShop = {
     $and: [
@@ -139,11 +155,17 @@ const searchRestaurants = async (requestQuery) => {
     Product.find(queryProduct).limit(20).select('name description image price slug'),
   ]);
 
+  cacheService.set(`${keyword}:searchRestaurants`, { shops, products });
+
   return { shops, products };
 };
 
 const getShopsByCategory = async (requestQuery, categoryId) => {
   const { limit = 10, page = 1 } = requestQuery;
+
+  const categoryCache = cacheService.get(`${categoryId}:${limit}:${page}:category`);
+
+  if (categoryCache) return categoryCache;
 
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
 
@@ -166,6 +188,8 @@ const getShopsByCategory = async (requestQuery, categoryId) => {
     currentPage: +page,
     currentResult: shops.length,
   };
+
+  cacheService.set(`${categoryId}:${limit}:${page}:category`, { category, shops: shops, ...detailResult });
 
   return { category, shops: shops, ...detailResult };
 };
