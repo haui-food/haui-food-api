@@ -43,8 +43,17 @@ const deleteCart = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().DELETE_SUCCESS, cart));
 });
 
+const getMyCart = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY];
+
+  const result = await cartService.getMyCart(user);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().GET_MY_CART_SUCCESS, result));
+});
+
 module.exports = {
   getCarts,
+  getMyCart,
   updateCart,
   deleteCart,
   getCartById,

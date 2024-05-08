@@ -10,6 +10,9 @@ const cartRouter = express.Router();
 cartRouter.use(auth);
 
 cartRouter.get('/', validate(cartValidation.getCarts), cartController.getCarts);
+
+cartRouter.get('/me', authorize(['user']), cartController.getMyCart);
+
 cartRouter.post('/add', authorize(['user']), validate(cartValidation.createCart), cartController.addProductToCart);
 
 cartRouter
