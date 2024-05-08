@@ -18,7 +18,7 @@ const getCartById = async (cartId) => {
 };
 
 const addProductToCart = async (cartBody, user) => {
-  const { product, quantity } = cartBody;
+  const { product, quantity = 1 } = cartBody;
 
   await productService.getProductById(product);
 
@@ -58,7 +58,7 @@ const addProductToCart = async (cartBody, user) => {
         quantity,
       });
 
-      const newCart = await Cart.findOneAndUpdate(
+      await Cart.findOneAndUpdate(
         { user, isOrder: false },
         {
           $push: { cartDetails: new ObjectId(newCartDetail._id) },
