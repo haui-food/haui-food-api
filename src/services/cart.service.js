@@ -137,7 +137,7 @@ const updateTotalMoney = async (user) => {
       {
         path: 'cartDetails',
         select: 'product quantity',
-        populate: { path: 'product', select: 'name price image slug' },
+        populate: { path: 'product', select: 'name price image slug description' },
       },
       {
         path: 'user',
@@ -167,7 +167,7 @@ const getMyCart = async (user) => {
       {
         path: 'cartDetails',
         select: 'product quantity',
-        populate: { path: 'product', select: 'name price image' },
+        populate: { path: 'product', select: 'name price image slug description' },
       },
     ])
     .select('-__v -user');
