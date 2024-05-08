@@ -6,6 +6,7 @@ const { shopController } = require('../controllers');
 const { systemValidation } = require('../validations');
 const validate = require('../middlewares/validate.middleware');
 const authApiKey = require('../middlewares/auth-api-key.middleware');
+const { auth, authorize } = require('../middlewares/auth.middleware');
 
 const baseRouter = express.Router();
 
@@ -23,7 +24,13 @@ baseRouter.get('/count-access', authApiKey('cronJob'), baseController.countAcces
 
 baseRouter.get('/qr-code', validate(systemValidation.renderQRCode), baseController.renderQR);
 
-baseRouter.post('/api/v1/images', uploadService.uploadImage.single('image'), baseController.uploadImage);
+baseRouter.post(
+  '/api/v1/images',
+  auth,
+  authorize('admin'),
+  uploadService.uploadImage.single('image'),
+  baseController.uploadImage,
+);
 
 baseRouter.all('*', baseController.handlerNotFound);
 
