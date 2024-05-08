@@ -11,7 +11,7 @@ const addProductToCart = catchAsync(async (req, res) => {
 
   const cart = await cartService.addProductToCart(req.body, user);
 
-  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().CREATE_SUCCESS, cart));
+  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().ADD_PRODUCT_SUCCESS, cart));
 });
 
 const getCarts = catchAsync(async (req, res) => {
