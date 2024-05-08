@@ -40,7 +40,7 @@ const addProductToCart = async (cartBody, user) => {
     for (cartDetail of cartDetails) {
       if (cartDetail.product.id === product) {
         if (cartDetail.quantity + quantity > 100) {
-          throw new ApiError(httpStatus.BAD_REQUEST, 'Không được mua quá 100 sản phẩm mỗi loại');
+          throw new ApiError(httpStatus.BAD_REQUEST, cartMessage().MAXIMUM_QUANTITY_BY_CATEGORY);
         }
         cartDetail.quantity += quantity;
 
