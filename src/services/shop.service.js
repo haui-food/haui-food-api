@@ -32,7 +32,7 @@ const getShops = async (requestQuery) => {
   };
 
   let shops = await User.find(query)
-    .select('fullname email phone address avatar background description')
+    .select('fullname email phone address avatar background description slug')
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });
@@ -70,7 +70,7 @@ const getDetailShop = async (id, selectProduct = true) => {
   const shop = await User.findOne({
     _id: id,
     role: 'shop',
-  }).select('fullname email phone address avatar background description');
+  }).select('fullname email phone address avatar background description slug');
 
   if (!shop) {
     throw new ApiError(httpStatus.NOT_FOUND, shopMessage().NOT_FOUND);
@@ -93,7 +93,7 @@ const getShopDetailByIdAndGroupByCategory = async (id) => {
   const shop = await User.findOne({
     _id: id,
     role: 'shop',
-  }).select('fullname email phone address avatar background description');
+  }).select('fullname email phone address avatar background description slug');
 
   if (!shop) {
     throw new ApiError(httpStatus.NOT_FOUND, shopMessage().NOT_FOUND);
@@ -151,7 +151,7 @@ const searchRestaurants = async (requestQuery) => {
   };
 
   const [shops, products] = await Promise.all([
-    User.find(queryShop).limit(10).select('fullname email phone address avatar background description'),
+    User.find(queryShop).limit(10).select('fullname email phone address avatar background description slug'),
     Product.find(queryProduct).limit(20).select('name description image price slug'),
   ]);
 

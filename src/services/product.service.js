@@ -21,7 +21,7 @@ const getProductById = async (productId) => {
     .populate([
       {
         path: 'shop',
-        select: 'fullname email phone description address avatar background',
+        select: 'fullname email phone description address avatar background slug',
       },
       {
         path: 'category',
@@ -81,7 +81,7 @@ const getProductsByKeyword = async (requestQuery) => {
     .populate([
       {
         path: 'shop',
-        select: 'fullname email phone description address avatar background',
+        select: 'fullname email phone description address avatar background slug',
       },
       {
         path: 'category',

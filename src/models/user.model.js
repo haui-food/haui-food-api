@@ -82,6 +82,9 @@ const userSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    slug: {
+      type: String,
+    },
   },
   {
     timestamps: true,
