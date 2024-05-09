@@ -249,10 +249,6 @@ const getMyCartV2 = async (user) => {
 
   const { cartDetails } = cart;
 
-  const cartDetailIds = cartDetails.map((cartDetail) => cartDetail._id);
-
-  console.log(cartDetailIds);
-
   const shopUnique = [...new Set(cartDetails.map((cartDetail) => cartDetail.product.shop))];
 
   const carts = [];
