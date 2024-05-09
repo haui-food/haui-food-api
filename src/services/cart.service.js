@@ -237,6 +237,7 @@ const getMyCartV2 = async (user) => {
   const shopUnique = [...new Set(cartDetails.map((cartDetail) => cartDetail.product.shop))];
 
   const carts = [];
+  const listTotalProducts = [];
 
   for (const shop of shopUnique) {
     const cart = cartDetails
@@ -249,12 +250,18 @@ const getMyCartV2 = async (user) => {
           totalPrice: cartDetail.totalPrice,
         };
       });
-    carts.push({ shop, cartDetails: cart, totalMoney: cart.reduce((a, b) => a + b.totalPrice, 0) });
+    carts.push({
+      shop,
+      cartDetails: cart,
+      totalMoney: cart.reduce((a, b) => a + b.totalPrice, 0),
+    });
+    listTotalProducts.push(cart.reduce((a, b) => a + b.quantity, 0));
   }
 
+  const totalProducts = listTotalProducts.reduce((a, b) => a + b, 0);
   const totalMoneyAllCarts = carts.reduce((a, b) => a + b.totalMoney, 0);
 
-  return { carts, totalMoneyAllCarts };
+  return { carts, totalProducts, totalMoneyAllCarts };
 };
 
 const getCartsByKeyword = async (query) => {
