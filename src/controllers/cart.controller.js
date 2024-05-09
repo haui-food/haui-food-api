@@ -9,17 +9,17 @@ const { REQUEST_USER_KEY } = require('../constants');
 const addProductToCart = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY].id;
 
-  const cart = await cartService.addProductToCartV2(req.body, user);
+  await cartService.addProductToCartV2(req.body, user);
 
-  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, cartMessage().ADD_PRODUCT_SUCCESS, cart));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().ADD_PRODUCT_SUCCESS));
 });
 
 const removeProductFromCart = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY].id;
 
-  const cart = await cartService.removeProductFromCart(req.body, user);
+  await cartService.removeProductFromCart(req.body, user);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().REMOVE_PRODUCT_SUCCESS, cart));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, cartMessage().REMOVE_PRODUCT_SUCCESS));
 });
 
 const getCarts = catchAsync(async (req, res) => {
