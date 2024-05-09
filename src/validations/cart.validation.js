@@ -26,7 +26,6 @@ const getCarts = {
     cartDetailId: Joi.array().allow(null, ''),
     userId: Joi.string().custom(objectId),
     isOrder: Joi.boolean().allow(null, ''),
-    totalMoney: Joi.number().allow(null, ''),
   }),
 };
 
@@ -45,7 +44,6 @@ const updateCart = {
       cartDetailId: Joi.array().allow(null, ''),
       userId: Joi.string().custom(objectId),
       isOrder: Joi.boolean().allow(null, ''),
-      totalMoney: Joi.number().allow(null, ''),
     })
     .min(1),
 };

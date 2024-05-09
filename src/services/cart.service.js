@@ -84,7 +84,7 @@ const addProductToCartV1 = async (cartBody, user) => {
 const addProductToCartV2 = async (cartBody, user) => {
   const { product, quantity = 1 } = cartBody;
 
-  await productService.getProductById(product);
+  const productExsits = await productService.getProductById(product);
 
   const cart = await Cart.findOne({ user }).populate([
     {
@@ -103,7 +103,9 @@ const addProductToCartV2 = async (cartBody, user) => {
       if (cartDetail.quantity + quantity > 100) {
         throw new ApiError(httpStatus.BAD_REQUEST, cartMessage().MAXIMUM_QUANTITY_BY_CATEGORY);
       }
+
       cartDetail.quantity += quantity;
+      cartDetail.totalPrice = cartDetail.quantity * productExsits.price;
 
       await cartDetail.save();
 
@@ -117,6 +119,7 @@ const addProductToCartV2 = async (cartBody, user) => {
     const newCartDetail = await CartDetail.create({
       product,
       quantity,
+      totalPrice: quantity * productExsits.price,
     });
 
     await Cart.findOneAndUpdate(
@@ -127,10 +130,6 @@ const addProductToCartV2 = async (cartBody, user) => {
       { new: true },
     );
   }
-
-  const cartUpdated = await updateTotalMoney(user);
-
-  return cartUpdated;
 };
 
 const removeProductFromCart = async (cartBody, user) => {
@@ -143,13 +142,15 @@ const removeProductFromCart = async (cartBody, user) => {
   const cart = await Cart.findOne({ user }).populate([
     {
       path: 'cartDetails',
-      select: 'product quantity',
+      select: 'product quantity totalPrice',
       populate: { path: 'product' },
     },
   ]);
 
-  if (!cart) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Không tìm thấy giỏ hàng của bạn');
+  const isExsitsProduct = cart.cartDetails.some((cartDetail) => cartDetail.product.id === product);
+
+  if (!isExsitsProduct) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Không tìm thấy sản phẩm trong giỏ hàng của bạn');
   }
 
   for (cartDetail of cart.cartDetails) {
@@ -173,14 +174,11 @@ const removeProductFromCart = async (cartBody, user) => {
       }
 
       cartDetail.quantity -= quantity;
+      cartDetail.totalPrice = cartDetail.quantity * cartDetail.product.price;
 
       await cartDetail.save();
     }
   }
-
-  const cartUpdated = await updateTotalMoney(user);
-
-  return cartUpdated;
 };
 
 const updateTotalMoney = async (user) => {
@@ -188,7 +186,7 @@ const updateTotalMoney = async (user) => {
     .populate([
       {
         path: 'cartDetails',
-        select: 'product quantity',
+        select: 'product quantity totalPrice',
         populate: { path: 'product', select: 'name price image slug description' },
       },
       {
@@ -197,16 +195,6 @@ const updateTotalMoney = async (user) => {
       },
     ])
     .select('-__v');
-
-  let total = 0;
-
-  for (cartDetail of againCart.cartDetails) {
-    total += cartDetail.product.price * cartDetail.quantity;
-  }
-
-  againCart.totalMoney = total;
-
-  await againCart.save();
 
   return againCart;
 };
@@ -235,7 +223,7 @@ const getMyCartV2 = async (user) => {
     },
     {
       path: 'cartDetails',
-      select: 'product quantity',
+      select: 'product quantity totalPrice',
       populate: {
         path: 'product',
         select: 'name price shop image description',
@@ -261,15 +249,15 @@ const getMyCartV2 = async (user) => {
           _id: cartDetail._id,
           product: { ...cartDetail.product.toObject(), shop: undefined },
           quantity: cartDetail.quantity,
-          totalPrice: cartDetail.product.price * cartDetail.quantity,
+          totalPrice: cartDetail.totalPrice,
         };
       });
     carts.push({ shop, cartDetails: cart, totalMoney: cart.reduce((a, b) => a + b.totalPrice, 0) });
   }
 
-  const totalMoney = carts.reduce((a, b) => a + b.totalMoney, 0);
+  const totalMoneyAllCarts = carts.reduce((a, b) => a + b.totalMoney, 0);
 
-  return { carts, totalMoney };
+  return { carts, totalMoneyAllCarts };
 };
 
 const getCartsByKeyword = async (query) => {
