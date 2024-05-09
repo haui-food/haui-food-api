@@ -2,7 +2,7 @@ const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
 
-const { Order } = require('../models');
+const { Order, Cart } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
@@ -18,9 +18,38 @@ const getOrderById = async (orderId) => {
   return order;
 };
 
-const createOrder = async (orderBody) => {
-  const order = await Order.create(orderBody);
-  return order;
+const createOrder = async (user, orderBody) => {
+  const cartDetailIds = orderBody.cartDetails.split(',');
+
+  const cart = await Cart.findOne({
+    user: user._id,
+  }).populate([
+    {
+      path: 'cartDetails',
+      populate: { path: 'product' },
+    },
+  ]);
+
+  const listCartDetails = cart.cartDetails.map((cartDetail) => cartDetail._id.toString());
+
+  console.log(listCartDetails);
+
+  console.log(cartDetailIds);
+
+  console.log(listCartDetails.includes(cartDetailIds));
+
+  // const order = await Order.create({
+  //   user: user._id,
+  //   cart: orderBody.cart,
+  //   shop: orderBody.shop,
+  //   totalMoney: orderBody.totalMoney,
+  //   paymentMethod: orderBody.paymentMethod,
+  //   address: orderBody.address,
+  //   note: orderBody.note,
+  // });
+  // return order;
+
+  return cart;
 };
 
 const getOrdersByKeyword = async (query) => {

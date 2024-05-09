@@ -4,9 +4,13 @@ const response = require('../utils/response');
 const { orderService } = require('../services');
 const { orderMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
+const { REQUEST_USER_KEY } = require('../constants');
 
 const createOrder = catchAsync(async (req, res) => {
-  const order = await orderService.createOrder(req.body);
+  const user = req[REQUEST_USER_KEY];
+
+  const order = await orderService.createOrder(user, req.body);
+
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, orderMessage().CREATE_SUCCESS, order));
 });
 
