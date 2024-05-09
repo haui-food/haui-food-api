@@ -61,7 +61,6 @@ const addProductToCartV1 = async (cartBody, user) => {
         {
           $push: { cartDetails: new ObjectId(newCartDetail._id) },
         },
-        { new: true },
       );
     }
   } else {
@@ -127,7 +126,6 @@ const addProductToCartV2 = async (cartBody, user) => {
       {
         $push: { cartDetails: new ObjectId(newCartDetail._id) },
       },
-      { new: true },
     );
   }
 };
@@ -167,7 +165,6 @@ const removeProductFromCart = async (cartBody, user) => {
           {
             $pull: { cartDetails: cartDetail._id },
           },
-          { new: true },
         );
 
         break;
