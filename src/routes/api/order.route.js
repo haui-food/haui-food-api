@@ -10,7 +10,7 @@ const orderRouter = express.Router();
 orderRouter
   .route('/')
   .get(validate(orderValidation.getOrders), orderController.getOrders)
-  .post(auth, authorize('admin'), validate(orderValidation.createOrder), orderController.createOrder);
+  .post(auth, authorize('user'), validate(orderValidation.createOrder), orderController.createOrder);
 
 orderRouter.get('/exports', auth, authorize('admin'), validate(orderValidation.getOrders), orderController.exportExcel);
 

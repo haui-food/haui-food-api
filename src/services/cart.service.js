@@ -22,7 +22,7 @@ const addProductToCartV1 = async (cartBody, user) => {
 
   await productService.getProductById(product);
 
-  const cartExists = await Cart.findOne({ user }, { isOrder: false }).populate([
+  const cartExists = await Cart.findOne({ user }).populate([
     {
       path: 'cartDetails',
       populate: { path: 'product' },
@@ -57,7 +57,7 @@ const addProductToCartV1 = async (cartBody, user) => {
       });
 
       await Cart.findOneAndUpdate(
-        { user, isOrder: false },
+        { user },
         {
           $push: { cartDetails: new ObjectId(newCartDetail._id) },
         },
@@ -86,7 +86,7 @@ const addProductToCartV2 = async (cartBody, user) => {
 
   await productService.getProductById(product);
 
-  const cart = await Cart.findOne({ user }, { isOrder: false }).populate([
+  const cart = await Cart.findOne({ user }).populate([
     {
       path: 'cartDetails',
       populate: { path: 'product' },
@@ -120,7 +120,7 @@ const addProductToCartV2 = async (cartBody, user) => {
     });
 
     await Cart.findOneAndUpdate(
-      { user, isOrder: false },
+      { user },
       {
         $push: { cartDetails: new ObjectId(newCartDetail._id) },
       },
@@ -140,7 +140,7 @@ const removeProductFromCart = async (cartBody, user) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Số lượng sản phẩm xoá cần lớn hơn 0');
   }
 
-  const cart = await Cart.findOne({ user }, { isOrder: false }).populate([
+  const cart = await Cart.findOne({ user }).populate([
     {
       path: 'cartDetails',
       select: 'product quantity',
@@ -162,7 +162,7 @@ const removeProductFromCart = async (cartBody, user) => {
         await CartDetail.deleteOne({ _id: cartDetail._id });
 
         await Cart.findOneAndUpdate(
-          { user, isOrder: false },
+          { user },
           {
             $pull: { cartDetails: cartDetail._id },
           },
@@ -184,7 +184,7 @@ const removeProductFromCart = async (cartBody, user) => {
 };
 
 const updateTotalMoney = async (user) => {
-  const againCart = await Cart.findOne({ user }, { isOrder: false })
+  const againCart = await Cart.findOne({ user })
     .populate([
       {
         path: 'cartDetails',
@@ -196,7 +196,7 @@ const updateTotalMoney = async (user) => {
         select: 'fullname email phone',
       },
     ])
-    .select('-__v isOrder');
+    .select('-__v');
 
   let total = 0;
 
@@ -211,7 +211,7 @@ const updateTotalMoney = async (user) => {
   return againCart;
 };
 
-const getMyCart = async (user) => {
+const getMyCartV1 = async (user) => {
   const query = { user: user.id };
 
   const cart = await Cart.findOne(query)
@@ -225,6 +225,55 @@ const getMyCart = async (user) => {
     .select('-__v -user');
 
   return { user: selectProperties(user.toObject(), '_id fullname email phone avatar'), cart };
+};
+
+const getMyCartV2 = async (user) => {
+  const cart = await Cart.findOne({ user: user.id }).populate([
+    {
+      path: 'user',
+      select: 'fullname email phone',
+    },
+    {
+      path: 'cartDetails',
+      select: 'product quantity',
+      populate: {
+        path: 'product',
+        select: 'name price shop image description',
+        populate: {
+          path: 'shop',
+          select: '_id fullname email phone address avatar slug',
+        },
+      },
+    },
+  ]);
+
+  const { cartDetails } = cart;
+
+  const cartDetailIds = cartDetails.map((cartDetail) => cartDetail._id);
+
+  console.log(cartDetailIds);
+
+  const shopUnique = [...new Set(cartDetails.map((cartDetail) => cartDetail.product.shop))];
+
+  const carts = [];
+
+  for (const shop of shopUnique) {
+    const cart = cartDetails
+      .filter((cartDetail) => cartDetail.product.shop._id.toString() === shop._id.toString())
+      .map((cartDetail) => {
+        return {
+          _id: cartDetail._id,
+          product: { ...cartDetail.product.toObject(), shop: undefined },
+          quantity: cartDetail.quantity,
+          totalPrice: cartDetail.product.price * cartDetail.quantity,
+        };
+      });
+    carts.push({ shop, cartDetails: cart, totalMoney: cart.reduce((a, b) => a + b.totalPrice, 0) });
+  }
+
+  const totalMoney = carts.reduce((a, b) => a + b.totalMoney, 0);
+
+  return { carts, totalMoney };
 };
 
 const getCartsByKeyword = async (query) => {
@@ -250,7 +299,8 @@ const deleteCartById = async (cartId) => {
 };
 
 module.exports = {
-  getMyCart,
+  getMyCartV1,
+  getMyCartV2,
   getCartById,
   updateCartById,
   deleteCartById,
