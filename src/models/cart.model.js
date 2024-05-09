@@ -14,10 +14,6 @@ const cartSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    totalMoney: {
-      type: Number,
-      default: 0,
-    },
   },
   {
     timestamps: true,
