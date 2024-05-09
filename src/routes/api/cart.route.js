@@ -4,10 +4,11 @@ const { cartController } = require('../../controllers');
 const { cartValidation } = require('../../validations');
 const { auth, authorize } = require('../../middlewares/auth.middleware');
 const validate = require('../../middlewares/validate.middleware');
+const { logAuthenticatedRequest } = require('../../middlewares/logger.middleware');
 
 const cartRouter = express.Router();
 
-cartRouter.use(auth);
+cartRouter.use(auth, logAuthenticatedRequest);
 
 cartRouter.get('/', validate(cartValidation.getCarts), cartController.getCarts);
 
