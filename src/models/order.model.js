@@ -21,10 +21,15 @@ const orderSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    payment: {
+    paymentMethod: {
       type: String,
       enum: ['cod', 'bank'],
       default: 'cod',
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['unpaid', 'paid'],
+      default: 'unpaid',
     },
     address: {
       type: String,
