@@ -14,10 +14,6 @@ const cartSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    isOrder: {
-      type: Boolean,
-      default: false,
-    },
     totalMoney: {
       type: Number,
       default: 0,
