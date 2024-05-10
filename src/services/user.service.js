@@ -8,6 +8,7 @@ const ApiError = require('../utils/ApiError');
 const { userMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 const emailFormatter = require('../utils/emailFormatter');
+const generateUniqueSlug = require('../utils/generateUniqueSlug');
 const { STYLE_EXPORT_EXCEL, THIRTY_DAYS_IN_MILLISECONDS } = require('../constants');
 
 const getUserByEmail = async (email) => {
@@ -35,7 +36,12 @@ const createUser = async (userBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
   }
 
+  if (userBody.role === 'shop') {
+    userBody['slug'] = await generateUniqueSlug(userBody.fullname, User);
+  }
+
   userBody['normalizedEmail'] = normalizedEmail;
+
   const user = await User.create(userBody);
 
   if (!userBody.role || userBody.role === 'user') {
@@ -60,6 +66,10 @@ const updateUserById = async (userId, updateBody) => {
 
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
+  }
+
+  if (user.role === 'shop' && updateBody.fullname !== user.fullname) {
+    updateBody['slug'] = await generateUniqueSlug(updateBody.fullname, User);
   }
 
   Object.assign(user, updateBody);
