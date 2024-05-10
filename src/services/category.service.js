@@ -57,7 +57,7 @@ const getCategoriesByKeyword = async (query) => {
 const updateCategoryById = async (categoryId, updateBody) => {
   const category = await getCategoryById(categoryId);
 
-  if (updateBody.name) {
+  if (updateBody.name && category.name.toLowerCase() !== updateBody.name?.toLowerCase()) {
     updateBody['slug'] = await generateUniqueSlug(category.name, Category);
   }
 

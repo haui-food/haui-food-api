@@ -68,7 +68,11 @@ const updateUserById = async (userId, updateBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
   }
 
-  if (user.role === 'shop' && updateBody.fullname !== user.fullname) {
+  if (
+    updateBody.fullname &&
+    user.role === 'shop' &&
+    updateBody.fullname?.toLowerCase() !== user.fullname.toLowerCase()
+  ) {
     updateBody['slug'] = await generateUniqueSlug(updateBody.fullname, User);
   }
 
