@@ -23,9 +23,11 @@ const categorySchema = mongoose.Schema(
 
 categorySchema.pre('save', function (next) {
   const category = this;
+
   if (category.isModified('name')) {
     category.slug = slug(category.name);
   }
+
   next();
 });
 

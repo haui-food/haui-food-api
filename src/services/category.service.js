@@ -10,6 +10,7 @@ const { categoryMessage } = require('../messages');
 const { STYLE_EXPORT_EXCEL } = require('../constants');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
+const generateUniqueSlug = require('../utils/generateUniqueSlug');
 
 const getCategoryById = async (categoryId) => {
   const category = await Category.findById(categoryId);
@@ -55,6 +56,10 @@ const getCategoriesByKeyword = async (query) => {
 
 const updateCategoryById = async (categoryId, updateBody) => {
   const category = await getCategoryById(categoryId);
+
+  if (updateBody.name) {
+    updateBody['slug'] = await generateUniqueSlug(category.name, Category);
+  }
 
   Object.assign(category, updateBody);
   await category.save();
