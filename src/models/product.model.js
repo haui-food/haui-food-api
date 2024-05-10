@@ -1,4 +1,3 @@
-const slug = require('slug');
 const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema(
@@ -38,13 +37,5 @@ const productSchema = mongoose.Schema(
     timestamps: true,
   },
 );
-
-productSchema.pre('save', function (next) {
-  const product = this;
-  if (product.isModified('name')) {
-    product.slug = slug(product.name);
-  }
-  next();
-});
 
 module.exports = mongoose.model('Product', productSchema);

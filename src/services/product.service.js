@@ -9,8 +9,11 @@ const { STYLE_EXPORT_EXCEL } = require('../constants');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
+const generateUniqueSlug = require('../utils/generateUniqueSlug');
 
 const createProduct = async (productBody) => {
+  productBody['slug'] = await generateUniqueSlug(productBody.name, Product);
+
   const product = await Product.create(productBody);
   return product;
 };
@@ -63,8 +66,6 @@ const getProductsByKeyword = async (requestQuery) => {
       },
     ],
   };
-
-  console.log(shop, category);
 
   if (shop) {
     query.$and.push({ shop });
@@ -120,8 +121,12 @@ const getMyProducts = async (query, shop) => {
 const updateProductById = async (productId, updateBody, shop) => {
   const product = await getProductById(productId);
 
-  if (updateBody.shop !== shop) {
+  if (product.shop !== shop) {
     throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
+  }
+
+  if (updateBody.name && product.name.toLowerCase() !== updateBody.name?.toLowerCase()) {
+    updateBody['slug'] = await generateUniqueSlug(updateBody.name, Product);
   }
 
   Object.assign(product, updateBody);
