@@ -9,6 +9,7 @@ const categoryMessage = () => {
     DELETE_SUCCESS: i18nService.translate('product.deleteSuccess'),
     ALREADY_EXISTS: i18nService.translate('product.alreadyExists'),
     FIND_LIST_SUCCESS: i18nService.translate('product.findListSuccess'),
+    IMPORT_SUCCESS: i18nService.translate('product.importSuccess'),
   };
 };
 

@@ -1,6 +1,8 @@
+const slug = require('slug');
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
+const excelToJson = require('convert-excel-to-json');
 
 const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
@@ -9,6 +11,7 @@ const { STYLE_EXPORT_EXCEL } = require('../constants');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
+
 
 const createProduct = async (productBody) => {
   const product = await Product.create(productBody);
@@ -193,6 +196,31 @@ const exportExcel = async (query) => {
   return wb;
 };
 
+const importProductsFromExcelFile = async (file) => {
+  const fileBuffer = file.buffer;
+
+  let products = [];
+  const result = excelToJson({ source: fileBuffer });
+
+  const rows = result[Object.keys(result)[0]];
+
+  rows.shift();
+
+  for (let row of rows) {
+    products.push({
+      name: row['A'],
+      description: row['B'],
+      price: row['C'],
+      image: row['D'],
+      category: row['E'],
+      shop: row['F'],
+    });
+  }
+
+  await Product.insertMany(products);
+  return products;
+};
+
 module.exports = {
   exportExcel,
   createProduct,
@@ -201,4 +229,5 @@ module.exports = {
   updateProductById,
   deleteProductById,
   getProductsByKeyword,
+  importProductsFromExcelFile
 };
