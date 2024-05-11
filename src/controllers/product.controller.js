@@ -67,6 +67,12 @@ const exportExcel = catchAsync(async (req, res) => {
   });
 });
 
+const importProductsFromExcelFile = catchAsync(async (req, res) => {
+  const products = await productService.importProductsFromExcelFile(req.file);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, "Import success", products));
+});
+
+
 module.exports = {
   getProducts,
   exportExcel,
@@ -75,4 +81,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProductById,
+  importProductsFromExcelFile
 };

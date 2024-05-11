@@ -80,7 +80,8 @@
     "createSuccess": "Product created successfully",
     "updateSuccess": "Product updated successfully",
     "deleteSuccess": "Product deleted successfully",
-    "alreadyExists": "Category already exists"
+    "alreadyExists": "Category already exists",
+    "importSuccess": "Product imported successfully"
   },
   "contact": {
     "sendSuccess": "Contact sent successfully",

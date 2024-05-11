@@ -80,7 +80,8 @@
     "createSuccess": "Tạo mới sản phẩm thành công",
     "updateSuccess": "Cập nhật sản phẩm thành công",
     "deleteSuccess": "Xóa sản phẩm thành công",
-    "alreadyExists": "Sản phẩm đã tồn tại"
+    "alreadyExists": "Sản phẩm đã tồn tại",
+    "importSuccess": "Sản phẩm đã được nhập thành công"
   },
   "contact": {
     "sendSuccess": "Gửi liên hệ thành công",

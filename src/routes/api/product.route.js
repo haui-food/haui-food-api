@@ -1,3 +1,4 @@
+const multer = require('multer');
 const express = require('express');
 
 const { uploadService } = require('../../services');
@@ -6,6 +7,7 @@ const { productValidation } = require('../../validations');
 const validate = require('../../middlewares/validate.middleware');
 const { auth, authorize } = require('../../middlewares/auth.middleware');
 
+const upload = multer();
 const productRouter = express.Router();
 
 productRouter
@@ -25,6 +27,14 @@ productRouter.get(
   authorize('admin'),
   validate(productValidation.getProducts),
   productController.exportExcel,
+);
+
+productRouter.post(
+  '/imports',
+  auth,
+  authorize('admin'),
+  upload.single('file'),
+  productController.importProductsFromExcelFile,
 );
 
 productRouter.get(
