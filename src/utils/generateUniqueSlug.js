@@ -1,7 +1,7 @@
 const slug = require('slug');
 
-async function generateUniqueSlug(fullname, model) {
-  let baseSlug = slug(fullname);
+async function generateUniqueSlug(name, model) {
+  let baseSlug = slug(name);
 
   let count = 1;
   let tempSlug = baseSlug;
