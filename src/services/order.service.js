@@ -141,6 +141,80 @@ const getMyOrders = async (user, queryRequest) => {
   return { orders, ...detailResult };
 };
 
+const cancelOrderByIdUser = async (orderId, user) => {
+  const order = await getOrderById(orderId);
+
+  const isMyOrder = order.user.toString() === user._id.toString();
+
+  if (!isMyOrder) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Bạn không có quyền cập nhật đơn hàng');
+  }
+
+  if (order.status !== 'pending') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể huỷ đơn hàng');
+  }
+
+  order.status = 'canceled';
+  await order.save();
+};
+
+const cancelOrderByIdShop = async (orderId, user) => {
+  const order = await getOrderById(orderId);
+
+  const isMyOrderForShop = order.shop.toString() === user._id.toString();
+
+  if (!isMyOrderForShop) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Bạn không có quyền cập nhật đơn hàng');
+  }
+
+  if (['shipping', 'success', 'canceled'].includes(order.status)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể huỷ đơn hàng');
+  }
+
+  order.status = 'canceled';
+  await order.save();
+};
+
+const updateOrderStatusById = async (orderId, user, status) => {
+  const order = await getOrderById(orderId);
+
+  const isMyOrderForShop = order.shop.toString() === user._id.toString();
+
+  if (!isMyOrderForShop) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Bạn không có quyền thao tác đơn hàng này');
+  }
+
+  switch (status) {
+    case 'reject':
+      if (order.status !== 'pending') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể từ chối đơn');
+      }
+      break;
+    case 'confirmed':
+      if (order.status !== 'pending') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Bạn không thể duyệt đơn hàng');
+      }
+      break;
+    case 'shipping':
+      if (order.status !== 'confirmed') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể chuyển sang trạng thái giao đơn');
+      }
+      break;
+    case 'success':
+      if (order.status !== 'shipping') {
+        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể hoàn thành đơn hàng');
+      }
+      break;
+    default:
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Trạng thái đơn hàng không hợp lệ');
+  }
+
+  order.status = status;
+  await order.save();
+
+  return order;
+};
+
 const getOrdersByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Order);
 
@@ -225,4 +299,7 @@ module.exports = {
   updateOrderById,
   deleteOrderById,
   getOrdersByKeyword,
+  cancelOrderByIdUser,
+  cancelOrderByIdShop,
+  updateOrderStatusById,
 };

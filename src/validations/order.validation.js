@@ -31,17 +31,13 @@ const getOrder = {
   }),
 };
 
-const updateOrder = {
+const updateStatusOrder = {
   params: Joi.object().keys({
     orderId: Joi.string().custom(objectId),
   }),
   body: Joi.object()
     .keys({
-      userId: Joi.string().custom(objectId),
-      cartId: Joi.string().custom(objectId),
-      address: Joi.string().allow(null, ''),
-      note: Joi.string().allow(null, ''),
-      status: Joi.string().allow(null, ''),
+      status: Joi.string().allow('pending', 'canceled', 'confirmed', 'reject', 'shipping', 'success'),
     })
     .min(1),
 };
@@ -66,6 +62,6 @@ module.exports = {
   getMyOrders,
   getOrders,
   getOrder,
-  updateOrder,
+  updateStatusOrder,
   deleteOrder,
 };

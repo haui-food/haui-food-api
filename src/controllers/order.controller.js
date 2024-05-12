@@ -27,14 +27,6 @@ const getOrderById = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_SUCCESS, order));
 });
 
-const updateOrder = catchAsync(async (req, res) => {
-  const { orderId } = req.params;
-
-  const order = await orderService.updateOrderById(orderId, req.body);
-
-  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_SUCCESS, order));
-});
-
 const deleteOrder = catchAsync(async (req, res) => {
   const { orderId } = req.params;
 
@@ -60,12 +52,39 @@ const getMyOrders = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_LIST_SUCCESS, orders));
 });
 
+const cancelOrderById = catchAsync(async (req, res) => {
+  const { orderId } = req.params;
+
+  const user = req[REQUEST_USER_KEY];
+
+  if (user.role === 'user') {
+    await orderService.cancelOrderByIdUser(orderId, user);
+  } else if (user.role === 'shop') {
+    await orderService.cancelOrderByIdShop(orderId, user);
+  }
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Huỷ đơn hành thành công'));
+});
+
+const updateStatusOrder = catchAsync(async (req, res) => {
+  const { status } = req.body;
+
+  const { orderId } = req.params;
+
+  const user = req[REQUEST_USER_KEY];
+
+  const order = await orderService.updateOrderStatusById(orderId, user, status);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Cập nhật trạng thái đơn hàng thành công', order));
+});
+
 module.exports = {
   getOrders,
   getMyOrders,
   createOrder,
-  updateOrder,
   deleteOrder,
   exportExcel,
   getOrderById,
+  cancelOrderById,
+  updateStatusOrder,
 };
