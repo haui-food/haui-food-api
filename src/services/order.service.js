@@ -97,6 +97,50 @@ const createOrder = async (user, orderBody) => {
   return { orders: newOrders };
 };
 
+const getMyOrders = async (user, queryRequest) => {
+  const query = { user: user._id };
+
+  const { status = '', limit = 10, page = 1 } = queryRequest;
+
+  const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
+
+  if (status) {
+    query.status = status;
+  }
+
+  const orders = await Order.find(query)
+    .populate([
+      {
+        path: 'shop',
+        select: 'fullname avatar slug',
+      },
+      {
+        path: 'cartDetails',
+        select: 'product quantity totalPrice',
+        populate: {
+          path: 'product',
+          select: 'name price image slug description',
+        },
+      },
+    ])
+    .select('-__v -user')
+    .skip(skip)
+    .limit(limit)
+    .sort({ createdAt: -1 });
+
+  const totalSearch = await Order.countDocuments(query);
+
+  const detailResult = {
+    limit: +limit,
+    totalResult: totalSearch,
+    totalPage: Math.ceil(totalSearch / +limit),
+    currentPage: +page,
+    currentResult: orders.length,
+  };
+
+  return { orders, ...detailResult };
+};
+
 const getOrdersByKeyword = async (query) => {
   const apiFeature = new ApiFeature(Order);
 
@@ -174,6 +218,7 @@ const exportExcel = async (query) => {
 };
 
 module.exports = {
+  getMyOrders,
   exportExcel,
   createOrder,
   getOrderById,

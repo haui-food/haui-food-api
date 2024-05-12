@@ -11,10 +11,6 @@ const cartDetailSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    isOrder: {
-      type: Boolean,
-      default: false,
-    },
     totalPrice: {
       type: Number,
       default: 0,

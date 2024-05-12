@@ -52,8 +52,17 @@ const exportExcel = catchAsync(async (req, res) => {
   });
 });
 
+const getMyOrders = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY];
+
+  const orders = await orderService.getMyOrders(user, req.query);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_LIST_SUCCESS, orders));
+});
+
 module.exports = {
   getOrders,
+  getMyOrders,
   createOrder,
   updateOrder,
   deleteOrder,

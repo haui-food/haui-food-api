@@ -52,8 +52,18 @@ const deleteOrder = {
   }),
 };
 
+const getMyOrders = {
+  query: Joi.object().keys({
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+    lang: Joi.string(),
+    status: Joi.string().allow('pending', 'canceled', 'confirmed', 'reject', 'shipping', 'success', ''),
+  }),
+};
+
 module.exports = {
   createOrder,
+  getMyOrders,
   getOrders,
   getOrder,
   updateOrder,
