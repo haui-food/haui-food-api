@@ -1,9 +1,10 @@
 const httpStatus = require('http-status');
 
 const response = require('../utils/response');
-const { shopService } = require('../services');
 const { shopMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
+const { REQUEST_USER_KEY } = require('../constants');
+const { shopService, orderService } = require('../services');
 
 const getShops = catchAsync(async (req, res) => {
   const result = await shopService.getShops(req.query);
@@ -39,8 +40,17 @@ const getShopsByCategory = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().SHOPS_BY_CATEGORY, shops));
 });
 
+const getMyOrders = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY];
+
+  const orders = await orderService.shopGetMyOrders(user, req.query);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Danh sách đơn của cửa hàng bạn', orders));
+});
+
 module.exports = {
   getShops,
+  getMyOrders,
   getDetailShop,
   searchRestaurants,
   getShopsByCategory,
