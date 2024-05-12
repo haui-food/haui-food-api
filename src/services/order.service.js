@@ -2,11 +2,12 @@ const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
 
-const { Order, Cart } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 const { STYLE_EXPORT_EXCEL } = require('../constants');
+const { Order, Cart, CartDetail } = require('../models');
+const findCommonElements = require('../utils/findCommonElements');
 
 const getOrderById = async (orderId) => {
   const order = await Order.findById(orderId);
@@ -19,7 +20,9 @@ const getOrderById = async (orderId) => {
 };
 
 const createOrder = async (user, orderBody) => {
-  const cartDetailIds = orderBody.cartDetails.split(',');
+  const { cartDetails, paymentMethod, address, note } = orderBody;
+
+  const cartDetailIdsUnique = [...new Set(cartDetails)];
 
   const cart = await Cart.findOne({
     user: user._id,
@@ -32,24 +35,66 @@ const createOrder = async (user, orderBody) => {
 
   const listCartDetails = cart.cartDetails.map((cartDetail) => cartDetail._id.toString());
 
-  console.log(listCartDetails);
+  const listCartDetailsOrder = findCommonElements(cartDetailIdsUnique, listCartDetails);
 
-  console.log(cartDetailIds);
+  if (listCartDetailsOrder.length !== cartDetailIdsUnique.length) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể đặt đơn vui lòng kiểm tra lại cartDetails');
+  }
 
-  console.log(listCartDetails.includes(cartDetailIds));
+  const cartDetailsZ = await CartDetail.find({ _id: { $in: listCartDetailsOrder } }).populate([
+    {
+      path: 'product',
+      populate: { path: 'shop' },
+    },
+  ]);
 
-  // const order = await Order.create({
-  //   user: user._id,
-  //   cart: orderBody.cart,
-  //   shop: orderBody.shop,
-  //   totalMoney: orderBody.totalMoney,
-  //   paymentMethod: orderBody.paymentMethod,
-  //   address: orderBody.address,
-  //   note: orderBody.note,
-  // });
-  // return order;
+  const shopUnique = [...new Set(cartDetailsZ.map((cartDetail) => cartDetail.product.shop))];
 
-  return cart;
+  const orders = [];
+
+  for (const shop of shopUnique) {
+    const cartDetails = cartDetailsZ
+      .filter((cartDetail) => cartDetail.product.shop._id.toString() === shop._id.toString())
+      .map((cartDetail) => ({
+        cartDetail: cartDetail._id.toString(),
+      }));
+
+    orders.push({
+      shop: shop._id.toString(),
+      cartDetails,
+      totalMoney: cartDetailsZ
+        .filter((cartDetail) => cartDetail.product.shop._id.toString() === shop._id.toString())
+        .reduce((total, cartDetail) => total + cartDetail.totalPrice, 0),
+    });
+  }
+
+  const newOrders = [];
+
+  for (const order of orders) {
+    const newOrder = await Order.create({
+      user: user._id,
+      shop: order.shop,
+      note: note || '',
+      address: address || '',
+      totalMoney: order.totalMoney,
+      paymentMethod: paymentMethod || 'cod',
+      cartDetails: order.cartDetails.map((cartDetail) => cartDetail.cartDetail),
+    });
+
+    newOrders.push(newOrder);
+  }
+
+  const cartAgain = await Cart.findOne({
+    user: user._id,
+  });
+
+  cartAgain.cartDetails = cartAgain.cartDetails.filter((cartDetail) => {
+    return !cartDetailIdsUnique.includes(cartDetail._id.toString());
+  });
+
+  await cartAgain.save();
+
+  return { orders: newOrders };
 };
 
 const getOrdersByKeyword = async (query) => {

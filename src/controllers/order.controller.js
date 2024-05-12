@@ -9,9 +9,9 @@ const { REQUEST_USER_KEY } = require('../constants');
 const createOrder = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY];
 
-  const order = await orderService.createOrder(user, req.body);
+  const orders = await orderService.createOrder(user, req.body);
 
-  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, orderMessage().CREATE_SUCCESS, order));
+  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, orderMessage().CREATE_SUCCESS, orders));
 });
 
 const getOrders = catchAsync(async (req, res) => {
