@@ -101,9 +101,10 @@ const createOrder = async (user, orderBody) => {
     return !cartDetailIdsUnique.includes(cartDetail._id.toString());
   });
 
-  user.accountBalance -= totalMoneyOrder;
-
-  await user.save();
+  if (paymentMethod === 'prepaid') {
+    user.accountBalance -= totalMoneyOrder;
+    await user.save();
+  }
 
   await cartAgain.save();
 
