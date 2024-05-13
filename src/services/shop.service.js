@@ -114,7 +114,9 @@ const getShopDetailByIdAndGroupByCategory = async (id) => {
   products.forEach((product) => {
     const categoryIndex = categoriesZ.findIndex((category) => category._id.toString() === product.category.toString());
     const { category, ...productWithoutCategory } = product.toObject();
-    categoriesZ[categoryIndex].products.push(productWithoutCategory);
+    if (categoryIndex !== -1) {
+      categoriesZ[categoryIndex].products.push(productWithoutCategory);
+    }
   });
 
   cacheService.set(`${id}:shopDetailGroup`, { shop: { ...shop.toObject(), categories: categoriesZ } });

@@ -9,15 +9,20 @@ const orderRouter = express.Router();
 
 orderRouter
   .route('/')
-  .get(validate(orderValidation.getOrders), orderController.getOrders)
   .post(auth, authorize('user'), validate(orderValidation.createOrder), orderController.createOrder);
 
-orderRouter.get('/exports', auth, authorize('admin'), validate(orderValidation.getOrders), orderController.exportExcel);
+orderRouter.get('/me', auth, authorize('user'), validate(orderValidation.getMyOrders), orderController.getMyOrders);
+
+orderRouter.post(
+  '/:orderId/cancel',
+  auth,
+  authorize(['shop', 'user']),
+  validate(orderValidation.getOrder),
+  orderController.cancelOrderById,
+);
 
 orderRouter
-  .route('/:orderId')
-  .get(auth, authorize('admin'), validate(orderValidation.getOrder), orderController.getOrderById)
-  .put(auth, authorize('admin'), validate(orderValidation.updateOrder), orderController.updateOrder)
-  .delete(auth, authorize('admin'), validate(orderValidation.deleteOrder), orderController.deleteOrder);
+  .route('/:orderId/status')
+  .put(auth, authorize('shop'), validate(orderValidation.updateStatusOrder), orderController.updateStatusOrder);
 
 module.exports = orderRouter;

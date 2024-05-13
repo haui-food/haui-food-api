@@ -9,9 +9,9 @@ const { REQUEST_USER_KEY } = require('../constants');
 const createOrder = catchAsync(async (req, res) => {
   const user = req[REQUEST_USER_KEY];
 
-  const order = await orderService.createOrder(user, req.body);
+  const orders = await orderService.createOrder(user, req.body);
 
-  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, orderMessage().CREATE_SUCCESS, order));
+  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, orderMessage().CREATE_SUCCESS, orders));
 });
 
 const getOrders = catchAsync(async (req, res) => {
@@ -25,14 +25,6 @@ const getOrderById = catchAsync(async (req, res) => {
   const order = await orderService.getOrderById(orderId);
 
   res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_SUCCESS, order));
-});
-
-const updateOrder = catchAsync(async (req, res) => {
-  const { orderId } = req.params;
-
-  const order = await orderService.updateOrderById(orderId, req.body);
-
-  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_SUCCESS, order));
 });
 
 const deleteOrder = catchAsync(async (req, res) => {
@@ -52,11 +44,47 @@ const exportExcel = catchAsync(async (req, res) => {
   });
 });
 
+const getMyOrders = catchAsync(async (req, res) => {
+  const user = req[REQUEST_USER_KEY];
+
+  const orders = await orderService.getMyOrders(user, req.query);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().FIND_LIST_SUCCESS, orders));
+});
+
+const cancelOrderById = catchAsync(async (req, res) => {
+  const { orderId } = req.params;
+
+  const user = req[REQUEST_USER_KEY];
+
+  if (user.role === 'user') {
+    await orderService.cancelOrderByIdUser(orderId, user);
+  } else if (user.role === 'shop') {
+    await orderService.cancelOrderByIdShop(orderId, user);
+  }
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Huỷ đơn hành thành công'));
+});
+
+const updateStatusOrder = catchAsync(async (req, res) => {
+  const { status } = req.body;
+
+  const { orderId } = req.params;
+
+  const user = req[REQUEST_USER_KEY];
+
+  const order = await orderService.updateOrderStatusById(orderId, user, status);
+
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Cập nhật trạng thái đơn hàng thành công', order));
+});
+
 module.exports = {
   getOrders,
+  getMyOrders,
   createOrder,
-  updateOrder,
   deleteOrder,
   exportExcel,
   getOrderById,
+  cancelOrderById,
+  updateStatusOrder,
 };

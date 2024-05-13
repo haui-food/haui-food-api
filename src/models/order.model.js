@@ -7,11 +7,13 @@ const orderSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    cart: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Cart',
-      required: true,
-    },
+    cartDetails: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CartDetail',
+        required: true,
+      },
+    ],
     shop: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
