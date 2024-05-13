@@ -10,6 +10,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const apiRoute = require('./routes/api');
 const { userService } = require('./services');
 const baseRouter = require('./routes/base.route');
+const { app, server } = require('./sockets/socket');
 const initLogDirFile = require('./utils/initLogDirFile');
 const limiter = require('./middlewares/rate-limit.middleware');
 const { env, logger, morgan, i18nService } = require('./config');
@@ -17,7 +18,6 @@ const countAccess = require('./middlewares/count-access.middleware');
 const { logUnauthenticatedRequest } = require('./middlewares/logger.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
 
-const app = express();
 
 app.set('trust proxy', 1);
 app.set('views', 'src/views');
@@ -74,7 +74,7 @@ mongoose
     logger.info('Admin created...');
   })
   .then(() =>
-    app.listen(env.port, () => {
+    server.listen(env.port, () => {
       logger.info(`Server running on port ${env.port}`);
     }),
   )
