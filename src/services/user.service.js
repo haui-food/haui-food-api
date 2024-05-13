@@ -36,6 +36,14 @@ const createUser = async (userBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, userMessage().EXISTS_EMAIL);
   }
 
+  const lastUser = await User.findOne({ role: 'user' }).sort({ createdAt: -1 });
+  const noUser = lastUser ? +lastUser.username.split('hauifood')[1] : 0;
+
+  if (!userBody.role || userBody.role === 'user') {
+    userBody['username'] = 'hauifood' + (noUser + 1);
+    userBody['accountBalance'] = 0;
+  }
+
   if (userBody.role === 'shop') {
     userBody['slug'] = await generateUniqueSlug(userBody.fullname, User);
   }
