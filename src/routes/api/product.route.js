@@ -19,7 +19,8 @@ productRouter
     uploadService.uploadImage.single('image'),
     validate(productValidation.createProduct),
     productController.createProduct,
-  );
+  )
+  .put(auth, authorize('admin'), validate(productValidation.updateProduct), productController.updateAllPriceProducts);
 
 productRouter.get(
   '/exports',

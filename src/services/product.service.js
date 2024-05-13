@@ -13,6 +13,29 @@ const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
 const generateUniqueSlug = require('../utils/generateUniqueSlug');
 
+const updateAllSlugProducts = async () => {
+  const products = await Product.find({});
+  const productUpdated = [];
+
+  for (let product of products) {
+    product.slug = await generateUniqueSlug(product.name, Product);
+    await product.save();
+    productUpdated.push(product);
+  }
+
+  return productUpdated;
+};
+
+const updateAllPriceProducts = async () => {
+  const products = await Product.find({ price: { $lt: 1000 } });
+
+  for (let product of products) {
+    product.price = product.price * 100;
+    await product.save();
+  }
+
+  return products;
+};
 
 const createProduct = async (productBody) => {
   productBody['slug'] = await generateUniqueSlug(productBody.name, Product);
@@ -234,5 +257,7 @@ module.exports = {
   updateProductById,
   deleteProductById,
   getProductsByKeyword,
-  importProductsFromExcelFile
+  importProductsFromExcelFile,
+  updateAllSlugProducts,
+  updateAllPriceProducts,
 };

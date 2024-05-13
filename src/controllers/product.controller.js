@@ -6,6 +6,16 @@ const { productService } = require('../services');
 const { productMessage } = require('../messages');
 const { REQUEST_USER_KEY } = require('../constants');
 
+const updateAllSlugProducts = catchAsync(async (req, res) => {
+  const products = await productService.updateAllSlugProducts();
+  res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().UPDATE_SUCCESS, products));
+});
+
+const updateAllPriceProducts = catchAsync(async (req, res) => {
+  const products = await productService.updateAllPriceProducts();
+  res.status(httpStatus.OK).json(response(httpStatus.OK, productMessage().UPDATE_SUCCESS, products));
+});
+
 const createProduct = catchAsync(async (req, res) => {
   req.body.shop = req[REQUEST_USER_KEY].id;
 
@@ -69,9 +79,8 @@ const exportExcel = catchAsync(async (req, res) => {
 
 const importProductsFromExcelFile = catchAsync(async (req, res) => {
   const products = await productService.importProductsFromExcelFile(req.file);
-  res.status(httpStatus.OK).json(response(httpStatus.OK, "Import success", products));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Import success', products));
 });
-
 
 module.exports = {
   getProducts,
@@ -81,5 +90,7 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProductById,
-  importProductsFromExcelFile
+  importProductsFromExcelFile,
+  updateAllSlugProducts,
+  updateAllPriceProducts,
 };
