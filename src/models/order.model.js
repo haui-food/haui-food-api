@@ -25,12 +25,12 @@ const orderSchema = mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ['cod', 'bank'],
+      enum: ['cod', 'bank', 'prepaid'],
       default: 'cod',
     },
     paymentStatus: {
       type: String,
-      enum: ['unpaid', 'paid', 'prepaid'],
+      enum: ['unpaid', 'paid'],
       default: 'unpaid',
     },
     address: {
