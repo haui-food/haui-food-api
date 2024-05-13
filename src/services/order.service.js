@@ -86,6 +86,7 @@ const createOrder = async (user, orderBody) => {
       address: address || '',
       totalMoney: order.totalMoney,
       paymentMethod: paymentMethod || 'cod',
+      paymentStatus: paymentMethod === 'prepaid' ? 'paid' : 'unpaid',
       cartDetails: order.cartDetails.map((cartDetail) => cartDetail.cartDetail),
     });
 
