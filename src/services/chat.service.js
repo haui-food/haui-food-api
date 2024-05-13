@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 
 const { messageMessage } = require('../messages');
 const { Message, Conversation, User } = require('../models');
-const { getReceiverSocketId } = require('../sockets/socket');
+const { getReceiverSocketId, io } = require('../sockets/socket');
 
 const sendMessage = async (chatBody) => {
   const { senderId, receiverId, message } = chatBody;

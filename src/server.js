@@ -18,7 +18,6 @@ const countAccess = require('./middlewares/count-access.middleware');
 const { logUnauthenticatedRequest } = require('./middlewares/logger.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
 
-
 app.set('trust proxy', 1);
 app.set('views', 'src/views');
 app.set('view engine', 'ejs');
