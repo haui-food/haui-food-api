@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ['https://hauifood.com'],
+    origin: ['*', 'http://localhost:3000', 'https://hauifood.com'],
     methods: ['GET', 'POST'],
   },
 });
