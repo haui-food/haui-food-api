@@ -22,15 +22,14 @@ const getMessages = {
   }),
 };
 
-const getMessage = {
-  params: Joi.object().keys({
-    messageId: Joi.string().custom(objectId),
-  }),
-};
-
-const deleteMessage = {
-  params: Joi.object().keys({
-    messageId: Joi.string().custom(objectId),
+const getListUsersChat = {
+  query: Joi.object().keys({
+    keyword: Joi.string().allow(null, ''),
+    sortBy: Joi.string(),
+    limit: Joi.number().integer(),
+    page: Joi.number().integer(),
+    lang: Joi.string(),
+    userId: Joi.string().custom(objectId),
   }),
 };
 
@@ -43,7 +42,6 @@ const deleteMessageBysenderId = {
 module.exports = {
   createMessage,
   getMessages,
-  getMessage,
-  deleteMessage,
+  getListUsersChat,
   deleteMessageBysenderId,
 };

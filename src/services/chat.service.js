@@ -1,24 +1,23 @@
 const httpStatus = require('http-status');
 
 const { messageMessage } = require('../messages');
-const { Message, Conversation } = require('../models');
+const { Message, Conversation, User } = require('../models');
 const { getReceiverSocketId } = require('../sockets/socket');
 
 const sendMessage = async (chatBody) => {
-  const { sender, receiver, message } = chatBody;
-
-  const conversation = await Conversation.findOne({ participants: { $all: [sender, receiver] } });
+  const { senderId, receiverId, message } = chatBody;
+  const conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
   if (!conversation) {
-    const conversation = await Conversation.create({ participants: [sender, receiver] });
+    const conversation = await Conversation.create({ participants: [senderId, receiverId] });
   }
 
-  const newMessage = await Message.create({ sender, receiver, message });
+  const newMessage = await Message.create({ senderId, receiverId, message });
   if (newMessage) {
     conversation.message.push(newMessage._id);
   }
 
   await Promise.all([conversation.save(), newMessage.save()]);
-  const receiverSocketId = getReceiverSocketId(receiver);
+  const receiverSocketId = getReceiverSocketId(receiverId);
 
   if (receiverSocketId) {
     io.to(receiverSocketId).emit('newMessage', newMessage);
@@ -28,9 +27,11 @@ const sendMessage = async (chatBody) => {
 };
 
 const getMessage = async (chatBody) => {
-  const { sender, receiver } = chatBody;
+  const { senderId, receiverId } = chatBody;
 
-  const conversation = await Conversation.findOne({ participants: { $all: [sender, receiver] } }).populate('message');
+  const conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } }).populate(
+    'message',
+  );
 
   if (!conversation) {
     throw new ApiError(httpStatus.NOT_FOUND, messageMessage().NOT_FOUND);
@@ -39,7 +40,23 @@ const getMessage = async (chatBody) => {
   return conversation.message;
 };
 
+const getListUsersChat = async (chatBody) => {
+  const { userId } = chatBody;
+
+  let listUserId = [];
+  const conversations = await Conversation.find({ participants: { $all: [userId] } });
+
+  for (const conversation of conversations) {
+    listUserId.push(
+      conversation.participants[0].toString() !== userId ? conversation.participants[0] : conversation.participants[1],
+    );
+  }
+  const users = await User.find({ _id: { $in: listUserId } });
+  return users;
+};
+
 module.exports = {
   sendMessage,
   getMessage,
+  getListUsersChat,
 };

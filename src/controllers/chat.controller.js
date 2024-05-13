@@ -15,7 +15,13 @@ const getMessage = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, messageMessage().FIND_SUCCESS, message));
 });
 
+const getListUsersChat = catchAsync(async (req, res) => {
+  const users = await chatService.getListUsersChat(req.body);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, messageMessage().FIND_LIST_SUCCESS, users));
+});
+
 module.exports = {
   sendMessage,
   getMessage,
+  getListUsersChat,
 };
