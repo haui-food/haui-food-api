@@ -1,14 +1,16 @@
 const httpStatus = require('http-status');
 
+const ApiError = require('../utils/ApiError');
 const { messageMessage } = require('../messages');
 const { Message, Conversation, User } = require('../models');
 const { getReceiverSocketId, io } = require('../sockets/socket');
 
 const sendMessage = async (chatBody) => {
   const { senderId, receiverId, message } = chatBody;
-  const conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
+
+  let conversation = await Conversation.findOne({ participants: { $all: [senderId, receiverId] } });
   if (!conversation) {
-    const conversation = await Conversation.create({ participants: [senderId, receiverId] });
+    conversation = await Conversation.create({ participants: [senderId, receiverId] });
   }
 
   const newMessage = await Message.create({ senderId, receiverId, message });
