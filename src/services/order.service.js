@@ -70,6 +70,14 @@ const createOrder = async (user, orderBody) => {
 
   const newOrders = [];
 
+  const totalMoneyOrder = orders.reduce((total, order) => total + order.totalMoney, 0);
+
+  if (paymentMethod === 'prepaid') {
+    if (totalMoneyOrder > user.accountBalance) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Số dư của bạn không đủ');
+    }
+  }
+
   for (const order of orders) {
     const newOrder = await Order.create({
       user: user._id,
@@ -91,6 +99,10 @@ const createOrder = async (user, orderBody) => {
   cartAgain.cartDetails = cartAgain.cartDetails.filter((cartDetail) => {
     return !cartDetailIdsUnique.includes(cartDetail._id.toString());
   });
+
+  user.accountBalance -= totalMoneyOrder;
+
+  await user.save();
 
   await cartAgain.save();
 
