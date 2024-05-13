@@ -11,6 +11,13 @@ const userSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
+    username: {
+      type: String,
+      trim: true,
+    },
+    accountBalance: {
+      type: Number,
+    },
     email: {
       type: String,
       trim: true,
