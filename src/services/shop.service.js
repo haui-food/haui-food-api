@@ -7,6 +7,11 @@ const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { shopMessage, categoryMessage } = require('../messages');
 
+const randomRating = () => {
+  const randomIndex = Math.floor(Math.random() * RATING_RANGE.length);
+  return RATING_RANGE[randomIndex];
+};
+
 const getShops = async (requestQuery) => {
   const key = objectToString(requestQuery);
 
@@ -47,11 +52,6 @@ const getShops = async (requestQuery) => {
     currentResult: shops.length,
   };
 
-  const randomRating = () => {
-    const randomIndex = Math.floor(Math.random() * RATING_RANGE.length);
-    return RATING_RANGE[randomIndex];
-  };
-
   shops = shops.map((shop) => ({
     ...shop._doc,
     rating: randomRating(),
@@ -80,9 +80,9 @@ const getDetailShop = async (id, selectProduct = true) => {
 
   const products = await Product.find({ shop: id }).select('name description image price slug');
 
-  cacheService.set(`${id}:shopDetail`, { shop: { ...shop.toObject(), products } });
+  cacheService.set(`${id}:shopDetail`, { shop: { ...shop.toObject(), rating: randomRating(), products } });
 
-  return { shop: { ...shop.toObject(), products } };
+  return { shop: { ...shop.toObject(), rating: randomRating(), products } };
 };
 
 const getShopDetailByIdAndGroupByCategory = async (id) => {
@@ -119,9 +119,11 @@ const getShopDetailByIdAndGroupByCategory = async (id) => {
     }
   });
 
-  cacheService.set(`${id}:shopDetailGroup`, { shop: { ...shop.toObject(), categories: categoriesZ } });
+  cacheService.set(`${id}:shopDetailGroup`, {
+    shop: { ...shop.toObject(), rating: randomRating(), categories: categoriesZ },
+  });
 
-  return { shop: { ...shop.toObject(), categories: categoriesZ } };
+  return { shop: { ...shop.toObject(), rating: randomRating(), categories: categoriesZ } };
 };
 
 const searchRestaurants = async (requestQuery) => {
