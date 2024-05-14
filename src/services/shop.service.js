@@ -155,8 +155,8 @@ const searchRestaurants = async (requestQuery) => {
   };
 
   const [shops, products] = await Promise.all([
-    User.find(queryShop).limit(10).select('fullname email phone address avatar background description slug'),
-    Product.find(queryProduct).limit(20).select('name description image price slug'),
+    User.find(queryShop).limit(8).select('fullname email phone address avatar background description slug'),
+    Product.find(queryProduct).limit(9).select('name description image price slug'),
   ]);
 
   cacheService.set(`${keyword}:searchRestaurants`, { shops, products });
