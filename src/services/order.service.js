@@ -5,6 +5,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
+const { userService } = require('./user.service');
 const { STYLE_EXPORT_EXCEL } = require('../constants');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
@@ -168,6 +169,11 @@ const cancelOrderByIdUser = async (orderId, user) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể huỷ đơn hàng');
   }
 
+  if (order.paymentMethod === 'prepaid') {
+    user.accountBalance += order.totalMoney;
+    await user.save();
+  }
+
   order.status = 'canceled';
   await order.save();
 };
@@ -183,6 +189,13 @@ const cancelOrderByIdShop = async (orderId, user) => {
 
   if (['shipping', 'success', 'canceled'].includes(order.status)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể huỷ đơn hàng');
+  }
+
+  if (order.paymentMethod === 'prepaid') {
+    const owner = await userService.getUserById(order.user);
+
+    owner.accountBalance += order.totalMoney;
+    await user.save();
   }
 
   order.status = 'canceled';
