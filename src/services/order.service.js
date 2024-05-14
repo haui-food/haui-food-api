@@ -195,7 +195,7 @@ const cancelOrderByIdShop = async (orderId, user) => {
     const owner = await userService.getUserById(order.user);
 
     owner.accountBalance += order.totalMoney;
-    await user.save();
+    await owner.save();
   }
 
   order.status = 'canceled';
