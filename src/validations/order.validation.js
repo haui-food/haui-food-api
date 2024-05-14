@@ -6,7 +6,7 @@ const createOrder = {
     cartDetails: Joi.array().items(Joi.string().custom(objectId)).min(1),
     address: Joi.string().allow(null, ''),
     note: Joi.string().allow(null, ''),
-    paymentMethod: Joi.string().allow('cod', 'bank'),
+    paymentMethod: Joi.string().allow('cod', 'bank', 'prepaid'),
   }),
 };
 
