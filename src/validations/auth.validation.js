@@ -30,14 +30,16 @@ const changePassword = {
 };
 
 const updateMe = {
-  body: Joi.object()
-    .keys({
-      fullname: Joi.string().optional().custom(fullname),
-      dateOfBirth: Joi.date().allow(null, '').less('now'),
-      gender: Joi.string().allow('male', 'female', ''),
-      avatar: Joi.string(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    fullname: Joi.string().optional().custom(fullname),
+    dateOfBirth: Joi.date().allow(null, '').less('now'),
+    gender: Joi.string().allow('male', 'female', ''),
+    avatar: Joi.string(),
+    address: Joi.string().allow(null, ''),
+    phone: Joi.string().allow(null, ''),
+    description: Joi.string().allow(null, ''),
+    background: Joi.string().allow(null, ''),
+  }),
 };
 
 const toggle2FA = {
