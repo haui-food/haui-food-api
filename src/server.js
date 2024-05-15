@@ -34,7 +34,7 @@ app.use(mongoSanitize());
 app.use(compression());
 
 app.use(cors());
-app.options('*', cors());
+// app.options('*', cors());
 
 app.use((req, res, next) => {
   next(i18nService.setLocale(req, res));
