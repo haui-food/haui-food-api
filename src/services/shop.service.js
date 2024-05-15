@@ -57,9 +57,11 @@ const getShops = async (requestQuery) => {
     rating: randomRating(),
   }));
 
-  cacheService.set(`${key}:shops`, { shops, ...detailResult });
+  const results = { shops, ...detailResult };
 
-  return { shops, ...detailResult };
+  cacheService.set(`${key}:shops`, results);
+
+  return results;
 };
 
 const getDetailShop = async (id, selectProduct = true) => {
@@ -80,9 +82,11 @@ const getDetailShop = async (id, selectProduct = true) => {
 
   const products = await Product.find({ shop: id }).select('name description image price slug');
 
-  cacheService.set(`${id}:shopDetail`, { shop: { ...shop.toObject(), rating: randomRating(), products } });
+  const results = { shop: { ...shop.toObject(), rating: randomRating(), products } };
 
-  return { shop: { ...shop.toObject(), rating: randomRating(), products } };
+  cacheService.set(`${id}:shopDetail`, results);
+
+  return results;
 };
 
 const getShopDetailByIdAndGroupByCategory = async (id) => {
@@ -119,11 +123,13 @@ const getShopDetailByIdAndGroupByCategory = async (id) => {
     }
   });
 
-  cacheService.set(`${id}:shopDetailGroup`, {
+  const results = {
     shop: { ...shop.toObject(), rating: randomRating(), categories: categoriesZ },
-  });
+  };
 
-  return { shop: { ...shop.toObject(), rating: randomRating(), categories: categoriesZ } };
+  cacheService.set(`${id}:shopDetailGroup`, results);
+
+  return results;
 };
 
 const searchRestaurants = async (requestQuery) => {
@@ -159,9 +165,11 @@ const searchRestaurants = async (requestQuery) => {
     Product.find(queryProduct).limit(9).select('name description image price slug'),
   ]);
 
-  cacheService.set(`${keyword}:searchRestaurants`, { shops, products });
+  const results = { shops, products };
 
-  return { shops, products };
+  cacheService.set(`${keyword}:searchRestaurants`, results);
+
+  return results;
 };
 
 const getShopsByCategory = async (requestQuery, categoryId) => {
@@ -193,9 +201,11 @@ const getShopsByCategory = async (requestQuery, categoryId) => {
     currentResult: shops.length,
   };
 
-  cacheService.set(`${categoryId}:${limit}:${page}:category`, { category, shops: shops, ...detailResult });
+  const results = { category, shops: shops, ...detailResult };
 
-  return { category, shops: shops, ...detailResult };
+  cacheService.set(`${categoryId}:${limit}:${page}:category`, results);
+
+  return results;
 };
 
 module.exports = {

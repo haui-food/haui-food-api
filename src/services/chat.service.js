@@ -53,6 +53,7 @@ const getListUsersChat = async (chatBody) => {
       conversation.participants[0].toString() !== userId ? conversation.participants[0] : conversation.participants[1],
     );
   }
+
   const users = await User.find({ _id: { $in: listUserId } });
   return users;
 };

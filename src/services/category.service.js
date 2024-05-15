@@ -49,9 +49,11 @@ const getCategoriesByKeyword = async (query) => {
 
   const { results, ...detailResult } = await apiFeature.getResults(query, ['name', 'slug']);
 
-  cacheService.set(`${key}:categories`, { categories: results, ...detailResult });
+  const result = { categories: results, ...detailResult };
 
-  return { categories: results, ...detailResult };
+  cacheService.set(`${key}:categories`, result);
+
+  return result;
 };
 
 const updateCategoryById = async (categoryId, updateBody) => {

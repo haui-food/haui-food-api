@@ -1,4 +1,3 @@
-const slug = require('slug');
 const moment = require('moment');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
@@ -129,9 +128,11 @@ const getProductsByKeyword = async (requestQuery) => {
     currentResult: products.length,
   };
 
-  cacheService.set(key, { products, ...detailResult });
+  const results = { products, ...detailResult };
 
-  return { products, ...detailResult };
+  cacheService.set(key, results);
+
+  return results;
 };
 
 const getMyProducts = async (query, shop) => {
