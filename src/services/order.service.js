@@ -6,9 +6,9 @@ const ApiError = require('../utils/ApiError');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 const { userService } = require('./user.service');
-const { STYLE_EXPORT_EXCEL } = require('../constants');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
+const { STYLE_EXPORT_EXCEL, MAX_ORDER_PER_USER } = require('../constants');
 
 const getOrderById = async (orderId) => {
   const order = await Order.findById(orderId);
@@ -22,6 +22,12 @@ const getOrderById = async (orderId) => {
 
 const createOrder = async (user, orderBody) => {
   const { cartDetails, paymentMethod, address, note } = orderBody;
+
+  const myOrderNumbers = await Order.countDocuments({ user: user._id, status: 'pending' });
+
+  if (myOrderNumbers >= MAX_ORDER_PER_USER) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Số đơn chờ duyệt đã quá giới hạn. Vui lòng đợi duyệt hoặc huỷ đơn cũ.');
+  }
 
   const cartDetailIdsUnique = [...new Set(cartDetails)];
 
