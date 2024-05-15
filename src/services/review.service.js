@@ -6,7 +6,7 @@ const { Review } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { reviewMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
-const { STYLE_EXPORT_EXCEL } = require('../constants');
+const { STYLE_EXPORT_EXCEL, PAGE_DEFAULT, LIMIT_DEFAULT_EXPORT } = require('../constants');
 
 const getReviewById = async (reviewId) => {
   const review = await Review.findById(reviewId);
@@ -58,8 +58,8 @@ const deleteReviewById = async (reviewId) => {
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Review);
 
-  query.page = 1;
-  query.limit = 1000;
+  query.page = PAGE_DEFAULT;
+  query.limit = LIMIT_DEFAULT_EXPORT;
 
   const { results } = await apiFeature.getResults(query, ['user', 'product', 'order', 'rating']);
   const wb = new excel4node.Workbook();

@@ -1,11 +1,11 @@
 const httpStatus = require('http-status');
 
 const ApiError = require('../utils/ApiError');
-const { RATING_RANGE } = require('../constants');
 const { User, Product, Category } = require('../models');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { shopMessage, categoryMessage } = require('../messages');
+const { RATING_RANGE, LIMIT_DEFAULT, PAGE_DEFAULT } = require('../constants');
 
 const randomRating = () => {
   const randomIndex = Math.floor(Math.random() * RATING_RANGE.length);
@@ -19,7 +19,7 @@ const getShops = async (requestQuery) => {
 
   if (shopsCache) return shopsCache;
 
-  const { limit = 10, page = 1, keyword = '' } = requestQuery;
+  const { limit = LIMIT_DEFAULT, page = PAGE_DEFAULT, keyword = '' } = requestQuery;
 
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
 
@@ -173,7 +173,7 @@ const searchRestaurants = async (requestQuery) => {
 };
 
 const getShopsByCategory = async (requestQuery, categoryId) => {
-  const { limit = 10, page = 1 } = requestQuery;
+  const { limit = LIMIT_DEFAULT, page = PAGE_DEFAULT } = requestQuery;
 
   const categoryCache = cacheService.get(`${categoryId}:${limit}:${page}:category`);
 

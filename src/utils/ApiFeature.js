@@ -1,10 +1,18 @@
+const { LIMIT_DEFAULT, PAGE_DEFAULT, SORT_DEFAULT_STRING } = require('../constants');
+
 class ApiFeature {
   constructor(model) {
     this.model = model;
   }
 
   async getResults(query, fieldsRegex, fieldsExclude = ['password', '__v']) {
-    const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc', ...queryObj } = query;
+    const {
+      limit = LIMIT_DEFAULT,
+      page = PAGE_DEFAULT,
+      keyword = '',
+      sortBy = SORT_DEFAULT_STRING,
+      ...queryObj
+    } = query;
 
     const object = Object.fromEntries(
       Object.entries(queryObj).map(([key, value]) => {

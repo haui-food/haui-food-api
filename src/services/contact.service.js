@@ -6,7 +6,7 @@ const { Contact } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { contactMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
-const { STYLE_EXPORT_EXCEL } = require('../constants');
+const { STYLE_EXPORT_EXCEL, PAGE_DEFAULT, LIMIT_DEFAULT_EXPORT } = require('../constants');
 
 const getContactByEmail = async (email) => {
   const contact = await Contact.findOne({ email });
@@ -47,8 +47,8 @@ const deleteContactById = async (contactId) => {
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Contact);
 
-  query.page = 1;
-  query.limit = 1000;
+  query.page = PAGE_DEFAULT;
+  query.limit = LIMIT_DEFAULT_EXPORT;
 
   const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone', 'message']);
   const wb = new excel4node.Workbook();

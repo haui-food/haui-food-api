@@ -8,7 +8,7 @@ const ApiFeature = require('../utils/ApiFeature');
 const { userService } = require('./user.service');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
-const { STYLE_EXPORT_EXCEL, MAX_ORDER_PER_USER } = require('../constants');
+const { STYLE_EXPORT_EXCEL, MAX_ORDER_PER_USER, LIMIT_DEFAULT, PAGE_DEFAULT } = require('../constants');
 
 const getOrderById = async (orderId) => {
   const order = await Order.findById(orderId);
@@ -121,7 +121,7 @@ const createOrder = async (user, orderBody) => {
 const getMyOrders = async (user, queryRequest) => {
   const query = { user: user._id };
 
-  const { status = '', limit = 10, page = 1 } = queryRequest;
+  const { status = '', limit = LIMIT_DEFAULT, page = PAGE_DEFAULT } = queryRequest;
 
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
 
@@ -251,7 +251,7 @@ const updateOrderStatusById = async (orderId, user, status) => {
 const shopGetMyOrders = async (user, queryRequest) => {
   const query = { shop: user._id };
 
-  const { status = '', limit = 10, page = 1 } = queryRequest;
+  const { status = '', limit = LIMIT_DEFAULT, page = PAGE_DEFAULT } = queryRequest;
 
   const skip = +page <= 1 ? 0 : (+page - 1) * +limit;
 
@@ -326,8 +326,8 @@ const deleteOrderById = async (orderId) => {
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Order);
 
-  query.page = 1;
-  query.limit = 1000;
+  query.page = PAGE_DEFAULT;
+  query.limit = LIMIT_DEFAULT_EXPORT;
 
   const { results } = await apiFeature.getResults(query, ['userId', 'cartId', 'address', 'status']);
   const wb = new excel4node.Workbook();

@@ -7,10 +7,10 @@ const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
 const ApiFeature = require('../utils/ApiFeature');
 const { categoryMessage } = require('../messages');
-const { STYLE_EXPORT_EXCEL } = require('../constants');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const generateUniqueSlug = require('../utils/generateUniqueSlug');
+const { STYLE_EXPORT_EXCEL, PAGE_DEFAULT, LIMIT_DEFAULT_EXPORT } = require('../constants');
 
 const getCategoryById = async (categoryId) => {
   const category = await Category.findById(categoryId);
@@ -80,8 +80,8 @@ const deleteCategoryById = async (categoryId) => {
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Category);
 
-  query.page = 1;
-  query.limit = 1000;
+  query.page = PAGE_DEFAULT;
+  query.limit = LIMIT_DEFAULT_EXPORT;
 
   const { results } = await apiFeature.getResults(query, ['name', 'slug']);
   const wb = new excel4node.Workbook();

@@ -6,11 +6,11 @@ const excelToJson = require('convert-excel-to-json');
 const { Product } = require('../models');
 const ApiError = require('../utils/ApiError');
 const ApiFeature = require('../utils/ApiFeature');
-const { STYLE_EXPORT_EXCEL } = require('../constants');
 const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
 const generateUniqueSlug = require('../utils/generateUniqueSlug');
+const { STYLE_EXPORT_EXCEL, LIMIT_DEFAULT, PAGE_DEFAULT, SORT_DEFAULT_STRING } = require('../constants');
 
 const updateAllSlugProducts = async () => {
   const products = await Product.find({});
@@ -71,7 +71,14 @@ const getProductsByKeyword = async (requestQuery) => {
 
   if (productsCache) return productsCache;
 
-  const { limit = 10, page = 1, keyword = '', sortBy = 'createdAt:desc', shop, category } = requestQuery;
+  const {
+    limit = LIMIT_DEFAULT,
+    page = PAGE_DEFAULT,
+    keyword = '',
+    sortBy = SORT_DEFAULT_STRING,
+    shop,
+    category,
+  } = requestQuery;
 
   const sort = sortBy.split(',').map((sortItem) => {
     const [field, option = 'desc'] = sortItem.split(':');
@@ -177,8 +184,8 @@ const deleteProductById = async (productId, shop) => {
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(Product);
 
-  query.page = 1;
-  query.limit = 1000;
+  query.page = PAGE_DEFAULT;
+  query.limit = LIMIT_DEFAULT_EXPORT;
 
   const { results } = await apiFeature.getResults(query, ['name', 'description', 'slug', 'price']);
   const wb = new excel4node.Workbook();

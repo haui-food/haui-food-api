@@ -9,7 +9,7 @@ const { userMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
 const emailFormatter = require('../utils/emailFormatter');
 const generateUniqueSlug = require('../utils/generateUniqueSlug');
-const { STYLE_EXPORT_EXCEL, THIRTY_DAYS_IN_MILLISECONDS } = require('../constants');
+const { STYLE_EXPORT_EXCEL, THIRTY_DAYS_IN_MILLISECONDS, PAGE_DEFAULT, LIMIT_DEFAULT_EXPORT } = require('../constants');
 
 const getUserByEmail = async (email) => {
   const normalizedEmail = emailFormatter(email);
@@ -141,8 +141,8 @@ const createAdmin = async () => {
 const exportExcel = async (query) => {
   const apiFeature = new ApiFeature(User);
 
-  query.page = 1;
-  query.limit = 1000;
+  query.page = PAGE_DEFAULT;
+  query.limit = LIMIT_DEFAULT_EXPORT;
 
   const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone']);
   const wb = new excel4node.Workbook();
