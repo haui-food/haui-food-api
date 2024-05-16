@@ -131,7 +131,9 @@
     "findListSuccess": "Order list found successfully",
     "createSuccess": "Order created successfully",
     "updateSuccess": "Order updated successfully",
-    "deleteSuccess": "Order deleted successfully"
+    "deleteSuccess": "Order deleted successfully",
+    "cancelSuccess": "Order canceled successfully",
+    "updateStatusSuccess": "Order status updated successfully"
   },
   "conversation": {
     "notFound": "Conversation not found",

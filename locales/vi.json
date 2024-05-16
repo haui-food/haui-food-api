@@ -132,7 +132,9 @@
     "createSuccess": "Tạo mới đơn đặt hàng thành công",
     "updateSuccess": "Cập nhật đơn đặt hàng thành công",
     "deleteSuccess": "Xóa đơn đặt hàng thành công",
-    "alreadyExists": "Đơn đặt hàng đã tồn tại"
+    "alreadyExists": "Đơn đặt hàng đã tồn tại",
+    "cancelSuccess": "Hủy đơn hàng thành công",
+    "updateStatusSuccess": "Cập nhật trạng thái đơn hàng thành công"
   },
   "conversation": {
     "notFound": "Không tìm thấy cuộc hội thoại",

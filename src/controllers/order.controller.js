@@ -63,7 +63,7 @@ const cancelOrderById = catchAsync(async (req, res) => {
     await orderService.cancelOrderByIdShop(orderId, user);
   }
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Huỷ đơn hành thành công'));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().CANCEL_SUCCESS));
 });
 
 const updateStatusOrder = catchAsync(async (req, res) => {
@@ -75,7 +75,7 @@ const updateStatusOrder = catchAsync(async (req, res) => {
 
   const order = await orderService.updateOrderStatusById(orderId, user, status);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Cập nhật trạng thái đơn hàng thành công', order));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, orderMessage().UPDATE_STATUS_SUCCESS, order));
 });
 
 module.exports = {
