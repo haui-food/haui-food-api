@@ -97,7 +97,6 @@ const exportExcel = async (query) => {
   ws.column(5).setWidth(25);
   ws.column(6).setWidth(25);
 
-
   ws.cell(1, 1).string('ID').style(headerStyle);
   ws.cell(1, 2).string('Name').style(headerStyle);
   ws.cell(1, 3).string('Image').style(headerStyle);

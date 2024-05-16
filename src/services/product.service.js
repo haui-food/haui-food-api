@@ -10,7 +10,13 @@ const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
 const generateUniqueSlug = require('../utils/generateUniqueSlug');
-const { STYLE_EXPORT_EXCEL, LIMIT_DEFAULT, PAGE_DEFAULT, SORT_DEFAULT_STRING, LIMIT_DEFAULT_EXPORT } = require('../constants');
+const {
+  STYLE_EXPORT_EXCEL,
+  LIMIT_DEFAULT,
+  PAGE_DEFAULT,
+  SORT_DEFAULT_STRING,
+  LIMIT_DEFAULT_EXPORT,
+} = require('../constants');
 
 const updateAllSlugProducts = async () => {
   const products = await Product.find({});

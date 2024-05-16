@@ -10,7 +10,7 @@ const categoryMessage = () => {
     ALREADY_EXISTS: i18nService.translate('order.alreadyExists'),
     FIND_LIST_SUCCESS: i18nService.translate('order.findListSuccess'),
     CANCEL_SUCCESS: i18nService.translate('order.cancelSuccess'),
-    UPDATE_STATUS_SUCCESS: i18nService.translate('order.updateStatusSuccess')
+    UPDATE_STATUS_SUCCESS: i18nService.translate('order.updateStatusSuccess'),
   };
 };
 
