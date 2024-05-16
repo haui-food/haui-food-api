@@ -41,9 +41,10 @@ const deleteReview = catchAsync(async (req, res) => {
 
 const exportExcel = catchAsync(async (req, res) => {
   const wb = await reviewService.exportExcel(req.query);
+
   wb.writeToBuffer().then((buffer) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', 'attachment; filename=' + `products-hauifood.com-${Date.now()}.xlsx`);
+    res.setHeader('Content-Disposition', 'attachment; filename=' + `reviews-hauifood.com-${Date.now()}.xlsx`);
     res.send(buffer);
   });
 });

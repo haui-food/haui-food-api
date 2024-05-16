@@ -61,7 +61,7 @@ const exportExcel = async (query) => {
   query.page = PAGE_DEFAULT;
   query.limit = LIMIT_DEFAULT_EXPORT;
 
-  const { results } = await apiFeature.getResults(query, ['user', 'product', 'order', 'rating']);
+  const { results } = await apiFeature.getResults(query, ['userId', 'productId', 'orderId', 'rating']);
   const wb = new excel4node.Workbook();
 
   const ws = wb.addWorksheet('Reviews');

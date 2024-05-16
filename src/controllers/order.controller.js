@@ -40,7 +40,7 @@ const exportExcel = catchAsync(async (req, res) => {
 
   wb.writeToBuffer().then((buffer) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', 'attachment; filename=' + `products-hauifood.com-${Date.now()}.xlsx`);
+    res.setHeader('Content-Disposition', 'attachment; filename=' + `orders-hauifood.com-${Date.now()}.xlsx`);
     res.send(buffer);
   });
 });
