@@ -37,6 +37,7 @@ const deleteOrder = catchAsync(async (req, res) => {
 
 const exportExcel = catchAsync(async (req, res) => {
   const wb = await orderService.exportExcel(req.query);
+
   wb.writeToBuffer().then((buffer) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=' + `products-hauifood.com-${Date.now()}.xlsx`);

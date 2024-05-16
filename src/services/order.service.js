@@ -8,7 +8,7 @@ const ApiFeature = require('../utils/ApiFeature');
 const { userService } = require('./user.service');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
-const { STYLE_EXPORT_EXCEL, MAX_ORDER_PER_USER, LIMIT_DEFAULT, PAGE_DEFAULT } = require('../constants');
+const { STYLE_EXPORT_EXCEL, MAX_ORDER_PER_USER, LIMIT_DEFAULT, PAGE_DEFAULT, LIMIT_DEFAULT_EXPORT } = require('../constants');
 
 const getOrderById = async (orderId) => {
   const order = await Order.findById(orderId);
@@ -329,7 +329,7 @@ const exportExcel = async (query) => {
   query.page = PAGE_DEFAULT;
   query.limit = LIMIT_DEFAULT_EXPORT;
 
-  const { results } = await apiFeature.getResults(query, ['userId', 'cartId', 'address', 'status']);
+  const { results } = await apiFeature.getResults(query, ['user', 'address', 'status']);
   const wb = new excel4node.Workbook();
 
   const ws = wb.addWorksheet('Orders');
@@ -344,25 +344,37 @@ const exportExcel = async (query) => {
   ws.column(6).setWidth(25);
   ws.column(7).setWidth(40);
   ws.column(8).setWidth(40);
+  ws.column(9).setWidth(40);
+  ws.column(10).setWidth(40);
+  ws.column(11).setWidth(40);
+  ws.column(12).setWidth(40);
 
   ws.cell(1, 1).string('ID').style(headerStyle);
-  ws.cell(1, 2).string('USER_ID').style(headerStyle);
-  ws.cell(1, 3).string('CART_ID').style(headerStyle);
-  ws.cell(1, 4).string('ADDRESS').style(headerStyle);
-  ws.cell(1, 5).string('NOTE').style(headerStyle);
-  ws.cell(1, 6).string('STATUS').style(headerStyle);
-  ws.cell(1, 7).string('Last acctive').style(headerStyle);
-  ws.cell(1, 8).string('Created At').style(headerStyle);
+  ws.cell(1, 2).string('USER').style(headerStyle);
+  ws.cell(1, 3).string('CART_DETAILS').style(headerStyle);
+  ws.cell(1, 4).string('SHOP').style(headerStyle);
+  ws.cell(1, 5).string('TOTAL_MONEY').style(headerStyle);
+  ws.cell(1, 6).string('PAYMENT_METHOD').style(headerStyle);
+  ws.cell(1, 7).string('PAYMENT_STATUS').style(headerStyle);
+  ws.cell(1, 8).string('ADDRESS').style(headerStyle);
+  ws.cell(1, 9).string('NOTE').style(headerStyle);
+  ws.cell(1, 10).string('STATUS').style(headerStyle);
+  ws.cell(1, 11).string('Last acctive').style(headerStyle);
+  ws.cell(1, 12).string('Created At').style(headerStyle);
 
   results.forEach((order, index) => {
     ws.cell(index + 2, 1).string(order._id.toString());
-    ws.cell(index + 2, 2).string(order.user);
-    ws.cell(index + 2, 3).string(order.cart);
-    ws.cell(index + 2, 4).string(order.address);
-    ws.cell(index + 2, 5).string(order.note);
-    ws.cell(index + 2, 6).string(order.status);
-    ws.cell(index + 2, 7).string(moment(order.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
-    ws.cell(index + 2, 8).string(moment(order.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
+    ws.cell(index + 2, 2).string(order.user.toString());
+    ws.cell(index + 2, 3).string(order.cartDetails.toString());
+    ws.cell(index + 2, 4).string(order.shop.toString());
+    ws.cell(index + 2, 5).string(order.totalMoney.toString() + ' VND');
+    ws.cell(index + 2, 6).string(order.paymentMethod);
+    ws.cell(index + 2, 7).string(order.paymentStatus);
+    ws.cell(index + 2, 8).string(order.address);
+    ws.cell(index + 2, 9).string(order.note);
+    ws.cell(index + 2, 10).string(order.status);
+    ws.cell(index + 2, 11).string(moment(order.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
+    ws.cell(index + 2, 12).string(moment(order.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
   });
 
   return wb;
