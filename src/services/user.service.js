@@ -162,31 +162,37 @@ const exportExcel = async (query) => {
   ws.column(9).setWidth(15);
   ws.column(10).setWidth(25);
   ws.column(11).setWidth(25);
+  ws.column(12).setWidth(25);
+  ws.column(13).setWidth(25);
 
   ws.cell(1, 1).string('ID').style(headerStyle);
   ws.cell(1, 2).string('Fullname').style(headerStyle);
-  ws.cell(1, 3).string('Email').style(headerStyle);
-  ws.cell(1, 4).string('Phone').style(headerStyle);
-  ws.cell(1, 5).string('Role').style(headerStyle);
-  ws.cell(1, 6).string('Gender').style(headerStyle);
-  ws.cell(1, 7).string('Locked').style(headerStyle);
-  ws.cell(1, 8).string('Verify').style(headerStyle);
-  ws.cell(1, 9).string('Date of birth').style(headerStyle);
-  ws.cell(1, 10).string('Last acctive').style(headerStyle);
-  ws.cell(1, 11).string('Created At').style(headerStyle);
+  ws.cell(1, 3).string('Username').style(headerStyle);
+  ws.cell(1, 4).string('avatar').style(headerStyle);
+  ws.cell(1, 5).string('Email').style(headerStyle);
+  ws.cell(1, 6).string('Phone').style(headerStyle);
+  ws.cell(1, 7).string('Role').style(headerStyle);
+  ws.cell(1, 8).string('Gender').style(headerStyle);
+  ws.cell(1, 9).string('Locked').style(headerStyle);
+  ws.cell(1, 10).string('Verify').style(headerStyle);
+  ws.cell(1, 11).string('Date of birth').style(headerStyle);
+  ws.cell(1, 12).string('Last acctive').style(headerStyle);
+  ws.cell(1, 13).string('Created At').style(headerStyle);
 
   results.forEach((user, index) => {
     ws.cell(index + 2, 1).string(user._id.toString());
     ws.cell(index + 2, 2).string(user.fullname);
-    ws.cell(index + 2, 3).string(user.email);
-    ws.cell(index + 2, 4).string(user.phone?.toString() || '');
-    ws.cell(index + 2, 5).string(user.role);
-    ws.cell(index + 2, 6).string(user.gender);
-    ws.cell(index + 2, 7).string(user.isLocked ? 'Yes' : 'No');
-    ws.cell(index + 2, 8).string(user.isVerify ? 'Yes' : 'No');
-    ws.cell(index + 2, 9).string(moment(user.dateOfBirth).format('DD/MM/YYYY'));
-    ws.cell(index + 2, 10).string(moment(user.lastAcctive).format('HH:mm:ss - DD/MM/YYYY'));
-    ws.cell(index + 2, 11).string(moment(user.createdAt).format('HH:mm:ss - DD/MM/YYYY'));
+    ws.cell(index + 2, 3).string(user.username);
+    ws.cell(index + 2, 4).string(user.avatar);
+    ws.cell(index + 2, 5).string(user.email);
+    ws.cell(index + 2, 6).string(user.phone?.toString() || '');
+    ws.cell(index + 2, 7).string(user.role);
+    ws.cell(index + 2, 8).string(user.gender);
+    ws.cell(index + 2, 9).string(user.isLocked ? 'Yes' : 'No');
+    ws.cell(index + 2, 10).string(user.isVerify ? 'Yes' : 'No');
+    ws.cell(index + 2, 11).string(moment(user.dateOfBirth).format('DD/MM/YYYY'));
+    ws.cell(index + 2, 12).string(moment(user.lastAcctive).format('HH:mm:ss - DD/MM/YYYY'));
+    ws.cell(index + 2, 13).string(moment(user.createdAt).format('HH:mm:ss - DD/MM/YYYY'));
   });
 
   return wb;

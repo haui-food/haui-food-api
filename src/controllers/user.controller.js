@@ -65,6 +65,7 @@ const lockUser = catchAsync(async (req, res) => {
 
 const exportExcel = catchAsync(async (req, res) => {
   const wb = await userService.exportExcel(req.query);
+
   wb.writeToBuffer().then((buffer) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=' + `users-hauifood.com-${Date.now()}.xlsx`);
