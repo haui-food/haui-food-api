@@ -10,7 +10,7 @@ const cacheService = require('../services/cache.service');
 const objectToString = require('../utils/objectToString');
 const { productMessage, authMessage } = require('../messages');
 const generateUniqueSlug = require('../utils/generateUniqueSlug');
-const { STYLE_EXPORT_EXCEL, LIMIT_DEFAULT, PAGE_DEFAULT, SORT_DEFAULT_STRING } = require('../constants');
+const { STYLE_EXPORT_EXCEL, LIMIT_DEFAULT, PAGE_DEFAULT, SORT_DEFAULT_STRING, LIMIT_DEFAULT_EXPORT } = require('../constants');
 
 const updateAllSlugProducts = async () => {
   const products = await Product.find({});
@@ -187,7 +187,7 @@ const exportExcel = async (query) => {
   query.page = PAGE_DEFAULT;
   query.limit = LIMIT_DEFAULT_EXPORT;
 
-  const { results } = await apiFeature.getResults(query, ['name', 'description', 'slug', 'price']);
+  const { results } = await apiFeature.getResults(query, ['name', 'slug', 'price']);
   const wb = new excel4node.Workbook();
 
   const ws = wb.addWorksheet('Products');
@@ -221,7 +221,7 @@ const exportExcel = async (query) => {
     ws.cell(index + 2, 2).string(product.name);
     ws.cell(index + 2, 3).string(product.slug);
     ws.cell(index + 2, 4).string(product.description);
-    ws.cell(index + 2, 5).number(product.price);
+    ws.cell(index + 2, 5).string(product.price.toString() + ' VND');
     ws.cell(index + 2, 6).string(product.image);
     ws.cell(index + 2, 7).string(product.shop.toString());
     ws.cell(index + 2, 8).string(product.category.toString());
