@@ -50,7 +50,7 @@ const exportExcel = async (query) => {
   query.page = PAGE_DEFAULT;
   query.limit = LIMIT_DEFAULT_EXPORT;
 
-  const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone', 'message']);
+  const { results } = await apiFeature.getResults(query, ['fullname', 'email', 'phone']);
   const wb = new excel4node.Workbook();
 
   const ws = wb.addWorksheet('Contacts');
