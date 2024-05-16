@@ -45,7 +45,7 @@ const getMyOrders = catchAsync(async (req, res) => {
 
   const orders = await orderService.shopGetMyOrders(user, req.query);
 
-  res.status(httpStatus.OK).json(response(httpStatus.OK, 'Danh sách đơn của cửa hàng bạn', orders));
+  res.status(httpStatus.OK).json(response(httpStatus.OK, shopMessage().LIST_ORDER_OF_SHOP, orders));
 });
 
 module.exports = {

@@ -168,6 +168,7 @@
     "shopDetail": "Shop detail",
     "resultFind": "Search result",
     "findByCategory": "Search shops by category successfully",
-    "shopsByCategory": "Shops by category"
+    "shopsByCategory": "Shops by category",
+    "listOrderOfShop": "List of your store's orders"
   }
 }

@@ -8,6 +8,7 @@ const shopMessage = () => {
     FIND_SUCCESS: i18nService.translate('shop.findSuccess'),
     FIND_BY_CATEGORY: i18nService.translate('shop.findByCategory'),
     SHOPS_BY_CATEGORY: i18nService.translate('shop.shopsByCategory'),
+    LIST_ORDER_OF_SHOP: i18nService.translate('shop.listOrderOfShop'),
   };
 };
 
