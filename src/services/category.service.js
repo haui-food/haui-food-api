@@ -99,14 +99,17 @@ const exportExcel = async (query) => {
   ws.cell(1, 1).string('ID').style(headerStyle);
   ws.cell(1, 2).string('Name').style(headerStyle);
   ws.cell(1, 3).string('Image').style(headerStyle);
-  ws.cell(1, 4).string('Last acctive').style(headerStyle);
-  ws.cell(1, 5).string('Created At').style(headerStyle);
+  ws.cell(1, 4).string('Slug').style(headerStyle);
+  ws.cell(1, 5).string('Last acctive').style(headerStyle);
+  ws.cell(1, 6).string('Created At').style(headerStyle);
+
   results.forEach((category, index) => {
     ws.cell(index + 2, 1).string(category._id.toString());
     ws.cell(index + 2, 2).string(category.name);
     ws.cell(index + 2, 3).string(category.image);
-    ws.cell(index + 2, 4).string(moment(category.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
-    ws.cell(index + 2, 5).string(moment(category.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
+    ws.cell(index + 2, 4).string(category.slug);
+    ws.cell(index + 2, 5).string(moment(category.lastAcctive).format('DD/MM/YYYY - HH:mm:ss'));
+    ws.cell(index + 2, 6).string(moment(category.createdAt).format('DD/MM/YYYY - HH:mm:ss'));
   });
 
   return wb;

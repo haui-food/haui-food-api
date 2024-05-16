@@ -46,6 +46,7 @@ const deleteCategory = catchAsync(async (req, res) => {
 
 const exportExcel = catchAsync(async (req, res) => {
   const wb = await categoryService.exportExcel(req.query);
+
   wb.writeToBuffer().then((buffer) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=' + `categories-hauifood.com-${Date.now()}.xlsx`);
