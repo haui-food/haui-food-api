@@ -1,7 +1,14 @@
 const { User } = require('../models');
+const cacheService = require('../services/cache.service');
+
+const keyDashboard = 'dashboard';
 
 const statisticalUserByRole = async () => {
-  const result = await User.aggregate([
+  const resultCache = await cacheService.get(`${keyDashboard}:statisticalUserByRole`);
+
+  if (resultCache) return resultCache;
+
+  const data = await User.aggregate([
     {
       $group: {
         _id: '$role',
@@ -13,15 +20,19 @@ const statisticalUserByRole = async () => {
   ]);
 
   let total = 0;
-  const roles = result.map((item) => {
+  const roles = data.map((item) => {
     total += item.count;
     return { [item._id]: item.count };
   });
 
-  return {
+  const result = {
     total: total,
     roles: roles,
   };
+
+  cacheService.set(`${keyDashboard}:statisticalUserByRole`, result);
+
+  return result;
 };
 
 module.exports = { statisticalUserByRole };
