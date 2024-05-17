@@ -16,6 +16,7 @@ module.exports.messageService = require('./message.service');
 module.exports.captchaService = require('./captcha.service');
 module.exports.categoryService = require('./category.service');
 module.exports.rabbitmqService = require('./rabbitmq.service');
+module.exports.dashboardService = require('./dashboard.service');
 module.exports.cartDetailService = require('./cart-detail.service');
 module.exports.conversationService = require('./conversation.service');
 module.exports.errorHistoryService = require('./error-history.service');
