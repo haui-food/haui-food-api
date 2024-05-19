@@ -1,4 +1,4 @@
-const { CHARACTERS } = require('./constants');
+const { CHARACTERS } = require('../constants');
 
 const randomTransitionCode = (lenthId = 6) => {
   let id = '';

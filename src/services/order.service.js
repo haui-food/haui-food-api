@@ -1,4 +1,5 @@
 const moment = require('moment');
+const base64url = require('base64url');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
 
@@ -8,6 +9,7 @@ const ApiFeature = require('../utils/ApiFeature');
 const { userService } = require('./user.service');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
+const randomTransitionCode = require('../utils/randomTransitionCode');
 const {
   STYLE_EXPORT_EXCEL,
   MAX_ORDER_PER_USER,
@@ -92,7 +94,7 @@ const createOrder = async (user, orderBody) => {
   }
 
   for (const order of orders) {
-    const newOrder = await Order.create({
+    const data = {
       user: user._id,
       shop: order.shop,
       note: note || '',
@@ -101,7 +103,13 @@ const createOrder = async (user, orderBody) => {
       paymentMethod: paymentMethod || 'cod',
       paymentStatus: paymentMethod === 'prepaid' ? 'paid' : 'unpaid',
       cartDetails: order.cartDetails.map((cartDetail) => cartDetail.cartDetail),
-    });
+    };
+
+    if (paymentMethod === 'bank') {
+      data['paymentCode'] = randomTransitionCode();
+    }
+
+    const newOrder = await Order.create(data);
 
     newOrders.push(newOrder);
   }
@@ -121,7 +129,16 @@ const createOrder = async (user, orderBody) => {
 
   await cartAgain.save();
 
-  return { orders: newOrders };
+  let urlQRCode = '';
+
+  if (paymentMethod === 'bank') {
+    const codes = newOrders.map((order) => order.paymentCode).join('|');
+    const descHash = base64url.encode(codes);
+
+    urlQRCode = `https://img.vietqr.io/image/TPB-00005572823-compact.png?amount=${totalMoneyOrder}&addInfo=${descHash}`;
+  }
+
+  return { orders: newOrders, urlQRCode, totalMoneyOrder };
 };
 
 const getMyOrders = async (user, queryRequest) => {
