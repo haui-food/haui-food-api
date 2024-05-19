@@ -6,6 +6,7 @@ const { messageMessage } = require('../messages');
 const catchAsync = require('../utils/catchAsync');
 
 const sendMessage = catchAsync(async (req, res) => {
+  if (req.file) req.body['image'] = req.file.path;
   const message = await chatService.sendMessage(req.body);
   res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, messageMessage().CREATE_SUCCESS, message));
 });
