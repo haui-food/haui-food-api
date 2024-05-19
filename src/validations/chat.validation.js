@@ -2,12 +2,14 @@ const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
 const createMessage = {
-  body: Joi.object().keys({
-    senderId: Joi.string().custom(objectId),
-    receiverId: Joi.string().custom(objectId),
-    message: Joi.string().allow(null, ''),
-    image: Joi.string().allow(null, ''),
-  }),
+  body: Joi.object()
+    .keys({
+      senderId: Joi.string().custom(objectId),
+      receiverId: Joi.string().custom(objectId),
+      message: Joi.string().allow(null, ''),
+      image: Joi.string().allow(null, ''),
+    })
+    .min(1),
 };
 
 const getMessages = {
