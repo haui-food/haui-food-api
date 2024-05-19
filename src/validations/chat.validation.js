@@ -9,7 +9,7 @@ const createMessage = {
       message: Joi.string().allow(null, ''),
       image: Joi.string().allow(null, ''),
     })
-    .min(1),
+    .min(3),
 };
 
 const getMessages = {
