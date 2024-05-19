@@ -5,7 +5,8 @@ const createMessage = {
   body: Joi.object().keys({
     senderId: Joi.string().custom(objectId),
     receiverId: Joi.string().custom(objectId),
-    message: Joi.string().required(),
+    message: Joi.string().allow(null, ''),
+    image: Joi.string().allow(null, ''),
   }),
 };
 
@@ -19,6 +20,7 @@ const getMessages = {
     senderId: Joi.string().custom(objectId),
     receiverId: Joi.string().custom(objectId),
     message: Joi.string().allow(null, ''),
+    image: Joi.string().allow(null, ''),
   }),
 };
 
