@@ -1,6 +1,6 @@
 const { CHARACTERS } = require('./constants');
 
-const randomTransitionId = (lenthId = 6) => {
+const randomTransitionCode = (lenthId = 6) => {
   let id = '';
   const charactersLength = CHARACTERS.length;
 
@@ -11,4 +11,4 @@ const randomTransitionId = (lenthId = 6) => {
   return id;
 };
 
-return randomTransitionId;
+module.exports = randomTransitionCode;
