@@ -1,6 +1,6 @@
 const LANGUAGE_DEFAULT = 'en';
 
-const LOCALES = ['en', 'vi'];
+const LOCALES = ['en', 'vi', 'zh'];
 
 const HEADER_NAME = 'accept-language';
 
