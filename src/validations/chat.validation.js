@@ -7,9 +7,9 @@ const createMessage = {
       senderId: Joi.string().custom(objectId),
       receiverId: Joi.string().custom(objectId),
       message: Joi.string().allow(null, ''),
-      image: Joi.string().allow(null, ''),
+      image: Joi.string(),
     })
-    .min(3),
+    .min(2),
 };
 
 const getMessages = {
