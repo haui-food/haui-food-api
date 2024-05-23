@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const twoFactor = require('node-2fa');
 
-const { CODE_VERIFY_2FA_SUCCESS } = require('../constants');
+const { CODE_VERIFY_2FA_SUCCESS, USER_ROLE_ENUM } = require('../constants');
 
 const userSchema = mongoose.Schema(
   {
@@ -64,8 +64,8 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'shop', 'user'],
-      default: 'user',
+      enum: USER_ROLE_ENUM,
+      default: USER_ROLE_ENUM.USER,
     },
     avatar: {
       type: String,

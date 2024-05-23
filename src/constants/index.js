@@ -108,6 +108,12 @@ const SORT_DEFAULT_STRING = 'createdAt:desc';
 
 const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
+const USER_ROLE_ENUM = {
+  ADMIN: 'admin',
+  USER: 'user',
+  SHOP: 'shop',
+};
+
 module.exports = {
   LOG_DIR,
   LOCALES,
@@ -126,6 +132,7 @@ module.exports = {
   LOG_FILENAME,
   STATUS_FORGOT,
   LIMIT_DEFAULT,
+  USER_ROLE_ENUM,
   LOGO_DOTS_COLOR,
   TTL_CACHE_ACCESS,
   KEY_CACHE_ACCESS,
