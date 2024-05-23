@@ -2,7 +2,15 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const twoFactor = require('node-2fa');
 
-const { CODE_VERIFY_2FA_SUCCESS, USER_ROLE_ENUM } = require('../constants');
+const {
+  USER_ROLE_ENUM,
+  BIRTHDAY_DEFAULT,
+  USER_GENDER_ENUM,
+  USER_AVATAR_DEFAULT,
+  USER_BACKGROUND_DEFAULT,
+  CODE_VERIFY_2FA_SUCCESS,
+  USER_FORGOT_STATUS_ENUM,
+} = require('../constants');
 
 const userSchema = mongoose.Schema(
   {
@@ -40,12 +48,12 @@ const userSchema = mongoose.Schema(
     },
     dateOfBirth: {
       type: Date,
-      default: '2000-01-01',
+      default: BIRTHDAY_DEFAULT,
     },
     gender: {
       type: String,
-      enum: ['male', 'female'],
-      default: 'male',
+      enum: USER_GENDER_ENUM,
+      default: USER_GENDER_ENUM.MALE,
     },
     isVerify: {
       type: Boolean,
@@ -56,7 +64,7 @@ const userSchema = mongoose.Schema(
     },
     forgotStatus: {
       type: String,
-      enum: [null, 'verifyOTP', 'verified'],
+      enum: USER_FORGOT_STATUS_ENUM,
       default: null,
     },
     isLocked: {
@@ -69,11 +77,11 @@ const userSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: 'https://hitly.vn/avatar-default',
+      default: USER_AVATAR_DEFAULT,
     },
     background: {
       type: String,
-      default: 'https://hitly.vn/background-default',
+      default: USER_BACKGROUND_DEFAULT,
     },
     lastActive: {
       type: Date,
