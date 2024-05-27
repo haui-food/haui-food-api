@@ -1,6 +1,5 @@
 const cors = require('cors');
 const xss = require('xss-clean');
-// const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
 const compression = require('compression');
@@ -23,7 +22,6 @@ app.set('views', 'src/views');
 app.set('view engine', 'ejs');
 
 app.use(limiter());
-// app.use(helmet());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -34,7 +32,6 @@ app.use(mongoSanitize());
 app.use(compression());
 
 app.use(cors());
-// app.options('*', cors());
 
 app.use((req, res, next) => {
   next(i18nService.setLocale(req, res));
@@ -52,7 +49,7 @@ if (env.nodeEnv === 'development') {
 app.use(countAccess);
 app.use(logUnauthenticatedRequest);
 
-app.use('/api/v1', apiRoute);
+app.use('/v1', apiRoute);
 app.use('/', baseRouter);
 
 app.use(errorConverter);
