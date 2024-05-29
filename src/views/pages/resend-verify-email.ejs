@@ -166,7 +166,7 @@
                 toastr.warning('Token không hợp lệ');
                 return;
             }
-            const response = await fetch(`/api/v1/auth/resend-email-verify?token=${token}`, {
+            const response = await fetch(`/v1/auth/resend-email-verify?token=${token}`, {
                 method: 'POST'
             })
             const data = await response.json();
