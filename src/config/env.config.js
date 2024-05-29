@@ -5,8 +5,6 @@ const env = {
   nodeEnv: process.env.NODE_ENV || 'development',
   listIPPing: process.env.LIST_IP_PING || '',
   redisURI: process.env.REDIS_URI || 'redis://localhost:6379',
-  mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/haui-food-api',
-  rabbitmqURI: process.env.RABBITMQ_URI,
   googleAIApiKey: process.env.GOOGLE_AI_API_KEY,
   admin: {
     email: process.env.ADMIN_EMAIL || 'admin@haui-food.com',
