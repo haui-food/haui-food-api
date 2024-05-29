@@ -12,8 +12,8 @@ const baseRouter = require('./routes/base.route');
 const { app, server } = require('./sockets/socket');
 const initLogDirFile = require('./utils/initLogDirFile');
 const limiter = require('./middlewares/rate-limit.middleware');
-const { env, logger, morgan, i18nService } = require('./config');
 const countAccess = require('./middlewares/count-access.middleware');
+const { env, mongo, logger, morgan, i18nService } = require('./config');
 const { logUnauthenticatedRequest } = require('./middlewares/logger.middleware');
 const { errorConverter, errorHandler } = require('./middlewares/error.middleware');
 
@@ -63,7 +63,7 @@ try {
 }
 
 mongoose
-  .connect(env.mongoURI)
+  .connect(mongo.uri)
   .then(() => logger.info('MongoDB connected...'))
   .then(() => {
     userService.createAdmin();
