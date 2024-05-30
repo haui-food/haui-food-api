@@ -53,7 +53,7 @@ const createOrder = async (user, orderBody) => {
   const listCartDetailsOrder = findCommonElements(cartDetailIdsUnique, listCartDetails);
 
   if (listCartDetailsOrder.length !== cartDetailIdsUnique.length) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể đặt đơn vui lòng kiểm tra lại cartDetails');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Đã sảy ra lỗi, không thể đặt đơn vui lòng kiểm tra lại');
   }
 
   const cartDetailsZ = await CartDetail.find({ _id: { $in: listCartDetailsOrder } }).populate([
