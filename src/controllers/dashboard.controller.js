@@ -25,9 +25,15 @@ const statisticalOrder = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_ORDER, result));
 });
 
+const statisticalMessage = catchAsync(async (req, res) => {
+  const result = await dashboardService.statisticalMessage(req.body);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_MESSAGE, result));
+});
+
 module.exports = {
   statisticalUserByRole,
   statisticalSales,
   statisticalNewUser,
   statisticalOrder,
+  statisticalMessage,
 };

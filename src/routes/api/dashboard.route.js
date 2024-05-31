@@ -12,4 +12,6 @@ chatRouter.route('/statistical-newuser').get(auth, authorize(['admin']), dashboa
 
 chatRouter.route('/statistical-order').get(auth, authorize(['admin']), dashboardController.statisticalOrder);
 
+chatRouter.route('/statistical-message').get(auth, authorize(['admin']), dashboardController.statisticalMessage);
+
 module.exports = chatRouter;

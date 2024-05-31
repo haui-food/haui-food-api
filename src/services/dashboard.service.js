@@ -1,4 +1,4 @@
-const { User, Order } = require('../models');
+const { User, Order, Contact } = require('../models');
 const cacheService = require('../services/cache.service');
 
 const keyDashboard = 'dashboard';
@@ -133,4 +133,35 @@ const statisticalOrder = async (reqBody) => {
   return result;
 };
 
-module.exports = { statisticalUserByRole, statisticalSales, statisticalNewUser, statisticalOrder };
+const statisticalMessage = async (reqBody) => {
+  const { startDate, endDate } = reqBody;
+  const resultCache = await cacheService.get(`${startDate}:${endDate}:statisticalMessage`);
+
+  if (resultCache) return resultCache;
+
+  const data = await Contact.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(startDate + 'T00:00:00Z'),
+          $lte: new Date(endDate + 'T23:59:59Z'),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const totalMessage = data.reduce((total, item) => total + item.count, 0);
+
+  const result = {
+    total: totalMessage,
+  };
+  cacheService.set(`${startDate}:${endDate}:statisticalMessage`, result);
+  return result;
+};
+
+module.exports = { statisticalUserByRole, statisticalSales, statisticalNewUser, statisticalOrder, statisticalMessage };

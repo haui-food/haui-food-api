@@ -175,6 +175,7 @@
     "statisticalSales": "Statistical sales",
     "statisticalNewUser": "Statistical new user",
     "statisticalOrder": "Statistical order",
+    "statisticalMessage": "Statistical message",
     "statisticalUserByRole": "Statistical user by role"
   }
 }
