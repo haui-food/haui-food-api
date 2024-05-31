@@ -173,6 +173,7 @@
   },
   "dashboard": {
     "statisticalSales": "Statistical sales",
+    "statisticalNewUser": "Statistical new user",
     "statisticalUserByRole": "Statistical user by role"
   }
 }

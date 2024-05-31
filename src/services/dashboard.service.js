@@ -69,4 +69,42 @@ const statisticalSales = async (reqBody) => {
   return result;
 };
 
-module.exports = { statisticalUserByRole, statisticalSales };
+const statisticalNewUser = async (reqBody) => {
+  const { startDate, endDate } = reqBody;
+  const resultCache = await cacheService.get(`${startDate}:${endDate}:statisticalNewUser`);
+
+  if (resultCache) return resultCache;
+
+  const data = await User.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(startDate + 'T00:00:00Z'),
+          $lte: new Date(endDate + 'T23:59:59Z'),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  let total = 0;
+  const totalUser = await data.map((item) => {
+    total += item.count;
+    return total;
+  });
+
+  const result = {
+    total: totalUser,
+  };
+  console.log(result);
+
+  cacheService.set(`${startDate}:${endDate}:statisticalNewUser`, result);
+  return result;
+};
+
+module.exports = { statisticalUserByRole, statisticalSales, statisticalNewUser };
