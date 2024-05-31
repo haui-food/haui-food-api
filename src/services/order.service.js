@@ -34,7 +34,7 @@ const createOrder = async (user, orderBody) => {
   const myOrderNumbers = await Order.countDocuments({ user: user._id, status: 'pending' });
 
   if (myOrderNumbers >= MAX_ORDER_PER_USER) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Số đơn chờ duyệt đã quá giới hạn. Vui lòng đợi duyệt hoặc huỷ đơn cũ.');
+    throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().MAXIUM_ORDER);
   }
 
   const cartDetailIdsUnique = [...new Set(cartDetails)];
@@ -53,7 +53,7 @@ const createOrder = async (user, orderBody) => {
   const listCartDetailsOrder = findCommonElements(cartDetailIdsUnique, listCartDetails);
 
   if (listCartDetailsOrder.length !== cartDetailIdsUnique.length) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể đặt đơn vui lòng kiểm tra lại cartDetails');
+    throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().ERROR_ORDER);
   }
 
   const cartDetailsZ = await CartDetail.find({ _id: { $in: listCartDetailsOrder } }).populate([
@@ -89,7 +89,7 @@ const createOrder = async (user, orderBody) => {
 
   if (paymentMethod === 'prepaid') {
     if (totalMoneyOrder > user.accountBalance) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Số dư của bạn không đủ');
+      throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().LOW_BALANCE_ALERT);
     }
   }
 
@@ -191,11 +191,11 @@ const cancelOrderByIdUser = async (orderId, user) => {
   const isMyOrder = order.user.toString() === user._id.toString();
 
   if (!isMyOrder) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'Bạn không có quyền cập nhật đơn hàng');
+    throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
   if (order.status !== 'pending') {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể huỷ đơn hàng');
+    throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().CANCEL_ORDER_ERROR);
   }
 
   if (order.paymentMethod === 'prepaid') {
@@ -213,11 +213,11 @@ const cancelOrderByIdShop = async (orderId, user) => {
   const isMyOrderForShop = order.shop.toString() === user._id.toString();
 
   if (!isMyOrderForShop) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'Bạn không có quyền cập nhật đơn hàng');
+    throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
   if (['shipping', 'success', 'canceled'].includes(order.status)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể huỷ đơn hàng');
+    throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().CANCEL_ORDER_ERROR);
   }
 
   if (order.paymentMethod === 'prepaid') {
@@ -237,32 +237,32 @@ const updateOrderStatusById = async (orderId, user, status) => {
   const isMyOrderForShop = order.shop.toString() === user._id.toString();
 
   if (!isMyOrderForShop) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'Bạn không có quyền thao tác đơn hàng này');
+    throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
   switch (status) {
     case 'reject':
       if (order.status !== 'pending') {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể từ chối đơn');
+        throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().REJECT_ORDER_ERROR);
       }
       break;
     case 'confirmed':
       if (order.status !== 'pending') {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Bạn không thể duyệt đơn hàng');
+        throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().APPROVE_ORDER_ERROR);
       }
       break;
     case 'shipping':
       if (order.status !== 'confirmed') {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể chuyển sang trạng thái giao đơn');
+        throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().UNABLE_TO_UPDATE_ORDER_STATUS);
       }
       break;
     case 'success':
       if (order.status !== 'shipping') {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Không thể hoàn thành đơn hàng');
+        throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().UNABLE_TO_COMPLETE_ORDER);
       }
       break;
     default:
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Trạng thái đơn hàng không hợp lệ');
+      throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().INVALID_ORDER_STATUS);
   }
 
   order.status = status;
