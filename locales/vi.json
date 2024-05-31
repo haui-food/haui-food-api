@@ -138,13 +138,13 @@
     "maxiumOrder": "Số đơn chờ duyệt đã quá giới hạn. Vui lòng đợi duyệt hoặc huỷ đơn cũ.",
     "errorOrder": "Đã sảy ra lỗi, không thể đặt đơn vui lòng kiểm tra lại",
     "lowBalanceAlert": "Số dư của bạn không đủ để thành toán",
-    "orderUpdateForbiddenMessage": "Bạn không có quyền cập nhật đơn hàng",
+    "orderUpdateForbidden": "Bạn không có quyền cập nhật đơn hàng",
     "cancelOrderError": "Không thể huỷ đơn hàng",
-    "rejectOrderErrorMessage": "Không thể từ chối đơn.",
-    "approveOrderErrorMessage": "Bạn không thể duyệt đơn hàng.",
-    "unableToUpdateOrderStatusMessage": "Không thể chuyển sang trạng thái giao đơn.",
-    "unableToCompleteOrderMessage": "Không thể hoàn thành đơn hàng.",
-    "invalidOrderStatusMessage": "Trạng thái đơn hàng không hợp lệ."
+    "rejectOrderError": "Không thể từ chối đơn.",
+    "approveOrderError": "Bạn không thể duyệt đơn hàng.",
+    "unableToUpdateOrderStatus": "Không thể chuyển sang trạng thái giao đơn.",
+    "unableToCompleteOrder": "Không thể hoàn thành đơn hàng.",
+    "invalidOrderStatus": "Trạng thái đơn hàng không hợp lệ."
   },
   "conversation": {
     "notFound": "Không tìm thấy cuộc hội thoại",

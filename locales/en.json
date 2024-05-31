@@ -137,13 +137,13 @@
     "maxiumOrder": "The number of pending orders has exceeded the limit. Please wait for approval or cancel the old order.",
     "errorOrder": "An error occurred, and the order cannot be placed. Please check again.",
     "lowBalanceAlert": "Your balance is insufficient to make the payment.",
-    "orderUpdateForbiddenMessage": "You do not have permission to update the order.",
+    "orderUpdateForbidden": "You do not have permission to update the order.",
     "cancelOrderError": "The order cannot be cancelled.",
-    "rejectOrderErrorMessage": "The order cannot be rejected.",
-    "approveOrderErrorMessage": "You cannot approve the order.",
-    "unableToUpdateOrderStatusMessage": "Unable to change the order status to delivery.",
-    "unableToCompleteOrderMessage": "Unable to complete the order.",
-    "invalidOrderStatusMessage": "The order status is invalid."
+    "rejectOrderError": "The order cannot be rejected.",
+    "approveOrderError": "You cannot approve the order.",
+    "unableToUpdateOrderStatus": "Unable to change the order status to delivery.",
+    "unableToCompleteOrder": "Unable to complete the order.",
+    "invalidOrderStatus": "The order status is invalid."
   },
   "conversation": {
     "notFound": "Conversation not found",

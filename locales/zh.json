@@ -138,13 +138,13 @@
     "maxiumOrder": "待审批订单数已超过上限。请等待审批或取消旧订单。",
     "errorOrder": "出现错误,无法下单,请检查后重试。",
     "lowBalanceAlert": "您的余额不足以支付。",
-    "orderUpdateForbiddenMessage": "您没有权限更新订单。",
+    "orderUpdateForbidden": "您没有权限更新订单。",
     "cancelOrderError": "无法取消订单。",
-    "rejectOrderErrorMessage": "无法拒绝订单。",
-    "approveOrderErrorMessage": "您不能审批订单。",
-    "unableToUpdateOrderStatusMessage": "无法将订单状态更新为配送中。",
-    "unableToCompleteOrderMessage": "无法完成订单。",
-    "invalidOrderStatusMessage": "订单状态无效。"
+    "rejectOrderError": "无法拒绝订单。",
+    "approveOrderError": "您不能审批订单。",
+    "unableToUpdateOrderStatus": "无法将订单状态更新为配送中。",
+    "unableToCompleteOrder": "无法完成订单。",
+    "invalidOrderStatus": "订单状态无效。"
   },
   "conversation": {
     "notFound": "未找到对话",
