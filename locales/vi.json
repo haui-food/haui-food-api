@@ -175,6 +175,7 @@
   "dashboard": {
     "statisticalSales": "Thống kê doanh thu",
     "statisticalNewUser": "Thống kê người dùng mới",
+    "statisticalOrder": "Thống kê đơn đặt",
     "statisticalUserByRole": "Thống kê người dùng theo chức vụ"
   }
 }

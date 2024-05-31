@@ -92,19 +92,45 @@ const statisticalNewUser = async (reqBody) => {
     },
   ]);
 
-  let total = 0;
-  const totalUser = await data.map((item) => {
-    total += item.count;
-    return total;
-  });
+  const totalUser = data.reduce((total, item) => total + item.count, 0);
 
   const result = {
     total: totalUser,
   };
-  console.log(result);
 
   cacheService.set(`${startDate}:${endDate}:statisticalNewUser`, result);
   return result;
 };
 
-module.exports = { statisticalUserByRole, statisticalSales, statisticalNewUser };
+const statisticalOrder = async (reqBody) => {
+  const { startDate, endDate } = reqBody;
+  const resultCache = await cacheService.get(`${startDate}:${endDate}:statisticalOrder`);
+
+  if (resultCache) return resultCache;
+
+  const data = await Order.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(startDate + 'T00:00:00Z'),
+          $lte: new Date(endDate + 'T23:59:59Z'),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const totalOrder = data.reduce((total, item) => total + item.count, 0);
+
+  const result = {
+    total: totalOrder,
+  };
+  cacheService.set(`${startDate}:${endDate}:statisticalOrder`, result);
+  return result;
+};
+
+module.exports = { statisticalUserByRole, statisticalSales, statisticalNewUser, statisticalOrder };

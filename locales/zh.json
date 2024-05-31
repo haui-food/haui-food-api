@@ -175,6 +175,7 @@
   "dashboard": {
     "statisticalSales": "销售统计",
     "statisticalNewUser": "新用户统计",
+    "statisticalOrder": "订单统计",
     "statisticalUserByRole": "按角色统计用户"
   }
 }
