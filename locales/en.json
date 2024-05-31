@@ -170,5 +170,9 @@
     "findByCategory": "Search shops by category successfully",
     "shopsByCategory": "Shops by category",
     "listOrderOfShop": "List of your store's orders"
+  },
+  "dashboard": {
+    "statisticalSales": "Statistical sales",
+    "statisticalUserByRole": "Statistical user by role"
   }
 }

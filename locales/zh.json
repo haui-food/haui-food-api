@@ -171,5 +171,9 @@
     "findByCategory": "按类别成功查找店铺列表",
     "shopsByCategory": "按类别分类的店铺列表",
     "listOrderOfShop": "您的店铺订单列表"
+  },
+  "dashboard": {
+    "statisticalSales": "销售统计",
+    "statisticalUserByRole": "按角色统计用户"
   }
 }
