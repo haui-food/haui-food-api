@@ -182,10 +182,7 @@
     "listOrderOfShop": "List of your store's orders"
   },
   "dashboard": {
-    "statisticalSales": "Statistical sales",
-    "statisticalNewUser": "Statistical new user",
-    "statisticalOrder": "Statistical order",
-    "statisticalMessage": "Statistical message",
+    "statisticalData": "Statistical data successfully",
     "statisticalUserByRole": "Statistical user by role"
   }
 }

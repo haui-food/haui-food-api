@@ -183,10 +183,7 @@
     "listOrderOfShop": "您的店铺订单列表"
   },
   "dashboard": {
-    "statisticalSales": "销售统计",
-    "statisticalNewUser": "新用户统计",
-    "statisticalOrder": "订单统计",
-    "statisticalMessage": "消息统计",
+    "statisticalData": "成功数据统计",
     "statisticalUserByRole": "按角色统计用户"
   }
 }

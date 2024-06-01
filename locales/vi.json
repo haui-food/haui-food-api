@@ -183,10 +183,7 @@
     "listOrderOfShop": "Danh sách đơn hàng của cửa hàng bạn"
   },
   "dashboard": {
-    "statisticalSales": "Thống kê doanh thu",
-    "statisticalNewUser": "Thống kê người dùng mới",
-    "statisticalOrder": "Thống kê đơn đặt",
-    "statisticalMessage": "Thống kê tin nhắn",
+    "statisticalData": "Thống kê dữ liệu thành công",
     "statisticalUserByRole": "Thống kê người dùng theo chức vụ"
   }
 }

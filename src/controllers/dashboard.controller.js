@@ -10,30 +10,12 @@ const statisticalUserByRole = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_USER_BY_ROLE, result));
 });
 
-const statisticalSales = catchAsync(async (req, res) => {
-  const result = await dashboardService.statisticalSales(req.body);
-  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_SALES, result));
-});
-
-const statisticalNewUser = catchAsync(async (req, res) => {
-  const result = await dashboardService.statisticalNewUser(req.body);
-  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_NEWUSER, result));
-});
-
-const statisticalOrder = catchAsync(async (req, res) => {
-  const result = await dashboardService.statisticalOrder(req.body);
-  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_ORDER, result));
-});
-
-const statisticalMessage = catchAsync(async (req, res) => {
-  const result = await dashboardService.statisticalMessage(req.body);
-  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_MESSAGE, result));
+const statisticalData = catchAsync(async (req, res) => {
+  const result = await dashboardService.statisticalData(req.body);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_DATA, result));
 });
 
 module.exports = {
   statisticalUserByRole,
-  statisticalSales,
-  statisticalNewUser,
-  statisticalOrder,
-  statisticalMessage,
+  statisticalData,
 };
