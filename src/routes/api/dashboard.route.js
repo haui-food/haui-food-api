@@ -8,4 +8,6 @@ chatRouter.route('/statistical-user').get(auth, authorize(['admin']), dashboardC
 
 chatRouter.route('/statistical-data').get(auth, authorize(['admin']), dashboardController.statisticalData);
 
+chatRouter.route('/statistical-revenue').get(auth, authorize(['admin']), dashboardController.statisticalRevenue);
+
 module.exports = chatRouter;

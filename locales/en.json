@@ -183,6 +183,7 @@
   },
   "dashboard": {
     "statisticalData": "Statistical data successfully",
+    "statisticalRevenue": "Statistical revenue successfully",
     "statisticalUserByRole": "Statistical user by role"
   }
 }

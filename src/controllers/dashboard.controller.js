@@ -15,7 +15,13 @@ const statisticalData = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_DATA, result));
 });
 
+const statisticalRevenue = catchAsync(async (req, res) => {
+  const result = await dashboardService.statisticalRevenue(req.body);
+  res.status(httpStatus.OK).json(response(httpStatus.OK, dashboardMessage().STATISTICAL_REVENUE, result));
+});
+
 module.exports = {
   statisticalUserByRole,
   statisticalData,
+  statisticalRevenue,
 };

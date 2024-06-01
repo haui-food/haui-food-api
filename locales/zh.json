@@ -184,6 +184,7 @@
   },
   "dashboard": {
     "statisticalData": "成功数据统计",
+    "statisticalRevenue": "收入统计",
     "statisticalUserByRole": "按角色统计用户"
   }
 }

@@ -1,6 +1,11 @@
 const { User, Order, Contact } = require('../models');
 const cacheService = require('../services/cache.service');
-
+const {
+  statisticalRevenueByDay,
+  statisticalRevenueByMonth,
+  statisticalRevenueByQuarter,
+  statisticalRevenueByYear,
+} = require('../utils/statisticalService');
 const keyDashboard = 'dashboard';
 
 const statisticalUserByRole = async () => {
@@ -34,10 +39,10 @@ const statisticalUserByRole = async () => {
 
   return result;
 };
-
 const statisticalData = async (reqBody) => {
   const { startDate, endDate } = reqBody;
-  const cacheKey = `${startDate}:${endDate}:statisticalData`;
+  const end = endDate ? new Date(endDate + 'T23:59:59Z') : new Date();
+  const cacheKey = `${startDate}:${end}:statisticalData`;
   const resultCache = await cacheService.get(cacheKey);
 
   if (resultCache) return resultCache;
@@ -80,7 +85,7 @@ const statisticalData = async (reqBody) => {
         $match: {
           createdAt: {
             $gte: new Date(startDate + 'T00:00:00Z'),
-            $lte: new Date(endDate + 'T23:59:59Z'),
+            $lte: end,
           },
         },
       },
@@ -117,5 +122,27 @@ const statisticalData = async (reqBody) => {
   cacheService.set(cacheKey, results);
   return results;
 };
-
-module.exports = { statisticalUserByRole, statisticalData };
+const statisticalRevenue = async (reqBody) => {
+  const { statisticalBy } = reqBody;
+  let year;
+  const endDate = new Date();
+  const startDate = new Date(endDate);
+  switch (statisticalBy) {
+    case 'week':
+      startDate.setDate(endDate.getDate() - 6);
+      return statisticalRevenueByDay(startDate, endDate);
+    case 'month':
+      startDate.setMonth(endDate.getMonth() - 2);
+      return statisticalRevenueByMonth(startDate, endDate);
+    case 'quarter':
+      year = endDate.getFullYear();
+      return statisticalRevenueByQuarter(year);
+    case 'year':
+      year = endDate.getFullYear();
+      return statisticalRevenueByYear(year);
+    default:
+      startDate.setDate(endDate.getDate() - 6);
+      return statisticalRevenueByDay(startDate, endDate);
+  }
+};
+module.exports = { statisticalUserByRole, statisticalData, statisticalRevenue };
