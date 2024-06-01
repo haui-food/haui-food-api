@@ -7,7 +7,7 @@ const createProduct = {
     image: Joi.string(),
     description: Joi.string().allow(null, ''),
     price: Joi.number().required(),
-    category: Joi.string().custom(objectId),
+    category: Joi.string().required().custom(objectId),
   }),
 };
 
