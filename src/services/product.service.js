@@ -161,7 +161,7 @@ const getMyProducts = async (query, shop) => {
 const updateProductById = async (productId, updateBody, shop) => {
   const product = await getProductById(productId);
 
-  if (product.shop !== shop) {
+  if (product.shop._id.toString() !== shop) {
     throw new ApiError(httpStatus.FORBIDDEN, authMessage().FORBIDDEN);
   }
 
