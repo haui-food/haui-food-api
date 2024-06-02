@@ -172,6 +172,8 @@ const updateProductById = async (productId, updateBody, shop) => {
   Object.assign(product, updateBody);
   await product.save();
 
+  cacheService.del('{"limit":10,"page":1}');
+
   return product;
 };
 
@@ -183,6 +185,8 @@ const deleteProductById = async (productId, shop) => {
   }
 
   await product.deleteOne();
+
+  cacheService.del('{"limit":10,"page":1}');
 
   return product;
 };
