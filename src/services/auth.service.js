@@ -2,6 +2,18 @@ const jwt = require('jsonwebtoken');
 const twoFactor = require('node-2fa');
 const httpStatus = require('http-status');
 
+const {
+  URL_HOST,
+  TOKEN_TYPES,
+  EMAIL_TYPES,
+  STATUS_FORGOT,
+  EMAIL_SUBJECT,
+  TIME_DIFF_EMAIL_VERIFY,
+  CODE_VERIFY_2FA_SUCCESS,
+  EXPIRES_TOKEN_EMAIL_VERIFY,
+  EXPIRES_TOKEN_FOTGOT_PASSWORD,
+  EXPIRES_TOKEN_VERIFY_OTP_FORGOT,
+} = require('../constants');
 const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
 const userService = require('./user.service');
@@ -11,17 +23,6 @@ const generateOTP = require('../utils/generateOTP');
 const captchaService = require('./captcha.service');
 const tokenMappings = require('../constants/jwt.constant');
 const { userMessage, authMessage, captchaMessage } = require('../messages');
-const {
-  URL_HOST,
-  TOKEN_TYPES,
-  EMAIL_TYPES,
-  STATUS_FORGOT,
-  TIME_DIFF_EMAIL_VERIFY,
-  CODE_VERIFY_2FA_SUCCESS,
-  EXPIRES_TOKEN_EMAIL_VERIFY,
-  EXPIRES_TOKEN_FOTGOT_PASSWORD,
-  EXPIRES_TOKEN_VERIFY_OTP_FORGOT,
-} = require('../constants');
 
 const login = async (email, password) => {
   const user = await userService.getUserByEmail(email);
@@ -81,7 +82,7 @@ const register = async (fullname, email, password) => {
   await emailService.sendEmail({
     emailData: {
       emails: email,
-      subject: '[HaUI Food] Verify your email address',
+      subject: EMAIL_SUBJECT.VERIFY,
       linkVerify,
     },
     type: EMAIL_TYPES.VERIFY,
@@ -247,7 +248,7 @@ const reSendEmailVerify = async (token) => {
   await emailService.sendEmail({
     emailData: {
       emails: user.email,
-      subject: '[HaUI Food] Verify your email address',
+      subject: EMAIL_SUBJECT.VERIFY,
       linkVerify,
     },
     type: EMAIL_TYPES.VERIFY,
@@ -290,7 +291,7 @@ const forgotPassword = async (email, text, sign) => {
   await emailService.sendEmail({
     emailData: {
       emails: email,
-      subject: '[HaUI Food] Confirm OTP Forgot Password',
+      subject: EMAIL_SUBJECT.FORGOT,
       OTPForgotPassword: otp,
     },
     type: EMAIL_TYPES.FORGOT,
