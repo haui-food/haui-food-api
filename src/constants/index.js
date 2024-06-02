@@ -1,4 +1,4 @@
-const LANGUAGE_DEFAULT = 'en';
+const LANGUAGE_DEFAULT = 'vi';
 
 const LOCALES = ['en', 'vi', 'zh'];
 
