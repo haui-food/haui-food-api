@@ -233,6 +233,8 @@ const cancelOrderByIdUser = async (orderId, user) => {
 const cancelOrderByIdShop = async (orderId, shop) => {
   const order = await getOrderById(orderId);
 
+  const user = await userService.getUserById(order.user);
+
   const isMyOrderForShop = order.shop.toString() === shop._id.toString();
 
   if (!isMyOrderForShop) {
