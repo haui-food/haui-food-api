@@ -184,6 +184,7 @@
   "dashboard": {
     "statisticalData": "Statistical data successfully",
     "statisticalRevenue": "Statistical revenue successfully",
+    "statisticalPerformance": "Statistical performance successfully",
     "statisticalUserByRole": "Statistical user by role"
   }
 }

@@ -185,6 +185,7 @@
   "dashboard": {
     "statisticalData": "Thống kê dữ liệu thành công",
     "statisticalRevenue": "Thống kê doanh thu thành công",
+    "statisticalPerformance": "Thống kê hiệu suất thành công",
     "statisticalUserByRole": "Thống kê người dùng theo chức vụ"
   }
 }

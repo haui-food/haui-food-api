@@ -1,4 +1,4 @@
-const { Order } = require('../models');
+const { Order, DailyAccess } = require('../models');
 const cacheService = require('../services/cache.service');
 
 const statisticalRevenueByDay = async (startDate, endDate) => {
@@ -168,7 +168,7 @@ const statisticalRevenueByQuarter = async (year) => {
 
   const revenueByQuarter = await Order.aggregate(pipelineByQuarter);
   const result = mergeRevenueWithAllQuarters(revenueByQuarter, allQuarters);
-  await cacheService.set(cacheKey, result);
+  cacheService.set(cacheKey, result);
   return result;
 };
 
@@ -257,9 +257,353 @@ const formatMonth = (month) => {
   return monthNames[month - 1];
 };
 
+const statisticalPerformanceByDay = async (startDate, endDate) => {
+  // Tạo khóa cache từ startDate và endDate
+  const cacheKey = `${startDate}:${endDate}:statisticalPerformanceByDay`;
+  const resultCache = await cacheService.get(cacheKey);
+  if (resultCache) return resultCache;
+
+  const allDates = generatePerformanceDateRange(startDate, endDate);
+
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const accessesPipeline = [
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $dayOfWeek: '$createdAt' },
+        totalAccess: { $sum: '$total' },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ];
+
+  const accessesByDay = await DailyAccess.aggregate(accessesPipeline);
+
+  const ordersPipeline = [
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $dayOfWeek: '$createdAt' },
+        totalOrder: { $sum: '$totalMoney' },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ];
+
+  const ordersByDay = await Order.aggregate(ordersPipeline);
+
+  const mergedResults = mergeRevenuePerformanceWithAllDates(accessesByDay, allDates).map((dayData) => {
+    const orderData = ordersByDay.find((o) => o._id === dayData._id);
+    return {
+      ...dayData,
+      totalOrder: orderData ? orderData.totalOrder : 0,
+      day: dayNames[dayData._id - 1],
+    };
+  });
+
+  const sortedResults = dayNames.map(
+    (dayName) =>
+      mergedResults.find((dayData) => dayData.day === dayName) || { day: dayName, totalAccess: 0, totalOrder: 0 },
+  );
+
+  cacheService.set(cacheKey, sortedResults);
+  return sortedResults;
+};
+
+const mergeRevenuePerformanceWithAllDates = (revenueData, allDates) => {
+  const revenueMap = revenueData.reduce((acc, data) => {
+    acc[data._id] = data;
+    return acc;
+  }, {});
+
+  return allDates.map((date) => ({
+    _id: date,
+    totalAccess: revenueMap[date] ? revenueMap[date].totalAccess : 0,
+    totalOrder: 0,
+  }));
+};
+
+const generatePerformanceDateRange = (startDate, endDate) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const dateArray = [];
+  while (start <= end) {
+    dateArray.push(start.getDay() + 1);
+    start.setDate(start.getDate() + 1);
+  }
+  return dateArray;
+};
+
+const statisticalPerformanceByMonth = async (startMonth, endMonth) => {
+  const cacheKey = `${startMonth}:${endMonth}:statisticalPerformanceByDay`;
+  const cachedResult = await cacheService.get(cacheKey);
+  if (cachedResult) return cachedResult;
+
+  const getDailyAggregateData = async (model, field) => {
+    return await model.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: new Date(startMonth), $lte: new Date(endMonth) },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$createdAt' },
+            month: { $month: '$createdAt' },
+            day: { $dayOfMonth: '$createdAt' },
+          },
+          total: { $sum: `$${field}` },
+        },
+      },
+      { $sort: { '_id.year': 1, '_id.month': 1, '_id.day': 1 } },
+    ]);
+  };
+
+  const accessData = await getDailyAggregateData(DailyAccess, 'total');
+  const orderData = await getDailyAggregateData(Order, 'totalMoney');
+
+  const mergedResults = mergeDailyData(accessData, orderData, startMonth, endMonth);
+
+  cacheService.set(cacheKey, mergedResults);
+  return mergedResults;
+};
+
+const mergeDailyData = (accessData, orderData, startMonth, endMonth) => {
+  const mergedResults = [];
+  const startDate = new Date(startMonth);
+  const endDate = new Date(endMonth);
+
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    const access = accessData.find(
+      (item) =>
+        item._id.year === currentDate.getFullYear() &&
+        item._id.month === currentDate.getMonth() + 1 &&
+        item._id.day === currentDate.getDate(),
+    );
+    const order = orderData.find(
+      (item) =>
+        item._id.year === currentDate.getFullYear() &&
+        item._id.month === currentDate.getMonth() + 1 &&
+        item._id.day === currentDate.getDate(),
+    );
+
+    mergedResults.push({
+      date: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+      totalAccess: access ? access.total : 0,
+      totalOrder: order ? order.total : 0,
+    });
+
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return mergedResults;
+};
+
+const statisticalPerformanceByQuarter = async (year) => {
+  const startDate = new Date(`${year}-01-01`);
+  const endDate = new Date(`${year}-12-31`);
+  const cacheKey = `${startDate}:${endDate}:statisticalPerformanceByQuarter`;
+  const resultCache = await cacheService.get(cacheKey);
+  if (resultCache) return resultCache;
+
+  const accessPipeline = [
+    {
+      $match: {
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $cond: [
+            { $lte: [{ $month: '$createdAt' }, 3] },
+            'Q1',
+            {
+              $cond: [
+                { $lte: [{ $month: '$createdAt' }, 6] },
+                'Q2',
+                {
+                  $cond: [{ $lte: [{ $month: '$createdAt' }, 9] }, 'Q3', 'Q4'],
+                },
+              ],
+            },
+          ],
+        },
+        totalAccess: { $sum: '$total' },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ];
+
+  const ordersPipeline = [
+    {
+      $match: {
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $cond: [
+            { $lte: [{ $month: '$createdAt' }, 3] },
+            'Q1',
+            {
+              $cond: [
+                { $lte: [{ $month: '$createdAt' }, 6] },
+                'Q2',
+                {
+                  $cond: [{ $lte: [{ $month: '$createdAt' }, 9] }, 'Q3', 'Q4'],
+                },
+              ],
+            },
+          ],
+        },
+        totalOrder: { $sum: '$totalMoney' },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ];
+
+  const accessByQuarter = await DailyAccess.aggregate(accessPipeline);
+  const ordersByQuarter = await Order.aggregate(ordersPipeline);
+
+  const allQuarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+  const result = mergeDataByQuarter(accessByQuarter, ordersByQuarter, allQuarters);
+
+  cacheService.set(cacheKey, result);
+  return result;
+};
+
+const mergeDataByQuarter = (accessData, orderData, allQuarters) => {
+  const mergedResults = allQuarters.map((quarter) => {
+    const access = accessData.find((a) => a._id === quarter)?.totalAccess || 0;
+    const order = orderData.find((o) => o._id === quarter)?.totalOrder || 0;
+    return {
+      quarter,
+      totalAccess: access,
+      totalOrder: order,
+    };
+  });
+
+  return mergedResults;
+};
+
+const statisticalPerformanceByYear = async (year) => {
+  const startDate = new Date(`${year}-01-01`);
+  const endDate = new Date(`${year}-12-31`);
+  const cacheKey = `${startDate}:${endDate}:statisticalPerformanceByYear`;
+  const resultCache = await cacheService.get(cacheKey);
+  if (resultCache) return resultCache;
+
+  const accessPipeline = [
+    {
+      $match: {
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: '$createdAt' },
+          month: { $month: '$createdAt' },
+        },
+        totalAccess: { $sum: '$total' },
+      },
+    },
+    {
+      $sort: { '_id.month': 1 },
+    },
+  ];
+
+  const ordersPipeline = [
+    {
+      $match: {
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: '$createdAt' },
+          month: { $month: '$createdAt' },
+        },
+        totalOrder: { $sum: '$totalMoney' },
+      },
+    },
+    {
+      $sort: { '_id.month': 1 },
+    },
+  ];
+
+  const accessByMonth = await DailyAccess.aggregate(accessPipeline);
+  const ordersByMonth = await Order.aggregate(ordersPipeline);
+
+  const result = mergeDataByMonth(accessByMonth, ordersByMonth, year);
+
+  cacheService.set(cacheKey, result);
+  return result;
+};
+
+const mergeDataByMonth = (accessData, orderData, year) => {
+  const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+
+  const mergedResults = allMonths.map((month) => {
+    const access = accessData.find((a) => a._id.month === month)?.totalAccess || 0;
+    const order = orderData.find((o) => o._id.month === month)?.totalOrder || 0;
+    return {
+      month: `${year}-${String(month).padStart(2, '0')}`,
+      totalAccess: access,
+      totalOrder: order,
+    };
+  });
+
+  return mergedResults;
+};
+
 module.exports = {
   statisticalRevenueByDay,
   statisticalRevenueByMonth,
   statisticalRevenueByQuarter,
   statisticalRevenueByYear,
+  statisticalPerformanceByDay,
+  statisticalPerformanceByMonth,
+  statisticalPerformanceByQuarter,
+  statisticalPerformanceByYear,
 };
