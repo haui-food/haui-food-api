@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { PRODUCT_IMAGE_DEFAULT } = require('../constants');
+
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -20,7 +22,7 @@ const productSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      default: '',
+      default: PRODUCT_IMAGE_DEFAULT,
     },
     shop: {
       type: mongoose.Schema.Types.ObjectId,
