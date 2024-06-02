@@ -239,7 +239,7 @@ const cancelOrderByIdShop = async (orderId, shop) => {
     throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
-  if (['success', 'canceled'].includes(order.status)) {
+  if (['pending', 'success', 'canceled', 'reject'].includes(order.status)) {
     throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().CANCEL_ORDER_ERROR);
   }
 
