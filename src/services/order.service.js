@@ -3,20 +3,25 @@ const base64url = require('base64url');
 const excel4node = require('excel4node');
 const httpStatus = require('http-status');
 
+const {
+  EMAIL_TYPES,
+  PAGE_DEFAULT,
+  URL_FRONTEND,
+  LIMIT_DEFAULT,
+  EMAIL_SUBJECT,
+  STYLE_EXPORT_EXCEL,
+  MAX_ORDER_PER_USER,
+  LIMIT_DEFAULT_EXPORT,
+} = require('../constants');
+const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
+const userService = require('./user.service');
+const emailService = require('./email.service');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
-const { userService } = require('./user.service');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
 const randomTransitionCode = require('../utils/randomTransitionCode');
-const {
-  STYLE_EXPORT_EXCEL,
-  MAX_ORDER_PER_USER,
-  LIMIT_DEFAULT,
-  PAGE_DEFAULT,
-  LIMIT_DEFAULT_EXPORT,
-} = require('../constants');
 
 const getOrderById = async (orderId) => {
   const order = await Order.findById(orderId);
@@ -138,6 +143,15 @@ const createOrder = async (user, orderBody) => {
     urlQRCode = `https://img.vietqr.io/image/TPB-00005572823-compact.png?amount=${totalMoneyOrder}&addInfo=${descHash}`;
   }
 
+  await emailService.sendEmail({
+    emailData: {
+      emails: user.email,
+      subject: EMAIL_SUBJECT.ORDER_PENDING,
+      linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
+    },
+    type: EMAIL_TYPES.ORDER_PENDING,
+  });
+
   return { orders: newOrders, urlQRCode, totalMoneyOrder };
 };
 
@@ -205,18 +219,29 @@ const cancelOrderByIdUser = async (orderId, user) => {
 
   order.status = 'canceled';
   await order.save();
+
+  await emailService.sendEmail({
+    emailData: {
+      emails: user.email,
+      subject: EMAIL_SUBJECT.ORDER_CANCELED,
+      linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
+    },
+    type: EMAIL_TYPES.ORDER_CANCELED,
+  });
 };
 
-const cancelOrderByIdShop = async (orderId, user) => {
+const cancelOrderByIdShop = async (orderId, shop) => {
   const order = await getOrderById(orderId);
 
-  const isMyOrderForShop = order.shop.toString() === user._id.toString();
+  const user = await userService.getUserById(order.user);
+
+  const isMyOrderForShop = order.shop.toString() === shop._id.toString();
 
   if (!isMyOrderForShop) {
     throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
-  if (['shipping', 'success', 'canceled'].includes(order.status)) {
+  if (['pending', 'success', 'canceled', 'reject'].includes(order.status)) {
     throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().CANCEL_ORDER_ERROR);
   }
 
@@ -229,34 +254,51 @@ const cancelOrderByIdShop = async (orderId, user) => {
 
   order.status = 'canceled';
   await order.save();
+
+  await emailService.sendEmail({
+    emailData: {
+      emails: user.email,
+      subject: EMAIL_SUBJECT.ORDER_CANCELED,
+      linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
+    },
+    type: EMAIL_TYPES.ORDER_CANCELED,
+  });
 };
 
-const updateOrderStatusById = async (orderId, user, status) => {
+const updateOrderStatusById = async (orderId, shop, status) => {
   const order = await getOrderById(orderId);
 
-  const isMyOrderForShop = order.shop.toString() === user._id.toString();
+  const user = await userService.getUserById(order.user);
+
+  const isMyOrderForShop = order.shop.toString() === shop._id.toString();
 
   if (!isMyOrderForShop) {
     throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
+  let subject = '';
+
   switch (status) {
     case 'reject':
+      subject = EMAIL_SUBJECT.ORDER_REJECT;
       if (order.status !== 'pending') {
         throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().REJECT_ORDER_ERROR);
       }
       break;
     case 'confirmed':
+      subject = EMAIL_SUBJECT.ORDER_CONFIRMED;
       if (order.status !== 'pending') {
         throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().APPROVE_ORDER_ERROR);
       }
       break;
     case 'shipping':
+      subject = EMAIL_SUBJECT.ORDER_SHIPPING;
       if (order.status !== 'confirmed') {
         throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().UNABLE_TO_UPDATE_ORDER_STATUS);
       }
       break;
     case 'success':
+      subject = EMAIL_SUBJECT.ORDER_SUCCESS;
       if (order.status !== 'shipping') {
         throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().UNABLE_TO_COMPLETE_ORDER);
       }
@@ -267,6 +309,15 @@ const updateOrderStatusById = async (orderId, user, status) => {
 
   order.status = status;
   await order.save();
+
+  await emailService.sendEmail({
+    emailData: {
+      emails: user.email,
+      subject,
+      linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
+    },
+    type: `order-${status}`,
+  });
 
   return order;
 };

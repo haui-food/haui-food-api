@@ -38,6 +38,11 @@ const LOG_FILENAME = 'logger.log';
 
 const URL_HOST = {
   production: 'https://api.hauifood.com',
+  development: 'http://localhost:5000',
+};
+
+const URL_FRONTEND = {
+  production: 'https://hauifood.com',
   development: 'http://localhost:3000',
 };
 
@@ -64,6 +69,24 @@ const EMAIL_TYPES = {
   VERIFY: 'verify',
   FORGOT: 'forgot-password',
   BIRTHDAY: 'birthday',
+  ORDER_CANCELED: 'order-canceled',
+  ORDER_CONFIRMED: 'order-confirmed',
+  ORDER_PENDING: 'order-pending',
+  ORDER_REJECT: 'order-reject',
+  ORDER_SHIPPING: 'order-shipping',
+  ORDER_SUCCESS: 'order-success',
+};
+
+const EMAIL_SUBJECT = {
+  VERIFY: '[HaUI Food] Verify your email address',
+  FORGOT: '[HaUI Food] Confirm OTP Forgot Password',
+  BIRTHDAY: '[HaUI Food] Happy Birthday',
+  ORDER_CANCELED: '[HaUI Food] Your order has been canceled',
+  ORDER_CONFIRMED: '[HaUI Food] Your order has been confirmed',
+  ORDER_PENDING: '[HaUI Food] Your order is pending',
+  ORDER_REJECT: '[HaUI Food] Your order has been rejected',
+  ORDER_SHIPPING: '[HaUI Food] Your order is being shipped',
+  ORDER_SUCCESS: '[HaUI Food] Your order was successful',
 };
 
 const STATUS_FORGOT = {
@@ -148,11 +171,13 @@ module.exports = {
   HEADER_NAME,
   QUEUE_TYPES,
   LOGO_MARGIN,
+  URL_FRONTEND,
   RATING_RANGE,
   PAGE_DEFAULT,
   LOG_FILENAME,
   STATUS_FORGOT,
   LIMIT_DEFAULT,
+  EMAIL_SUBJECT,
   USER_ROLE_ENUM,
   LOGO_DOTS_COLOR,
   BIRTHDAY_DEFAULT,
