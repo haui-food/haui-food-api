@@ -127,9 +127,13 @@ const USER_FORGOT_STATUS_ENUM = {
   VERIFY_OTP: 'verifyOTP',
 };
 
-const USER_AVATAR_DEFAULT = 'https://hitly.vn/avatar-default';
+const BASE_URL_CLOUD_TIKTOK = 'https://p21-ad-sg.ibyteimg.com/obj/ad-site-i18n-sg/';
 
-const USER_BACKGROUND_DEFAULT = 'https://hitly.vn/background-default';
+const USER_AVATAR_DEFAULT = BASE_URL_CLOUD_TIKTOK + '202405225d0d8e5ebe1b948e4f91a687';
+
+const USER_BACKGROUND_DEFAULT = BASE_URL_CLOUD_TIKTOK + '202406025d0d3193cbe6c8354ee9abc1';
+
+const PRODUCT_IMAGE_DEFAULT = BASE_URL_CLOUD_TIKTOK + '202406025d0d0cc7ca85fe33492fb5e6';
 
 module.exports = {
   LOG_DIR,
@@ -167,6 +171,7 @@ module.exports = {
   USER_AVATAR_DEFAULT,
   SORT_DEFAULT_STRING,
   LIMIT_DEFAULT_EXPORT,
+  PRODUCT_IMAGE_DEFAULT,
   EXPIRES_TOKEN_CAPTCHA,
   LOGO_BACKGROUND_COLOR,
   MILLISECONDS_IN_A_DAY,

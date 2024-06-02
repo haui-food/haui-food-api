@@ -243,7 +243,7 @@ const reSendEmailVerify = async (token) => {
     env.secret.tokenVerify,
   );
 
-  const linkVerify = `${URL_HOST[env.nodeEnv]}/api/v1/auth/verify?token=${tokenVerify}`;
+  const linkVerify = `${URL_HOST[env.nodeEnv]}/v1/auth/verify?token=${tokenVerify}`;
   await emailService.sendEmail({
     emailData: {
       emails: user.email,
