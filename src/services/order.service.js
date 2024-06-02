@@ -142,14 +142,14 @@ const createOrder = async (user, orderBody) => {
     urlQRCode = `https://img.vietqr.io/image/TPB-00005572823-compact.png?amount=${totalMoneyOrder}&addInfo=${descHash}`;
   }
 
-  await emailService.sendEmail({
-    emailData: {
-      emails: user.email,
-      subject: EMAIL_SUBJECT.ORDER_PENDING,
-      linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
-    },
-    type: EMAIL_TYPES.ORDER_PENDING,
-  });
+  // await emailService.sendEmail({
+  //   emailData: {
+  //     emails: user.email,
+  //     subject: EMAIL_SUBJECT.ORDER_PENDING,
+  //     linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
+  //   },
+  //   type: EMAIL_TYPES.ORDER_PENDING,
+  // });
 
   return { orders: newOrders, urlQRCode, totalMoneyOrder };
 };
