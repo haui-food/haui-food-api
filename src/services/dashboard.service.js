@@ -207,4 +207,5 @@ const statisticalPerformance = async (reqBody) => {
       return statisticalPerformanceByYear(year);
   }
 };
+
 module.exports = { statisticalUserByRole, statisticalData, statisticalRevenue, statisticalPerformance };
