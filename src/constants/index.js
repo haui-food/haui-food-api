@@ -38,12 +38,12 @@ const LOG_FILENAME = 'logger.log';
 
 const URL_HOST = {
   production: 'https://api.hauifood.com',
-  development: 'http://localhost:3000',
+  development: 'http://localhost:5000',
 };
 
 const URL_FRONTEND = {
   production: 'https://hauifood.com',
-  development: 'http://localhost:5000',
+  development: 'http://localhost:3000',
 };
 
 const EXPIRES_TOKEN_EMAIL_VERIFY = 1000 * 60 * 10;

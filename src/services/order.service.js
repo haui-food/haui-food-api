@@ -15,9 +15,10 @@ const {
 } = require('../constants');
 const { env } = require('../config');
 const ApiError = require('../utils/ApiError');
+const userService = require('./user.service');
+const emailService = require('./email.service');
 const { orderMessage } = require('../messages');
 const ApiFeature = require('../utils/ApiFeature');
-const { userService } = require('./user.service');
 const { Order, Cart, CartDetail } = require('../models');
 const findCommonElements = require('../utils/findCommonElements');
 const randomTransitionCode = require('../utils/randomTransitionCode');
@@ -142,14 +143,14 @@ const createOrder = async (user, orderBody) => {
     urlQRCode = `https://img.vietqr.io/image/TPB-00005572823-compact.png?amount=${totalMoneyOrder}&addInfo=${descHash}`;
   }
 
-  // await emailService.sendEmail({
-  //   emailData: {
-  //     emails: user.email,
-  //     subject: EMAIL_SUBJECT.ORDER_PENDING,
-  //     linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
-  //   },
-  //   type: EMAIL_TYPES.ORDER_PENDING,
-  // });
+  await emailService.sendEmail({
+    emailData: {
+      emails: user.email,
+      subject: EMAIL_SUBJECT.ORDER_PENDING,
+      linkDetail: `${URL_FRONTEND[env.nodeEnv]}/auth/profile`,
+    },
+    type: EMAIL_TYPES.ORDER_PENDING,
+  });
 
   return { orders: newOrders, urlQRCode, totalMoneyOrder };
 };
@@ -229,16 +230,16 @@ const cancelOrderByIdUser = async (orderId, user) => {
   });
 };
 
-const cancelOrderByIdShop = async (orderId, user) => {
+const cancelOrderByIdShop = async (orderId, shop) => {
   const order = await getOrderById(orderId);
 
-  const isMyOrderForShop = order.shop.toString() === user._id.toString();
+  const isMyOrderForShop = order.shop.toString() === shop._id.toString();
 
   if (!isMyOrderForShop) {
     throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
   }
 
-  if (['shipping', 'success', 'canceled'].includes(order.status)) {
+  if (['success', 'canceled'].includes(order.status)) {
     throw new ApiError(httpStatus.BAD_REQUEST, orderMessage().CANCEL_ORDER_ERROR);
   }
 
@@ -262,10 +263,12 @@ const cancelOrderByIdShop = async (orderId, user) => {
   });
 };
 
-const updateOrderStatusById = async (orderId, user, status) => {
+const updateOrderStatusById = async (orderId, shop, status) => {
   const order = await getOrderById(orderId);
 
-  const isMyOrderForShop = order.shop.toString() === user._id.toString();
+  const user = await userService.getUserById(order.user);
+
+  const isMyOrderForShop = order.shop.toString() === shop._id.toString();
 
   if (!isMyOrderForShop) {
     throw new ApiError(httpStatus.FORBIDDEN, orderMessage().ORDER_UPDATE_FORBIDDEN);
