@@ -1,6 +1,7 @@
 const base64url = require('base64url');
 
 const { User, Order } = require('../models');
+const { getReceiverSocketId, io } = require('../sockets/socket');
 
 const sendSocketPayment = async (data) => {
   const { desc, amount, method } = data;
@@ -9,9 +10,15 @@ const sendSocketPayment = async (data) => {
       const user = await User.findOne({
         username: desc,
       });
-      // nạp tiền
       if (user) {
-        console.log(`User Id ${user._id} recharge ${amount} vnd - email ${user.email}`);
+        const receiverSocketId = getReceiverSocketId(user._id.toString());
+        if (receiverSocketId) {
+          io.to(receiverSocketId).emit('rechargeSuccess', {
+            userId: user._id,
+            amount,
+            email: user.email,
+          });
+        }
       }
     } else if (method === 'payment') {
       const listOrderCode = base64url.decode(desc).split('|');
@@ -26,9 +33,15 @@ const sendSocketPayment = async (data) => {
           await order.save();
         }
       }
-      // thanh toán online
       if (userInfo) {
-        console.log(`User Id ${userInfo._id} payment ${amount} vnd - email ${userInfo.email}`);
+        const receiverSocketId = getReceiverSocketId(userInfo._id.toString());
+        if (receiverSocketId) {
+          io.to(receiverSocketId).emit('paymentSuccess', {
+            userId: userInfo._id,
+            amount,
+            email: userInfo.email,
+          });
+        }
       }
     }
   } catch (error) {
