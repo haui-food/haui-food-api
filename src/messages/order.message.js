@@ -11,7 +11,7 @@ const categoryMessage = () => {
     FIND_LIST_SUCCESS: i18nService.translate('order.findListSuccess'),
     CANCEL_SUCCESS: i18nService.translate('order.cancelSuccess'),
     UPDATE_STATUS_SUCCESS: i18nService.translate('order.updateStatusSuccess'),
-    MAXIUM_ORDER: i18nService.translate('order.maximumOrder'),
+    MAXIUM_ORDER: i18nService.translate('order.maxiumOrder'),
     ERROR_ORDER: i18nService.translate('order.errorOrder'),
     LOW_BALANCE_ALERT: i18nService.translate('order.lowBalanceAlert'),
     ORDER_UPDATE_FORBIDDEN: i18nService.translate('order.orderUpdateForbidden'),
