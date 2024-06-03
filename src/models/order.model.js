@@ -49,6 +49,9 @@ const orderSchema = mongoose.Schema(
     paymentCode: {
       type: String,
     },
+    expriedTimeBank: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

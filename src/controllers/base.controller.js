@@ -7,6 +7,7 @@ const readFileLog = require('../utils/readFileLog');
 const { KEY_CACHE_ACCESS } = require('../constants');
 const renderQRCode = require('../utils/renderQRCode');
 const cacheService = require('../services/cache.service');
+const gatewayService = require('../services/gateway.service');
 
 const getHome = (req, res) => {
   res.send('Server HaUI Food is running 🎉');
@@ -57,6 +58,11 @@ const uploadImage = (req, res) => {
   res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'], url: req.file.path });
 };
 
+const sendSocketPayment = async (req, res) => {
+  await gatewayService.sendSocketPayment(req.body);
+  res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'] });
+};
+
 const handlerNotFound = (req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, systemMessage().RESOURCE_NOT_FOUND));
 };
@@ -70,4 +76,5 @@ module.exports = {
   countAccess,
   changeLanguage,
   handlerNotFound,
+  sendSocketPayment,
 };

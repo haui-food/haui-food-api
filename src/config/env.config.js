@@ -51,6 +51,7 @@ const env = {
   apiKey: {
     mailer: process.env.API_KEY_MAILER || 'mailer',
     cronJob: process.env.API_KEY_CRON_JOB || 'cron-job',
+    payment: process.env.API_KEY_PAYMENT || 'payment',
   },
 };
 

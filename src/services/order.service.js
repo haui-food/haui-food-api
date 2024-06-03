@@ -112,6 +112,7 @@ const createOrder = async (user, orderBody) => {
 
     if (paymentMethod === 'bank') {
       data['paymentCode'] = randomTransitionCode();
+      data['expriedTimeBank'] = new Date(Date.now() + 15 * 60 * 1000);
     }
 
     const newOrder = await Order.create(data);
