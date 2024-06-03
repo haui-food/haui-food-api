@@ -22,6 +22,8 @@ baseRouter.get('/api/v1/restaurants/search', shopController.searchRestaurants);
 
 baseRouter.get('/count-access', authApiKey('cronJob'), baseController.countAccess);
 
+baseRouter.post('/gateway/payment', authApiKey('payment'), baseController.sendSocketPayment);
+
 baseRouter.get('/qr-code', validate(systemValidation.renderQRCode), baseController.renderQR);
 
 baseRouter.post(
