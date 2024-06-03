@@ -301,7 +301,7 @@ const statisticalPerformanceByDay = async (startDate, endDate) => {
     {
       $group: {
         _id: { $dayOfWeek: '$createdAt' },
-        totalOrder: { $sum: '$totalMoney' },
+        totalOrder: { $sum: 1 },
       },
     },
     {
@@ -311,14 +311,10 @@ const statisticalPerformanceByDay = async (startDate, endDate) => {
 
   const ordersByDay = await Order.aggregate(ordersPipeline);
 
-  const mergedResults = mergeRevenuePerformanceWithAllDates(accessesByDay, allDates).map((dayData) => {
-    const orderData = ordersByDay.find((o) => o._id === dayData._id);
-    return {
-      ...dayData,
-      totalOrder: orderData ? orderData.totalOrder : 0,
-      day: dayNames[dayData._id - 1],
-    };
-  });
+  const mergedResults = mergePerformanceWithAllDates(accessesByDay, ordersByDay, allDates).map((dayData) => ({
+    ...dayData,
+    day: dayNames[dayData._id - 1],
+  }));
 
   const sortedResults = dayNames.map(
     (dayName) =>
@@ -329,16 +325,21 @@ const statisticalPerformanceByDay = async (startDate, endDate) => {
   return sortedResults;
 };
 
-const mergeRevenuePerformanceWithAllDates = (revenueData, allDates) => {
-  const revenueMap = revenueData.reduce((acc, data) => {
+const mergePerformanceWithAllDates = (accessesByDay, ordersByDay, allDates) => {
+  const accessMap = accessesByDay.reduce((acc, data) => {
+    acc[data._id] = data;
+    return acc;
+  }, {});
+
+  const orderMap = ordersByDay.reduce((acc, data) => {
     acc[data._id] = data;
     return acc;
   }, {});
 
   return allDates.map((date) => ({
     _id: date,
-    totalAccess: revenueMap[date] ? revenueMap[date].totalAccess : 0,
-    totalOrder: 0,
+    totalAccess: accessMap[date] ? accessMap[date].totalAccess : 0,
+    totalOrder: orderMap[date] ? orderMap[date].totalOrder : 0,
   }));
 };
 
@@ -347,7 +348,7 @@ const generatePerformanceDateRange = (startDate, endDate) => {
   const end = new Date(endDate);
   const dateArray = [];
   while (start <= end) {
-    dateArray.push(start.getDay() + 1);
+    dateArray.push(start.getDay() + 1); // $dayOfWeek in MongoDB returns 1 (Sunday) to 7 (Saturday)
     start.setDate(start.getDate() + 1);
   }
   return dateArray;
@@ -358,7 +359,7 @@ const statisticalPerformanceByMonth = async (startMonth, endMonth) => {
   const cachedResult = await cacheService.get(cacheKey);
   if (cachedResult) return cachedResult;
 
-  const getDailyAggregateData = async (model, field) => {
+  const getDailyAggregateData = async (model, field, countOrders = false) => {
     return await model.aggregate([
       {
         $match: {
@@ -372,7 +373,7 @@ const statisticalPerformanceByMonth = async (startMonth, endMonth) => {
             month: { $month: '$createdAt' },
             day: { $dayOfMonth: '$createdAt' },
           },
-          total: { $sum: `$${field}` },
+          total: countOrders ? { $sum: 1 } : { $sum: `$${field}` },
         },
       },
       { $sort: { '_id.year': 1, '_id.month': 1, '_id.day': 1 } },
@@ -380,7 +381,7 @@ const statisticalPerformanceByMonth = async (startMonth, endMonth) => {
   };
 
   const accessData = await getDailyAggregateData(DailyAccess, 'total');
-  const orderData = await getDailyAggregateData(Order, 'totalMoney');
+  const orderData = await getDailyAggregateData(Order, 'total', true);
 
   const mergedResults = mergeDailyData(accessData, orderData, startMonth, endMonth);
 
@@ -487,7 +488,7 @@ const statisticalPerformanceByQuarter = async (year) => {
             },
           ],
         },
-        totalOrder: { $sum: '$totalMoney' },
+        totalOrder: { $sum: 1 },
       },
     },
     {
@@ -564,7 +565,7 @@ const statisticalPerformanceByYear = async (year) => {
           year: { $year: '$createdAt' },
           month: { $month: '$createdAt' },
         },
-        totalOrder: { $sum: '$totalMoney' },
+        totalOrder: { $sum: 1 },
       },
     },
     {
