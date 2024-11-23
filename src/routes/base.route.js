@@ -18,7 +18,7 @@ baseRouter.get('/locales/:lang', baseController.changeLanguage);
 
 baseRouter.get('/logs', authApiKey('cronJob'), baseController.sendLogs);
 
-baseRouter.get('/api/v1/restaurants/search', shopController.searchRestaurants);
+baseRouter.get('/v1/restaurants/search', shopController.searchRestaurants);
 
 baseRouter.get('/count-access', authApiKey('cronJob'), baseController.countAccess);
 
