@@ -45,6 +45,7 @@
     "invalidLogin": "账号或密码不正确",
     "loginSuccess": "登录成功",
     "registerSuccess": "注册成功，请确认电子邮件",
+    "registerWithoutVerifySuccess": "注册成功",
     "refreshTokenSuccess": "刷新令牌成功",
     "invalidToken": "令牌不正确",
     "unauthorized": "请登录",

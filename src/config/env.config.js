@@ -6,6 +6,7 @@ const env = {
   listIPPing: process.env.LIST_IP_PING || '',
   redisURI: process.env.REDIS_URI || 'redis://localhost:6379',
   googleAIApiKey: process.env.GOOGLE_AI_API_KEY,
+  verifyRegister: process.env.VERIFY_REGISTER ? process.env.VERIFY_REGISTER === 'true' : true,
   admin: {
     email: process.env.ADMIN_EMAIL || 'admin@haui-food.com',
     password: process.env.ADMIN_PASSWORD || 'admin@12345',

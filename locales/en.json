@@ -45,6 +45,7 @@
     "invalidLogin": "Invalid username or password",
     "loginSuccess": "Login successfully",
     "registerSuccess": "Register successfully, please verify your email",
+    "registerWithoutVerifySuccess": "Register successfully",
     "refreshTokenSuccess": "Refresh token successfully",
     "invalidToken": "Invalid token",
     "unauthorized": "Unauthorized",

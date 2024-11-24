@@ -25,9 +25,15 @@ const login = catchAsync(async (req, res) => {
 const register = catchAsync(async (req, res) => {
   const { fullname, email, password } = req.body;
 
-  await authService.register(fullname, email, password);
+  if (env.verifyRegister) {
+    await authService.register(fullname, email, password);
 
-  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, authMessage().REGISTER_SUCCESS));
+    return res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, authMessage().REGISTER_SUCCESS));
+  }
+
+  await authService.registerWithoutVerify(fullname, email, password);
+
+  res.status(httpStatus.CREATED).json(response(httpStatus.CREATED, authMessage().REGISTER_WITHOUT_VERIFY_SUCCESS));
 });
 
 const refreshToken = catchAsync(async (req, res) => {

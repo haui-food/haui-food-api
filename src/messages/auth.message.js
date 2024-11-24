@@ -31,6 +31,7 @@ const authMessage = () => {
     CHANGE_PASSWORD_SUCCESS: i18nService.translate('auth.changePasswordSuccess'),
     FORGOT_PASSWORD_SUCCESS: i18nService.translate('auth.forgotPasswordSuccess'),
     INVALID_TOKEN_VERIFY_EXPIRED: i18nService.translate('auth.invalidTokenVerifyExpired'),
+    REGISTER_WITHOUT_VERIFY_SUCCESS: i18nService.translate('auth.registerWithoutVerifySuccess'),
   };
 };
 

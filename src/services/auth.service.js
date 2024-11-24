@@ -89,6 +89,17 @@ const register = async (fullname, email, password) => {
   });
 };
 
+const registerWithoutVerify = async (fullname, email, password) => {
+  const registerData = {
+    email,
+    fullname,
+    password,
+    isVerify: true,
+  };
+
+  await userService.createUser(registerData);
+};
+
 const refreshToken = async (refreshToken) => {
   const payload = jwt.verify(refreshToken, env.jwt.secretRefresh);
 
@@ -376,6 +387,7 @@ module.exports = {
   change2FASecret,
   reSendEmailVerify,
   generate2FASecret,
+  registerWithoutVerify,
   verifyOTPForgotPassword,
   toggleTwoFactorAuthentication,
 };
