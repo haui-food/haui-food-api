@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const httpStatus = require('http-status');
 
 const ApiError = require('../utils/ApiError');
@@ -7,7 +9,14 @@ const readFileLog = require('../utils/readFileLog');
 const { KEY_CACHE_ACCESS } = require('../constants');
 const renderQRCode = require('../utils/renderQRCode');
 const cacheService = require('../services/cache.service');
+const { LOG_DIR, LOG_FILENAME } = require('../constants');
 const gatewayService = require('../services/gateway.service');
+
+const pathFileLog = path.join(__dirname, '../../', LOG_DIR, LOG_FILENAME);
+
+const sendLogToFile = (message) => {
+  fs.appendFileSync(pathFileLog, message + '\n');
+};
 
 const getHome = (req, res) => {
   res.send('Server HaUI Food is running 🎉');
@@ -19,6 +28,15 @@ const changeLanguage = (req, res) => {
   res.cookie('lang', lang);
 
   res.redirect('/');
+};
+
+const see = (req, res) => {
+  const { ip, language, userAgent, screenSize } = req.body;
+
+  const message = JSON.stringify({ ip, language, userAgent, screenSize });
+  sendLogToFile(message);
+
+  res.send({ code: httpStatus.OK, message: httpStatus['200_NAME'] });
 };
 
 const renderQR = catchAsync(async (req, res) => {
@@ -68,6 +86,7 @@ const handlerNotFound = (req, res, next) => {
 };
 
 module.exports = {
+  see,
   getHome,
   renderQR,
   sendLogs,

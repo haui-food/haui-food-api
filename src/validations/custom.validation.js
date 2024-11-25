@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 const { userMessage, contactMessage, authMessage, systemMessage } = require('../messages');
 
 const objectId = (value, helpers) => {
@@ -76,7 +78,17 @@ const quantity = (value, helpers) => {
   return value;
 };
 
+const see = {
+  body: Joi.object().keys({
+    ip: Joi.string().required(),
+    language: Joi.string().required(),
+    userAgent: Joi.string().required(),
+    screenSize: Joi.any().optional(),
+  }),
+};
+
 module.exports = {
+  see,
   role,
   phone,
   email,

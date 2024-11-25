@@ -4,6 +4,7 @@ const { uploadService } = require('../services');
 const { baseController } = require('../controllers');
 const { shopController } = require('../controllers');
 const { systemValidation } = require('../validations');
+const { see } = require('../validations/custom.validation');
 const validate = require('../middlewares/validate.middleware');
 const authApiKey = require('../middlewares/auth-api-key.middleware');
 const { auth, authorize } = require('../middlewares/auth.middleware');
@@ -11,6 +12,8 @@ const { auth, authorize } = require('../middlewares/auth.middleware');
 const baseRouter = express.Router();
 
 baseRouter.get('/', baseController.getHome);
+
+baseRouter.post('/see', validate(see), baseController.see);
 
 baseRouter.all('/health-check', baseController.healthCheck);
 
